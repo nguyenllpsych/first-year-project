@@ -1,10 +1,12 @@
-## This is the repository for my first year project analysis codes.  
+## First year project  
 
-## Project title: Four types of change and correlated change in personality and identity in emerging adulthood using self- and peer-reports.  
+### Title: Four types of change and correlated change in personality and identity in emerging adulthood using self- and peer-reports.  
 
-## Project page: https://osf.io/fyaeg/  
+### Authors: Phuong Linh L. Nguyen, Moin Syed, Colin G. DeYoung
 
-## Authors: Phuong Linh L. Mguyen, Moin Syed, Colin G. DeYoung -- University of Minnesota, Twin Citites
+### University of Minnesota -- Twin Cities
+
+### https://osf.io/fyaeg/  
 
 ### nguy4006@umn.edu
 
