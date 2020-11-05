@@ -2,8 +2,9 @@
 ## First year R script                                             ##
 ## Linh Nguyen                                                     ##
 ## Created: 02/03/2020                                             ##
-## Last updated: 11/05/2020 tested git                             ##
-## NEXT: export MI rank-order self and peer                        ##
+## Last updated: 11/05/2020 exported MI rank-order self and peer   ##
+## NEXT: Export MI for ipsative change (code already works)        ##  
+## NEXT: Equivalence testing compare self-peer                     ##
 ## NEXT: SAS for banded main diagonal:                             ##
 ## https://support.sas.com/resources/papers/proceedings/proceedings/sugi30/198-30.pdf
 ## To navigate: Edit - Folding - Collapse All                      ##
@@ -30,8 +31,10 @@ library(performance)
 library(stringr)
 library(cowplot)
 library(forestplot)
+library(renv)
 options(scipen = 999)
 set.seed(184)
+renv::restore() 
 
 # CLEANING ====
 # > Data files----
@@ -2410,8 +2413,8 @@ imp_agree_12_23 <- (z12_agree-z23_agree)/(sqrt((1/(259 - 3)) + (1/(259-3))))
 imp_agree_23_34 <- (z23_agree-z34_agree)/(sqrt((1/(259 - 3)) + (1/(259-3))))
 imp_agree_12_34 <- (z12_agree-z34_agree)/(sqrt((1/(259 - 3)) + (1/(259-3))))
 imp_agree_12_23$p <- pnorm(abs(imp_agree_12_23$value), lower.tail = FALSE)
-imp_agree_12_23$p <- pnorm(abs(imp_agree_12_23$value), lower.tail = FALSE)
-imp_agree_12_23$p <- pnorm(abs(imp_agree_12_23$value), lower.tail = FALSE)
+imp_agree_23_34$p <- pnorm(abs(imp_agree_12_23$value), lower.tail = FALSE)
+imp_agree_12_34$p <- pnorm(abs(imp_agree_12_23$value), lower.tail = FALSE)
 
 imp_consci_12_23 <- (z12_consci-z23_consci)/(sqrt((1/(259 - 3)) + (1/(259-3))))
 imp_consci_23_34 <- (z23_consci-z34_consci)/(sqrt((1/(259 - 3)) + (1/(259-3))))
@@ -29392,6 +29395,66 @@ forestplot(tabletext,
            txt_gp = fpTxtGp(ticks = gpar(fontfamily = "", cex = 0.75),
                             xlab = gpar(fontfamily = "", cex = 1)))
 
+# >> MI rank-order ----
+rank_domain_imp <- data.frame(
+  "T1-T2.vs.T2-T3" = c(mean(imp_agree_12_23$value), mean(imp_consci_12_23$value), mean(imp_extra_12_23$value), 
+                       mean(imp_neuro_12_23$value), mean(imp_opend_12_23$value)),
+  "p-value" = c(mean(imp_agree_12_23$p), mean(imp_consci_12_23$p), mean(imp_extra_12_23$p),
+                mean(imp_neuro_12_23$p), mean(imp_opend_12_23$p)),
+  "T2-T3.vs.T3-T4" = c(mean(imp_agree_23_34$value), mean(imp_consci_23_34$value), mean(imp_extra_23_34$value), 
+                       mean(imp_neuro_23_34$value), mean(imp_opend_23_34$value)),
+  "p-value" = c(mean(imp_agree_23_34$p), mean(imp_consci_23_34$p), mean(imp_extra_23_34$p),
+                mean(imp_neuro_23_34$p), mean(imp_opend_23_34$p)),
+  "T1-T2.vs.T3-T4" = c(mean(imp_agree_12_34$value), mean(imp_consci_12_34$value), mean(imp_extra_12_34$value), 
+                       mean(imp_neuro_12_34$value), mean(imp_opend_12_34$value)),
+  "p-value" = c(mean(imp_agree_12_34$p), mean(imp_consci_12_34$p), mean(imp_extra_12_34$p),
+                mean(imp_neuro_12_34$p), mean(imp_opend_12_34$p)))
+
+
+rank_aspect_imp <-  data.frame(
+  "T1-T2.vs.T2-T3" = c(mean(imp_assert_12_23$value), mean(imp_compa_12_23$value), 
+                       mean(imp_enthu_12_23$value), mean(imp_indus_12_23$value), 
+                       mean(imp_intel_12_23$value), mean(imp_opena_12_23$value),
+                       mean(imp_order_12_23$value), mean(imp_polit_12_23$value), 
+                       mean(imp_volat_12_23$value),mean(imp_withd_12_23$value)),
+  "p-value" = c(mean(imp_assert_12_23$p), mean(imp_compa_12_23$p),
+                mean(imp_enthu_12_23$p), mean(imp_indus_12_23$p), 
+                mean(imp_intel_12_23$p), mean(imp_opena_12_23$p),
+                mean(imp_order_12_23$p), mean(imp_polit_12_23$p), 
+                mean(imp_volat_12_23$p),mean(imp_withd_12_23$p)),
+  "T2-T3.vs.T3-T4" = c(mean(imp_assert_23_34$value), mean(imp_compa_23_34$value), 
+                       mean(imp_enthu_23_34$value), mean(imp_indus_23_34$value), 
+                       mean(imp_intel_23_34$value), mean(imp_opena_23_34$value),
+                       mean(imp_order_23_34$value), mean(imp_polit_23_34$value), 
+                       mean(imp_volat_23_34$value),mean(imp_withd_23_34$value)),
+  "p-value" = c(mean(imp_assert_23_34$p), mean(imp_compa_23_34$p),
+                mean(imp_enthu_23_34$p), mean(imp_indus_23_34$p), 
+                mean(imp_intel_23_34$p), mean(imp_opena_23_34$p),
+                mean(imp_order_23_34$p), mean(imp_polit_23_34$p), 
+                mean(imp_volat_23_34$p),mean(imp_withd_23_34$p)),
+  "T1-T2.vs.T3-T4" = c(mean(imp_assert_12_34$value), mean(imp_compa_12_34$value),
+                       mean(imp_enthu_12_34$value), mean(imp_indus_12_34$value), 
+                       mean(imp_intel_12_34$value), mean(imp_opena_12_34$value),
+                       mean(imp_order_12_34$value), mean(imp_polit_12_34$value), 
+                       mean(imp_volat_12_34$value),mean(imp_withd_12_34$value)),
+  "p-value" = c(mean(imp_assert_12_34$p), mean(imp_compa_12_34$p),
+                mean(imp_enthu_12_34$p), mean(imp_indus_12_34$p), 
+                mean(imp_intel_12_34$p), mean(imp_opena_12_34$p),
+                mean(imp_order_12_34$p), mean(imp_polit_12_34$p), 
+                mean(imp_volat_12_34$p),mean(imp_withd_12_34$p)))
+
+rank_identity_imp <- data.frame(
+  "T1-T2.vs.T2-T3" = c(mean(imp_coher_12_23$value), mean(imp_confu_12_23$value)),
+  "p-value" = c(mean(imp_coher_12_23$p), mean(imp_confu_12_23$p)),
+  "T2-T3.vs.T3-T4" = c(mean(imp_coher_23_34$value), mean(imp_confu_23_34$value)),
+  "p-value" = c(mean(imp_coher_23_34$p), mean(imp_confu_23_34$p)),
+  "T1-T2.vs.T3-T4" = c(mean(imp_coher_12_34$value), mean(imp_confu_12_34$value)),
+  "p-value" = c(mean(imp_coher_12_34$p), mean(imp_confu_12_34$p)))
+
+write.csv(rank_domain_imp, "rank_domain_imp.csv")
+write.csv(rank_aspect_imp, "rank_aspect_imp.csv")
+write.csv(rank_identity_imp, "rank_identity_imp.csv")
+
 # > Individual differences ----
 
 sink("indi.domain.txt")
@@ -30778,49 +30841,49 @@ p_withd_12_34 <- pnorm(abs(withd_12_34), lower.tail = FALSE)
 ### correlation between T1 and T2
 r12_agree <- with(data = imp_wide_p,
                    exp = cor(bfas_agreeableness_w1, bfas_agreeableness_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_consci <- with(data = imp_wide_p,
                    exp = cor(bfas_conscientiousness_w1, bfas_conscientiousness_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_extra <- with(data = imp_wide_p,
                    exp = cor(bfas_extraversion_w1, bfas_extraversion_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_neuro <- with(data = imp_wide_p,
                    exp = cor(bfas_neuroticism_w1, bfas_neuroticism_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_opend <- with(data = imp_wide_p,
                    exp = cor(bfas_opennessdomain_w1, bfas_opennessdomain_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_assert <- with(data = imp_wide_p,
                    exp = cor(bfas_assertiveness_w1, bfas_assertiveness_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_compa <- with(data = imp_wide_p,
                    exp = cor(bfas_compassion_w1, bfas_compassion_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_enthu <- with(data = imp_wide_p,
                    exp = cor(bfas_enthusiasm_w1, bfas_enthusiasm_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_indus <- with(data = imp_wide_p,
                    exp = cor(bfas_industriousness_w1, bfas_industriousness_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_intel <- with(data = imp_wide_p,
                    exp = cor(bfas_intellect_w1, bfas_intellect_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_opena <- with(data = imp_wide_p,
                    exp = cor(bfas_opennessaspect_w1, bfas_opennessaspect_w2, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_order <- with(data = imp_wide_p,                    
                   exp = cor(bfas_orderliness_w1, bfas_orderliness_w2,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_polit <- with(data = imp_wide_p,
                   exp = cor(bfas_politeness_w1, bfas_politeness_w2, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_volat <- with(data = imp_wide_p,
                   exp = cor(bfas_volatility_w1, bfas_volatility_w2,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r12_withd <- with(data = imp_wide_p,   
                   exp = cor(bfas_withdrawal_w1, bfas_withdrawal_w2,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 
 z12_agree <- fisherz(r12_agree) %>% melt() %>% dplyr::select(value)
 z12_consci <- fisherz(r12_consci) %>% melt() %>% dplyr::select(value)
@@ -30841,49 +30904,49 @@ z12_withd <- fisherz(r12_withd) %>% melt() %>% dplyr::select(value)
 ### correlation between T2 and T3
 r23_agree <- with(data = imp_wide_p,              
                   exp = cor(bfas_agreeableness_w2, bfas_agreeableness_w3,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_consci <- with(data = imp_wide_p,                   
                    exp = cor(bfas_conscientiousness_w2, bfas_conscientiousness_w3,
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_extra <- with(data = imp_wide_p,                  
                   exp = cor(bfas_extraversion_w2, bfas_extraversion_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_neuro <- with(data = imp_wide_p,                  
                   exp = cor(bfas_neuroticism_w2, bfas_neuroticism_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_opend <- with(data = imp_wide_p,                  
                   exp = cor(bfas_opennessdomain_w2, bfas_opennessdomain_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_assert <- with(data = imp_wide_p,                 
                    exp = cor(bfas_assertiveness_w2, bfas_assertiveness_w3, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_compa <- with(data = imp_wide_p,                 
                   exp = cor(bfas_compassion_w2, bfas_compassion_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_enthu <- with(data = imp_wide_p,                  
                   exp = cor(bfas_enthusiasm_w2, bfas_enthusiasm_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_indus <- with(data = imp_wide_p,                 
                   exp = cor(bfas_industriousness_w2, bfas_industriousness_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_intel <- with(data = imp_wide_p,                  
                   exp = cor(bfas_intellect_w2, bfas_intellect_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_opena <- with(data = imp_wide_p,                    
                   exp = cor(bfas_opennessaspect_w2, bfas_opennessaspect_w3, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_order <- with(data = imp_wide_p,                  
                   exp = cor(bfas_orderliness_w2, bfas_orderliness_w3,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_polit <- with(data = imp_wide_p,                 
                   exp = cor(bfas_politeness_w2, bfas_politeness_w3,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_volat <- with(data = imp_wide_p,                 
                   exp = cor(bfas_volatility_w2, bfas_volatility_w3,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r23_withd <- with(data = imp_wide_p,                 
                   exp = cor(bfas_withdrawal_w2, bfas_withdrawal_w3,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 
 z23_agree <- fisherz(r23_agree) %>% melt() %>% dplyr::select(value)
 z23_consci <- fisherz(r23_consci) %>% melt() %>% dplyr::select(value)
@@ -30904,49 +30967,49 @@ z23_withd <- fisherz(r23_withd) %>% melt() %>% dplyr::select(value)
 ### correlation between T3 and T4
 r34_agree <- with(data = imp_wide_p,                   
                   exp = cor(bfas_agreeableness_w3, bfas_agreeableness_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_consci <- with(data = imp_wide_p,                    
                    exp = cor(bfas_conscientiousness_w3, bfas_conscientiousness_w4, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_extra <- with(data = imp_wide_p,                   
                   exp = cor(bfas_extraversion_w3, bfas_extraversion_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_neuro <- with(data = imp_wide_p,                    
                   exp = cor(bfas_neuroticism_w3, bfas_neuroticism_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_opend <- with(data = imp_wide_p,                    
                   exp = cor(bfas_opennessdomain_w3, bfas_opennessdomain_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_assert <- with(data = imp_wide_p,                  
                    exp = cor(bfas_assertiveness_w3, bfas_assertiveness_w4, 
-                             use = "pairwise.complete.obs"))
+                             use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_compa <- with(data = imp_wide_p,                 
                   exp = cor(bfas_compassion_w3, bfas_compassion_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_enthu <- with(data = imp_wide_p,                 
                   exp = cor(bfas_enthusiasm_w3, bfas_enthusiasm_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_indus <- with(data = imp_wide_p,                
                   exp = cor(bfas_industriousness_w3, bfas_industriousness_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_intel <- with(data = imp_wide_p,               
                   exp = cor(bfas_intellect_w3, bfas_intellect_w4,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_opena <- with(data = imp_wide_p,                
                   exp = cor(bfas_opennessaspect_w3, bfas_opennessaspect_w4,
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_order <- with(data = imp_wide_p,                   
                   exp = cor(bfas_orderliness_w3, bfas_orderliness_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_polit <- with(data = imp_wide_p,
                   exp = cor(bfas_politeness_w3, bfas_politeness_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_volat <- with(data = imp_wide_p,   
                   exp = cor(bfas_volatility_w3, bfas_volatility_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 r34_withd <- with(data = imp_wide_p,     
                   exp = cor(bfas_withdrawal_w3, bfas_withdrawal_w4, 
-                            use = "pairwise.complete.obs"))
+                            use = "pairwise.complete.obs")) %>% as.data.frame()
 
 z34_agree <- fisherz(r34_agree) %>% melt() %>% dplyr::select(value)
 z34_consci <- fisherz(r34_consci) %>% melt() %>% dplyr::select(value)
@@ -38887,6 +38950,66 @@ forestplot(tabletext,
            xlab = "Between-wave correlation in identity variables - Peer reports",
            txt_gp = fpTxtGp(ticks = gpar(fontfamily = "", cex = 0.75),
                             xlab = gpar(fontfamily = "", cex = 1)))
+
+# >> MI rank-order ----
+rank_domain_imp_p <- data.frame(
+  "T1-T2.vs.T2-T3" = c(mean(imp_agree_12_23$value), mean(imp_consci_12_23$value), mean(imp_extra_12_23$value), 
+                       mean(imp_neuro_12_23$value), mean(imp_opend_12_23$value)),
+  "p-value" = c(mean(imp_agree_12_23$p), mean(imp_consci_12_23$p), mean(imp_extra_12_23$p),
+                mean(imp_neuro_12_23$p), mean(imp_opend_12_23$p)),
+  "T2-T3.vs.T3-T4" = c(mean(imp_agree_23_34$value), mean(imp_consci_23_34$value), mean(imp_extra_23_34$value), 
+                       mean(imp_neuro_23_34$value), mean(imp_opend_23_34$value)),
+  "p-value" = c(mean(imp_agree_23_34$p), mean(imp_consci_23_34$p), mean(imp_extra_23_34$p),
+                mean(imp_neuro_23_34$p), mean(imp_opend_23_34$p)),
+  "T1-T2.vs.T3-T4" = c(mean(imp_agree_12_34$value), mean(imp_consci_12_34$value), mean(imp_extra_12_34$value), 
+                       mean(imp_neuro_12_34$value), mean(imp_opend_12_34$value)),
+  "p-value" = c(mean(imp_agree_12_34$p), mean(imp_consci_12_34$p), mean(imp_extra_12_34$p),
+                mean(imp_neuro_12_34$p), mean(imp_opend_12_34$p)))
+
+
+rank_aspect_imp_p <-  data.frame(
+  "T1-T2.vs.T2-T3" = c(mean(imp_assert_12_23$value), mean(imp_compa_12_23$value), 
+                       mean(imp_enthu_12_23$value), mean(imp_indus_12_23$value), 
+                       mean(imp_intel_12_23$value), mean(imp_opena_12_23$value),
+                       mean(imp_order_12_23$value), mean(imp_polit_12_23$value), 
+                       mean(imp_volat_12_23$value),mean(imp_withd_12_23$value)),
+  "p-value" = c(mean(imp_assert_12_23$p), mean(imp_compa_12_23$p),
+                mean(imp_enthu_12_23$p), mean(imp_indus_12_23$p), 
+                mean(imp_intel_12_23$p), mean(imp_opena_12_23$p),
+                mean(imp_order_12_23$p), mean(imp_polit_12_23$p), 
+                mean(imp_volat_12_23$p),mean(imp_withd_12_23$p)),
+  "T2-T3.vs.T3-T4" = c(mean(imp_assert_23_34$value), mean(imp_compa_23_34$value), 
+                       mean(imp_enthu_23_34$value), mean(imp_indus_23_34$value), 
+                       mean(imp_intel_23_34$value), mean(imp_opena_23_34$value),
+                       mean(imp_order_23_34$value), mean(imp_polit_23_34$value), 
+                       mean(imp_volat_23_34$value),mean(imp_withd_23_34$value)),
+  "p-value" = c(mean(imp_assert_23_34$p), mean(imp_compa_23_34$p),
+                mean(imp_enthu_23_34$p), mean(imp_indus_23_34$p), 
+                mean(imp_intel_23_34$p), mean(imp_opena_23_34$p),
+                mean(imp_order_23_34$p), mean(imp_polit_23_34$p), 
+                mean(imp_volat_23_34$p),mean(imp_withd_23_34$p)),
+  "T1-T2.vs.T3-T4" = c(mean(imp_assert_12_34$value), mean(imp_compa_12_34$value),
+                       mean(imp_enthu_12_34$value), mean(imp_indus_12_34$value), 
+                       mean(imp_intel_12_34$value), mean(imp_opena_12_34$value),
+                       mean(imp_order_12_34$value), mean(imp_polit_12_34$value), 
+                       mean(imp_volat_12_34$value),mean(imp_withd_12_34$value)),
+  "p-value" = c(mean(imp_assert_12_34$p), mean(imp_compa_12_34$p),
+                mean(imp_enthu_12_34$p), mean(imp_indus_12_34$p), 
+                mean(imp_intel_12_34$p), mean(imp_opena_12_34$p),
+                mean(imp_order_12_34$p), mean(imp_polit_12_34$p), 
+                mean(imp_volat_12_34$p),mean(imp_withd_12_34$p)))
+
+rank_identity_imp_p <- data.frame(
+  "T1-T2.vs.T2-T3" = c(mean(imp_coher_12_23$value), mean(imp_confu_12_23$value)),
+  "p-value" = c(mean(imp_coher_12_23$p), mean(imp_confu_12_23$p)),
+  "T2-T3.vs.T3-T4" = c(mean(imp_coher_23_34$value), mean(imp_confu_23_34$value)),
+  "p-value" = c(mean(imp_coher_23_34$p), mean(imp_confu_23_34$p)),
+  "T1-T2.vs.T3-T4" = c(mean(imp_coher_12_34$value), mean(imp_confu_12_34$value)),
+  "p-value" = c(mean(imp_coher_12_34$p), mean(imp_confu_12_34$p)))
+
+write.csv(rank_domain_imp_p, "rank_domain_imp_p.csv")
+write.csv(rank_aspect_imp_p, "rank_aspect_imp_p.csv")
+write.csv(rank_identity_imp_p, "rank_identity_imp_p.csv")
 
 # > Individual differences ----
 
