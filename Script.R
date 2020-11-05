@@ -2,7 +2,7 @@
 ## First year R script                                             ##
 ## Linh Nguyen                                                     ##
 ## Created: 02/03/2020                                             ##
-## Last updated: 11/04/2020 #added forest plots for rank-order self and peer##
+## Last updated: 11/05/2020 tested git                             ##
 ## NEXT: export MI rank-order self and peer                        ##
 ## NEXT: SAS for banded main diagonal:                             ##
 ## https://support.sas.com/resources/papers/proceedings/proceedings/sugi30/198-30.pdf
