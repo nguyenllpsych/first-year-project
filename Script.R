@@ -213,6 +213,7 @@ peerl$time[peerl$time == 3] <- 13
 peerl$time[peerl$time == 4] <- 19
 
 
+
 # > Remove misc objects----
 rm(list = c("self", "selfl_sep","selfl_sep2", "selfw1","selfw2","selfw3","selfw4",
             "peer", "peerl_sep","peerl_sep2", "peerw1","peerw2","peerw3","peerw4", "randomID"))
@@ -10132,3 +10133,45 @@ slope_peer %>%
 slope_total %>% 
   dplyr::select(-id) %>% 
   apa.cor.table(filename = 'corchange.total.doc')
+
+# >> bivariate correlations between self and peer ----
+selfwave1 <- selfl %>% filter(time == "0")
+peerwave1 <- peerl %>% filter(time == "0")
+names <- names(peerwave1)[4:20]
+names(peerwave1)[4:20] <- paste(names, "_p")
+
+selfwave2 <- selfl %>% filter(time == "6")
+peerwave2 <- peerl %>% filter(time == "6")
+names <- names(peerwave2)[4:20]
+names(peerwave2)[4:20] <- paste(names, "_p")
+
+selfwave3 <- selfl %>% filter(time == "13")
+peerwave3 <- peerl %>% filter(time == "13")
+names <- names(peerwave3)[4:20]
+names(peerwave3)[4:20] <- paste(names, "_p")
+
+selfwave4 <- selfl %>% filter(time == "19")
+peerwave4 <- peerl %>% filter(time == "19")
+names <- names(peerwave4)[4:20]
+names(peerwave4)[4:20] <- paste(names, "_p")
+
+rm(names)
+
+wave1 <- merge(selfwave1,peerwave1)
+wave1 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave1cor.doc")
+
+wave2 <- merge(selfwave2,peerwave2)
+wave2 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave2cor.doc")
+
+wave3 <- merge(selfwave3,peerwave3)
+wave3 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave3cor.doc")
+
+wave4 <- merge(selfwave4,peerwave4)
+wave4 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave4cor.doc")
+
+rm(wave1, wave2, wave3, wave4, selfwave1, peerwave1, selfwave2,peerwave2,
+   selfwave3,peerwave3, selfwave4,peerwave4)
