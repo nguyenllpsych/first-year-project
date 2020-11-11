@@ -2,8 +2,8 @@
 ## First year R script                                             ##
 ## Linh Nguyen                                                     ##
 ## Created: 02/03/2020                                             ##
-## Last updated: 11/06/2020 created func for ipsative + export MI  ##
-## NEXT: Equivalence testing compare self-peer                     ##
+## Last updated: 11/11/2020   #correlated change btw self-peer     ##
+## NEXT: MCAR test                                                 ##
 ## NEXT: SAS for banded main diagonal:                             ##
 ## https://support.sas.com/resources/papers/proceedings/proceedings/sugi30/198-30.pdf
 ## To navigate: Edit - Folding - Collapse All                      ##
@@ -211,6 +211,7 @@ peerl$time[peerl$time == 1] <- 0
 peerl$time[peerl$time == 2] <- 6 
 peerl$time[peerl$time == 3] <- 13
 peerl$time[peerl$time == 4] <- 19
+
 
 
 # > Remove misc objects----
@@ -1698,30 +1699,17 @@ summary(linearint.withd)
 # > SELF 1b: Mean level change identity ----
 # >> Linear mixed model with random intercept and random slope ----
 
-linear.imp.coher <- with(data = imp_long,
-                         exp = lme4::lmer(epsi_coherence ~ time + 
-                                            (1+time | ID),
-                                          control = lmerControl(optimizer = "Nelder_Mead")))
-summary(pool(linear.imp.coher))
-
 linear.coher <- lmer(epsi_coherence ~ time +
                        (1 + time | ID),
                      control = lmerControl(optimizer ="Nelder_Mead"),
                      data = selfl)
 summary(linear.coher)
 
-linear.imp.confu <- with(data = imp_long,
-                         exp = lme4::lmer(epsi_confusion ~ time + 
-                                            (1+time | ID),
-                                          control = lmerControl(optimizer = "Nelder_Mead")))
-summary(pool(linear.imp.confu))
-
 linear.confu <- lmer(epsi_confusion ~ time +
                        (1 + time | ID),
                      control = lmerControl(optimizer ="Nelder_Mead"),
                      data = selfl)
 summary(linear.confu)
-
 
 # >> MI - Linear mixed model with random intercept and random slope ----
 linear.imp.coher <- with(data = imp_long,
@@ -4937,6 +4925,27 @@ slope.confu <- data.frame("id" = rownames(coef(linear.confu)$ID),
 slope.coher <- data.frame("id" = rownames(coef(linear.coher)$ID),
                           "slope.coher" = coef(linear.coher)$ID[,2])
 
+slope <- merge(slope.agree, slope.consci) %>% 
+  merge(slope.extra) %>% 
+  merge(slope.neuro) %>% 
+  merge(slope.opend) %>% 
+  merge(slope.assert) %>% 
+  merge(slope.compa) %>% 
+  merge(slope.enthu) %>% 
+  merge(slope.indus) %>% 
+  merge(slope.intel) %>% 
+  merge(slope.opena) %>% 
+  merge(slope.order) %>% 
+  merge(slope.polit) %>% 
+  merge(slope.volat) %>% 
+  merge(slope.withd) %>% 
+  merge(slope.confu) %>% 
+  merge(slope.coher)
+
+rm(slope.agree, slope.consci, slope.extra, slope.neuro, slope.opend, slope.assert,
+   slope.compa, slope.enthu, slope.indus, slope.intel, slope.opena, slope.order,
+   slope.polit, slope.volat, slope.withd, slope.confu, slope.coher)
+
 # EXPORT AND GRAPHS SELF ==========================================
 # > Mean-level change ----
 # >> Linear models ----
@@ -6219,23 +6228,6 @@ imp_ips_id <- imp_ips_id %>% group_by(name) %>%
 write.csv(imp_ips_id, "MI ips identity.csv")
 
 # > Correlated change ----
-slope <- merge(slope.agree, slope.consci) %>% 
-  merge(slope.extra) %>% 
-  merge(slope.neuro) %>% 
-  merge(slope.opend) %>% 
-  merge(slope.assert) %>% 
-  merge(slope.compa) %>% 
-  merge(slope.enthu) %>% 
-  merge(slope.indus) %>% 
-  merge(slope.intel) %>% 
-  merge(slope.opena) %>% 
-  merge(slope.order) %>% 
-  merge(slope.polit) %>% 
-  merge(slope.volat) %>% 
-  merge(slope.withd) %>% 
-  merge(slope.confu) %>% 
-  merge(slope.coher)
-
 slope %>% 
   dplyr::select(-id) %>% 
   apa.cor.table(filename = 'corchange.doc')
@@ -6857,23 +6849,11 @@ summary(linearint.withd)
 # > PEER 1b: Mean level change identity ----
 # >> Linear mixed model with random intercept and random slope ----
 
-linear.imp.coher <- with(data = imp_long_p,
-                         exp = lme4::lmer(epsi_coherence ~ time + 
-                                            (1+time | ID),
-                                          control = lmerControl(optimizer = "Nelder_Mead")))
-summary(pool(linear.imp.coher))
-
 linear.coher <- lmer(epsi_coherence ~ time +
                        (1 + time | ID),
                      control = lmerControl(optimizer ="Nelder_Mead"),
                      data = peerl)
 summary(linear.coher)
-
-linear.imp.confu <- with(data = imp_long_p,
-                         exp = lme4::lmer(epsi_confusion ~ time + 
-                                            (1+time | ID),
-                                          control = lmerControl(optimizer = "Nelder_Mead")))
-summary(pool(linear.imp.confu))
 
 linear.confu <- lmer(epsi_confusion ~ time +
                        (1 + time | ID),
@@ -8875,41 +8855,67 @@ imp_ips_id %>% group_by(name) %>%
   as.data.frame()
 
 # > PEER 5: Correlated change ----
+# >> In peer only ----
+slope.agree_p <- data.frame("id" = rownames(coef(linear.agree)$ID),
+                          "slope.agree_p" = coef(linear.agree)$ID[,2])
+slope.consci_p <- data.frame("id" = rownames(coef(linear.consci)$ID),
+                          "slope.consci_p" = coef(linear.consci)$ID[,2])
+slope.extra_p <- data.frame("id" = rownames(coef(linear.extra)$ID),
+                           "slope.extra_p" = coef(linear.extra)$ID[,2])
+slope.neuro_p <- data.frame("id" = rownames(coef(linear.neuro)$ID),
+                          "slope.neuro_p" = coef(linear.neuro)$ID[,2])
+slope.opend_p <- data.frame("id" = rownames(coef(linear.opend)$ID),
+                          "slope.opend_p" = coef(linear.opend)$ID[,2])
+slope.assert_p <- data.frame("id" = rownames(coef(linear.assert)$ID),
+                           "slope.assert_p" = coef(linear.assert)$ID[,2])
+slope.compa_p <- data.frame("id" = rownames(coef(linear.compa)$ID),
+                           "slope.compa_p" = coef(linear.compa)$ID[,2])
+slope.enthu_p <- data.frame("id" = rownames(coef(linear.enthu)$ID),
+                          "slope.enthu_p" = coef(linear.enthu)$ID[,2])
+slope.indus_p <- data.frame("id" = rownames(coef(linear.indus)$ID),
+                          "slope.indus_p" = coef(linear.indus)$ID[,2])
+slope.intel_p <- data.frame("id" = rownames(coef(linear.intel)$ID),
+                          "slope.intel_p" = coef(linear.intel)$ID[,2])
+slope.opena_p <- data.frame("id" = rownames(coef(linear.opena)$ID),
+                          "slope.opena_p" = coef(linear.opena)$ID[,2])
+slope.order_p <- data.frame("id" = rownames(coef(linear.order)$ID),
+                          "slope.order_p" = coef(linear.order)$ID[,2])
+slope.polit_p <- data.frame("id" = rownames(coef(linear.polit)$ID),
+                          "slope.polit_p" = coef(linear.polit)$ID[,2])
+slope.volat_p <- data.frame("id" = rownames(coef(linear.volat)$ID),
+                          "slope.volat_p" = coef(linear.volat)$ID[,2])
+slope.withd_p <- data.frame("id" = rownames(coef(linear.withd)$ID),
+                          "slope.withd_p" = coef(linear.withd)$ID[,2])
+slope.confu_p <- data.frame("id" = rownames(coef(linear.confu)$ID),
+                          "slope.confu_p" = coef(linear.confu)$ID[,2])
+slope.coher_p <- data.frame("id" = rownames(coef(linear.coher)$ID),
+                          "slope.coher_p" = coef(linear.coher)$ID[,2])
 
-slope.agree <- data.frame("id" = rownames(coef(linear.agree)$ID),
-                          "slope.agree" = coef(linear.agree)$ID[,2])
-slope.consci <- data.frame("id" = rownames(coef(linear.consci)$ID),
-                          "slope.consci" = coef(linear.consci)$ID[,2])
-slope.extra <- data.frame("id" = rownames(coef(linear.extra)$ID),
-                           "slope.extra" = coef(linear.extra)$ID[,2])
-slope.neuro <- data.frame("id" = rownames(coef(linear.neuro)$ID),
-                          "slope.neuro" = coef(linear.neuro)$ID[,2])
-slope.opend <- data.frame("id" = rownames(coef(linear.opend)$ID),
-                          "slope.opend" = coef(linear.opend)$ID[,2])
-slope.assert <- data.frame("id" = rownames(coef(linear.assert)$ID),
-                           "slope.assert" = coef(linear.assert)$ID[,2])
-slope.compa <- data.frame("id" = rownames(coef(linear.compa)$ID),
-                           "slope.compa" = coef(linear.compa)$ID[,2])
-slope.enthu <- data.frame("id" = rownames(coef(linear.enthu)$ID),
-                          "slope.enthu" = coef(linear.enthu)$ID[,2])
-slope.indus <- data.frame("id" = rownames(coef(linear.indus)$ID),
-                          "slope.indus" = coef(linear.indus)$ID[,2])
-slope.intel <- data.frame("id" = rownames(coef(linear.intel)$ID),
-                          "slope.intel" = coef(linear.intel)$ID[,2])
-slope.opena <- data.frame("id" = rownames(coef(linear.opena)$ID),
-                          "slope.opena" = coef(linear.opena)$ID[,2])
-slope.order <- data.frame("id" = rownames(coef(linear.order)$ID),
-                          "slope.order" = coef(linear.order)$ID[,2])
-slope.polit <- data.frame("id" = rownames(coef(linear.polit)$ID),
-                          "slope.polit" = coef(linear.polit)$ID[,2])
-slope.volat <- data.frame("id" = rownames(coef(linear.volat)$ID),
-                          "slope.volat" = coef(linear.volat)$ID[,2])
-slope.withd <- data.frame("id" = rownames(coef(linear.withd)$ID),
-                          "slope.withd" = coef(linear.withd)$ID[,2])
-slope.confu <- data.frame("id" = rownames(coef(linear.confu)$ID),
-                          "slope.confu" = coef(linear.confu)$ID[,2])
-slope.coher <- data.frame("id" = rownames(coef(linear.coher)$ID),
-                          "slope.coher" = coef(linear.coher)$ID[,2])
+slope_peer <- merge(slope.agree_p, slope.consci_p) %>% 
+  merge(slope.extra_p) %>% 
+  merge(slope.neuro_p) %>% 
+  merge(slope.opend_p) %>% 
+  merge(slope.assert_p) %>% 
+  merge(slope.compa_p) %>% 
+  merge(slope.enthu_p) %>% 
+  merge(slope.indus_p) %>% 
+  merge(slope.intel_p) %>% 
+  merge(slope.opena_p) %>% 
+  merge(slope.order_p) %>% 
+  merge(slope.polit_p) %>% 
+  merge(slope.volat_p) %>% 
+  merge(slope.withd_p) %>% 
+  merge(slope.confu_p) %>% 
+  merge(slope.coher_p)
+
+# >> Between self and peer ----
+
+rm(slope.agree_p, slope.consci_p, slope.extra_p, slope.neuro_p, slope.opend_p, 
+   slope.assert_p, slope.compa_p, slope.enthu_p, slope.indus_p, slope.intel_p, 
+   slope.opena_p, slope.order_p, slope.polit_p, slope.volat_p, slope.withd_p, 
+   slope.confu_p, slope.coher_p)
+
+slope_total <- merge(slope, slope_peer)
 
 # EXPORT AND GRAPHS PEER ==========================================
 # > Mean-level change ----
@@ -10120,23 +10126,52 @@ imp_ips_id <- imp_ips_id %>% group_by(name) %>%
 write.csv(imp_ips_id, "MI ips identity peer.csv")
 
 # > Correlated change ----
-slope <- merge(slope.agree, slope.consci) %>% 
-  merge(slope.extra) %>% 
-  merge(slope.neuro) %>% 
-  merge(slope.opend) %>% 
-  merge(slope.assert) %>% 
-  merge(slope.compa) %>% 
-  merge(slope.enthu) %>% 
-  merge(slope.indus) %>% 
-  merge(slope.intel) %>% 
-  merge(slope.opena) %>% 
-  merge(slope.order) %>% 
-  merge(slope.polit) %>% 
-  merge(slope.volat) %>% 
-  merge(slope.withd) %>% 
-  merge(slope.confu) %>% 
-  merge(slope.coher)
-slope %>% 
+slope_peer %>% 
   dplyr::select(-id) %>% 
   apa.cor.table(filename = 'corchange.doc')
 
+slope_total %>% 
+  dplyr::select(-id) %>% 
+  apa.cor.table(filename = 'corchange.total.doc')
+
+# >> bivariate correlations between self and peer ----
+selfwave1 <- selfl %>% filter(time == "0")
+peerwave1 <- peerl %>% filter(time == "0")
+names <- names(peerwave1)[4:20]
+names(peerwave1)[4:20] <- paste(names, "_p")
+
+selfwave2 <- selfl %>% filter(time == "6")
+peerwave2 <- peerl %>% filter(time == "6")
+names <- names(peerwave2)[4:20]
+names(peerwave2)[4:20] <- paste(names, "_p")
+
+selfwave3 <- selfl %>% filter(time == "13")
+peerwave3 <- peerl %>% filter(time == "13")
+names <- names(peerwave3)[4:20]
+names(peerwave3)[4:20] <- paste(names, "_p")
+
+selfwave4 <- selfl %>% filter(time == "19")
+peerwave4 <- peerl %>% filter(time == "19")
+names <- names(peerwave4)[4:20]
+names(peerwave4)[4:20] <- paste(names, "_p")
+
+rm(names)
+
+wave1 <- merge(selfwave1,peerwave1)
+wave1 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave1cor.doc")
+
+wave2 <- merge(selfwave2,peerwave2)
+wave2 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave2cor.doc")
+
+wave3 <- merge(selfwave3,peerwave3)
+wave3 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave3cor.doc")
+
+wave4 <- merge(selfwave4,peerwave4)
+wave4 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+  apa.cor.table(file = "wave4cor.doc")
+
+rm(wave1, wave2, wave3, wave4, selfwave1, peerwave1, selfwave2,peerwave2,
+   selfwave3,peerwave3, selfwave4,peerwave4)
