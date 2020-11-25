@@ -35,7 +35,7 @@ set.seed(184)
 #themes for sjPlot
 set_theme(
   base = theme_bw(),
-  axis.title.size = 1,
+  axis.title.size = 1.8,
   axis.textsize = 1,
   legend.size = .7,
   legend.title.size = .8,
@@ -4887,119 +4887,153 @@ jpeg("linear.agree.jpg", width = 400, height = 500)
 plot_model(linear.agree,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5),)
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Agreeableness"))
 dev.off()
 
 jpeg("linear.compa.jpg", width = 400, height = 500)
 plot_model(linear.compa,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Compassion"))
 dev.off()
 
 jpeg("linear.polit.jpg", width = 400, height = 500)
 plot_model(linear.polit,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Politeness"))
 dev.off()
 
 jpeg("linear.consci.jpg", width = 400, height = 500)
 plot_model(linear.consci,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Conscientiousness"))
 dev.off()
 
 jpeg("linear.indus.jpg", width = 400, height = 500)
 plot_model(linear.indus,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Industriousness"))
 dev.off()
 
 jpeg("linear.order.jpg", width = 400, height = 500)
 plot_model(linear.order,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Orderliness"))
 dev.off()
 
 jpeg("linear.extra.jpg", width = 400, height = 500)
 plot_model(linear.extra,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Extraversion"))
 dev.off()
 
 jpeg("linear.assert.jpg", width = 400, height = 500)
 plot_model(linear.assert,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Assertiveness"))
 dev.off()
 
 jpeg("linear.enthu.jpg", width = 400, height = 500)
 plot_model(linear.enthu,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Enthusiasm"))
 dev.off()
 
 jpeg("linear.neuro.jpg", width = 400, height = 500)
 plot_model(linear.neuro,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Neuroticism"))
 dev.off()
 
 jpeg("linear.volat.jpg", width = 400, height = 500)
 plot_model(linear.volat,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Volatility"))
 dev.off()
 
 jpeg("linear.withd.jpg", width = 400, height = 500)
 plot_model(linear.withd,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Withdrawal"))
 dev.off()
 
 jpeg("linear.opena.jpg", width = 400, height = 500)
 plot_model(linear.opena,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Aspect"))
 dev.off()
 
 jpeg("linear.opend.jpg", width = 400, height = 500)
 plot_model(linear.opend,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Domain"))
 dev.off()
 
 jpeg("linear.intel.jpg", width = 400, height = 500)
 plot_model(linear.intel,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Intellect"))
 dev.off()
 
 jpeg("linear.confu.jpg", width = 400, height = 500)
 plot_model(linear.confu,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Identity Confusion"))
 dev.off()
 
 jpeg("linear.coher.jpg", width = 400, height = 500)
 plot_model(linear.coher,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Identity Coherence"))
 dev.off()
 
 # >> Quadratic models ----
@@ -8755,119 +8789,153 @@ jpeg("peer.linear.agree.jpg", width = 400, height = 500)
 plot_model(linear.agree,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Agreeableness"))
 dev.off()
 
 jpeg("peer.linear.compa.jpg", width = 400, height = 500)
 plot_model(linear.compa,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Compassion"))
 dev.off()
 
 jpeg("peer.linear.polit.jpg", width = 400, height = 500)
 plot_model(linear.polit,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Politeness"))
 dev.off()
 
 jpeg("peer.linear.consci.jpg", width = 400, height = 500)
 plot_model(linear.consci,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Conscientiousness"))
 dev.off()
 
 jpeg("peer.linear.indus.jpg", width = 400, height = 500)
 plot_model(linear.indus,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Industriousness"))
 dev.off()
 
 jpeg("peer.linear.order.jpg", width = 400, height = 500)
 plot_model(linear.order,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Orderliness"))
 dev.off()
 
 jpeg("peer.linear.extra.jpg", width = 400, height = 500)
 plot_model(linear.extra,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Extraversion"))
 dev.off()
 
 jpeg("peer.linear.assert.jpg", width = 400, height = 500)
 plot_model(linear.assert,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Assertiveness"))
 dev.off()
 
 jpeg("peer.linear.enthu.jpg", width = 400, height = 500)
 plot_model(linear.enthu,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Enthusiasm"))
 dev.off()
 
 jpeg("peer.linear.neuro.jpg", width = 400, height = 500)
 plot_model(linear.neuro,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Neuroticism"))
 dev.off()
 
 jpeg("peer.linear.volat.jpg", width = 400, height = 500)
 plot_model(linear.volat,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Volatility"))
 dev.off()
 
 jpeg("peer.linear.withd.jpg", width = 400, height = 500)
 plot_model(linear.withd,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Withdrawal"))
 dev.off()
 
 jpeg("peer.linear.opena.jpg", width = 400, height = 500)
 plot_model(linear.opena,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Aspect"))
 dev.off()
 
 jpeg("peer.linear.opend.jpg", width = 400, height = 500)
 plot_model(linear.opend,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Domain"))
 dev.off()
 
 jpeg("peer.linear.intel.jpg", width = 400, height = 500)
 plot_model(linear.intel,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Intellect"))
 dev.off()
 
 jpeg("peer.linear.confu.jpg", width = 400, height = 500)
 plot_model(linear.confu,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Identity Confusion"))
 dev.off()
 
 jpeg("peer.linear.coher.jpg", width = 400, height = 500)
 plot_model(linear.coher,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Identity Coherence"))
 dev.off()
 
 # >> Quadratic models ----
@@ -8904,7 +8972,7 @@ tab_model(quad.neuro, quad.volat, quad.withd, file = "peer.quad.neuro.doc")
 tab_model(quad.opend, quad.opena, quad.intel, file = "peer.quad.opend.doc")
 tab_model(quad.confu, quad.coher, file = "peer.quad.epsi.doc")
 
-
+#plots of significant quadratic variables
 p1 <- plot_model(quad.compa,
            type = "pred",
            terms = "time",
@@ -8917,7 +8985,10 @@ p2 <- plot_model(quad.order,
            axis.lim = c(3,5),
            axis.title = c("Time","Orderliness"),
            title = "")
+
+jpeg("sig.quad.peer.jpg", width = 700, height = 500)
 cowplot::plot_grid(p1,p2)
+dev.off()
 
 
 # >> Compare linear vs. quad ----
