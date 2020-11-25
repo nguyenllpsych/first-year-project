@@ -10,6 +10,7 @@
 #####################################################################
 
 # METADATA  ==========================================
+renv::restore() 
 library(lme4)
 library(lmerTest)
 library(reshape2)
@@ -18,22 +19,18 @@ library(dplyr)
 library(sjPlot)
 library(psych)
 library(tidyr)
-library(mice)
 library(mitml)
 library(MASS)
 library(sjmisc)
-library(glmmTMB)
 library(Hmisc)
 library(haven)
 library(apaTables)
-library(performance)
 library(stringr)
 library(cowplot)
 library(forestplot)
 library(renv)
 options(scipen = 999)
 set.seed(184)
-renv::restore() 
 
 # CLEANING ====
 # > Data files----
