@@ -1279,12 +1279,6 @@ testEstimates(linear.imp.withd, var.comp=TRUE)
 # >> Quadratic mixed model with random intercept and random slope, no random quad slope ----
 
 ### Agreeableness
-quad.imp.agree <- with(data = imp_long,
-                   exp = lme4:: lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE)+
-                                       (1+time|ID)))
-
-summary(pool(quad.imp.agree))
-
 quad.agree <- lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE) +
                        (1 + time | ID),
                      control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1292,12 +1286,6 @@ quad.agree <- lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE) +
 summary(quad.agree)
 
 ### Assertiveness
-quad.imp.assert <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.assert))
-
 quad.assert <- lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE) +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1305,12 +1293,6 @@ quad.assert <- lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE) +
 summary(quad.assert)
 
 ### Compassion
-quad.imp.compa <- with(data = imp_long,
-                        exp = lme4:: lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)+
-                                            (1+time|ID)))
-
-summary(pool(quad.imp.compa))
-
 quad.compa <- lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)  +
                       (1 + time | ID),
                     control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1318,12 +1300,6 @@ quad.compa <- lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.compa)
 
 ### Conscientiousness
-quad.imp.consci <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.consci))
-
 quad.consci <- lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1331,12 +1307,6 @@ quad.consci <- lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE) 
 summary(quad.consci)
 
 ### Enthusiasm
-quad.imp.enthu <- with(data = imp_long,
-                        exp = lme4:: lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)+
-                                            (1 + time|ID)))
-
-summary(pool(quad.imp.enthu))
-
 quad.enthu <- lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)  +
                       (1 + time | ID),
                     control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1344,12 +1314,6 @@ quad.enthu <- lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.enthu)
 
 ### Extraversion
-quad.imp.extra <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.extra))
-
 quad.extra <- lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1357,12 +1321,6 @@ quad.extra <- lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.extra)
 
 ### Industriousness
-quad.imp.indus <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.indus))
-
 quad.indus <- lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1370,12 +1328,6 @@ quad.indus <- lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.indus)
 
 ### Intellect
-quad.imp.intel <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.intel))
-
 quad.intel <- lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1383,12 +1335,6 @@ quad.intel <- lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.intel)
 
 ### Neuroticism
-quad.imp.neuro <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.neuro))
-
 quad.neuro <- lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1396,12 +1342,6 @@ quad.neuro <- lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.neuro)
 
 ### Openness Aspect
-quad.imp.opena <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.opena))
-
 quad.opena <- lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1409,12 +1349,6 @@ quad.opena <- lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.opena)
 
 ### Openness Domain
-quad.imp.opend <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time |ID)))
-
-summary(pool(quad.imp.opend))
-
 quad.opend <- lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1422,12 +1356,6 @@ quad.opend <- lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.opend)
 
 ### Oderliness
-quad.imp.order <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.order))
-
 quad.order <- lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1435,12 +1363,6 @@ quad.order <- lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.order)
 
 ### Politeness
-quad.imp.polit <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.polit))
-
 quad.polit <- lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1448,12 +1370,6 @@ quad.polit <- lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.polit)
 
 ### Volatility
-quad.imp.volat <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.volat))
-
 quad.volat <- lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1461,18 +1377,11 @@ quad.volat <- lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.volat)
 
 ### Withdrawal
-quad.imp.withd <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_withdrawal ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.withd))
-
 quad.withd <- lmer(bfas_withdrawal ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = selfl)
 summary(quad.withd)
-
 
 # >> Model comparison (using original data) ----
 
@@ -1722,31 +1631,17 @@ linear.imp.confu <- with(data = imp_long,
 testEstimates(linear.imp.confu, var.comp=TRUE)
 
 # >> Quadratic mixed model with random intercept and random slope, no random quad slope ----
-
-quad.imp.coher <- with(data = imp_long,
-                       exp = lme4:: lmer(epsi_coherence ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.coher))
-
 quad.coher <- lmer(epsi_coherence ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = selfl)
 summary(quad.coher)
 
-quad.imp.confu <- with(data = imp_long,
-                       exp = lme4:: lmer(epsi_confusion ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.confu))
-
 quad.confu <- lmer(epsi_confusion ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = selfl)
 summary(quad.confu)
-
 
 # >> Model comparison (using original data) ----
 
