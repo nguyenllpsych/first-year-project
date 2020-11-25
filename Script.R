@@ -2,7 +2,7 @@
 ## First year R script                                             ##
 ## Linh Nguyen                                                     ##
 ## Created: 02/03/2020                                             ##
-## Last updated: 11/11/2020   #correlated change btw self-peer     ##
+## Last updated: 11/25/2020   #cleaned up some plots               ##
 ## NEXT: MCAR test                                                 ##
 ## NEXT: SAS for banded main diagonal:                             ##
 ## https://support.sas.com/resources/papers/proceedings/proceedings/sugi30/198-30.pdf
