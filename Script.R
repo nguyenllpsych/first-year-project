@@ -32,6 +32,15 @@ library(renv)
 options(scipen = 999)
 set.seed(184)
 
+#themes for sjPlot
+set_theme(
+  base = theme_bw(),
+  axis.title.size = 1,
+  axis.textsize = 1,
+  legend.size = .7,
+  legend.title.size = .8,
+  geom.label.size = 3)
+
 # CLEANING ====
 # > Data files----
 peerw1 <- read_spss("peerw1.sav") %>% 
@@ -4878,7 +4887,7 @@ jpeg("linear.agree.jpg", width = 400, height = 500)
 plot_model(linear.agree,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),)
 dev.off()
 
 jpeg("linear.compa.jpg", width = 400, height = 500)
