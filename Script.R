@@ -2,7 +2,7 @@
 ## First year R script                                             ##
 ## Linh Nguyen                                                     ##
 ## Created: 02/03/2020                                             ##
-## Last updated: 11/11/2020   #correlated change btw self-peer     ##
+## Last updated: 11/25/2020   #cleaned up some plots               ##
 ## NEXT: MCAR test                                                 ##
 ## NEXT: SAS for banded main diagonal:                             ##
 ## https://support.sas.com/resources/papers/proceedings/proceedings/sugi30/198-30.pdf
@@ -10,6 +10,7 @@
 #####################################################################
 
 # METADATA  ==========================================
+renv::restore() 
 library(lme4)
 library(lmerTest)
 library(reshape2)
@@ -18,22 +19,27 @@ library(dplyr)
 library(sjPlot)
 library(psych)
 library(tidyr)
-library(mice)
 library(mitml)
 library(MASS)
 library(sjmisc)
-library(glmmTMB)
 library(Hmisc)
 library(haven)
 library(apaTables)
-library(performance)
 library(stringr)
 library(cowplot)
 library(forestplot)
 library(renv)
 options(scipen = 999)
 set.seed(184)
-renv::restore() 
+
+#themes for sjPlot
+set_theme(
+  base = theme_bw(),
+  axis.title.size = 1.8,
+  axis.textsize = 1,
+  legend.size = .7,
+  legend.title.size = .8,
+  geom.label.size = 3)
 
 # CLEANING ====
 # > Data files----
@@ -1282,12 +1288,6 @@ testEstimates(linear.imp.withd, var.comp=TRUE)
 # >> Quadratic mixed model with random intercept and random slope, no random quad slope ----
 
 ### Agreeableness
-quad.imp.agree <- with(data = imp_long,
-                   exp = lme4:: lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE)+
-                                       (1+time|ID)))
-
-summary(pool(quad.imp.agree))
-
 quad.agree <- lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE) +
                        (1 + time | ID),
                      control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1295,12 +1295,6 @@ quad.agree <- lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE) +
 summary(quad.agree)
 
 ### Assertiveness
-quad.imp.assert <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.assert))
-
 quad.assert <- lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE) +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1308,12 +1302,6 @@ quad.assert <- lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE) +
 summary(quad.assert)
 
 ### Compassion
-quad.imp.compa <- with(data = imp_long,
-                        exp = lme4:: lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)+
-                                            (1+time|ID)))
-
-summary(pool(quad.imp.compa))
-
 quad.compa <- lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)  +
                       (1 + time | ID),
                     control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1321,12 +1309,6 @@ quad.compa <- lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.compa)
 
 ### Conscientiousness
-quad.imp.consci <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.consci))
-
 quad.consci <- lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1334,12 +1316,6 @@ quad.consci <- lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE) 
 summary(quad.consci)
 
 ### Enthusiasm
-quad.imp.enthu <- with(data = imp_long,
-                        exp = lme4:: lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)+
-                                            (1 + time|ID)))
-
-summary(pool(quad.imp.enthu))
-
 quad.enthu <- lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)  +
                       (1 + time | ID),
                     control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1347,12 +1323,6 @@ quad.enthu <- lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.enthu)
 
 ### Extraversion
-quad.imp.extra <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.extra))
-
 quad.extra <- lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1360,12 +1330,6 @@ quad.extra <- lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.extra)
 
 ### Industriousness
-quad.imp.indus <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.indus))
-
 quad.indus <- lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1373,12 +1337,6 @@ quad.indus <- lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.indus)
 
 ### Intellect
-quad.imp.intel <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.intel))
-
 quad.intel <- lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1386,12 +1344,6 @@ quad.intel <- lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.intel)
 
 ### Neuroticism
-quad.imp.neuro <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.neuro))
-
 quad.neuro <- lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1399,12 +1351,6 @@ quad.neuro <- lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.neuro)
 
 ### Openness Aspect
-quad.imp.opena <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.opena))
-
 quad.opena <- lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1412,12 +1358,6 @@ quad.opena <- lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.opena)
 
 ### Openness Domain
-quad.imp.opend <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time |ID)))
-
-summary(pool(quad.imp.opend))
-
 quad.opend <- lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1425,12 +1365,6 @@ quad.opend <- lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.opend)
 
 ### Oderliness
-quad.imp.order <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.order))
-
 quad.order <- lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1438,12 +1372,6 @@ quad.order <- lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.order)
 
 ### Politeness
-quad.imp.polit <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.polit))
-
 quad.polit <- lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1451,12 +1379,6 @@ quad.polit <- lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.polit)
 
 ### Volatility
-quad.imp.volat <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.volat))
-
 quad.volat <- lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -1464,18 +1386,11 @@ quad.volat <- lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.volat)
 
 ### Withdrawal
-quad.imp.withd <- with(data = imp_long,
-                       exp = lme4:: lmer(bfas_withdrawal ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.withd))
-
 quad.withd <- lmer(bfas_withdrawal ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = selfl)
 summary(quad.withd)
-
 
 # >> Model comparison (using original data) ----
 
@@ -1725,31 +1640,17 @@ linear.imp.confu <- with(data = imp_long,
 testEstimates(linear.imp.confu, var.comp=TRUE)
 
 # >> Quadratic mixed model with random intercept and random slope, no random quad slope ----
-
-quad.imp.coher <- with(data = imp_long,
-                       exp = lme4:: lmer(epsi_coherence ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.coher))
-
 quad.coher <- lmer(epsi_coherence ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = selfl)
 summary(quad.coher)
 
-quad.imp.confu <- with(data = imp_long,
-                       exp = lme4:: lmer(epsi_confusion ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.confu))
-
 quad.confu <- lmer(epsi_confusion ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = selfl)
 summary(quad.confu)
-
 
 # >> Model comparison (using original data) ----
 
@@ -4983,122 +4884,181 @@ tab_model(linear.opend, linear.opena, linear.intel, file = "linear.opend.doc", d
 tab_model(linear.confu, linear.coher, file = "linear.epsi.doc", digits = 3)
 
 jpeg("linear.agree.jpg", width = 400, height = 500)
-plot_model(linear.agree,
+(pagree <- plot_model(linear.agree,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Agreeableness")))
 dev.off()
 
 jpeg("linear.compa.jpg", width = 400, height = 500)
-plot_model(linear.compa,
+(pcompa <- plot_model(linear.compa,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Compassion")))
 dev.off()
 
 jpeg("linear.polit.jpg", width = 400, height = 500)
-plot_model(linear.polit,
+(ppolit <- plot_model(linear.polit,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Politeness")))
 dev.off()
 
 jpeg("linear.consci.jpg", width = 400, height = 500)
-plot_model(linear.consci,
+(pconsci <- plot_model(linear.consci,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Conscientiousness")))
 dev.off()
 
 jpeg("linear.indus.jpg", width = 400, height = 500)
-plot_model(linear.indus,
+(pindus <- plot_model(linear.indus,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Industriousness")))
 dev.off()
 
 jpeg("linear.order.jpg", width = 400, height = 500)
-plot_model(linear.order,
+(porder <- plot_model(linear.order,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Orderliness")))
 dev.off()
 
 jpeg("linear.extra.jpg", width = 400, height = 500)
-plot_model(linear.extra,
+(pextra <- plot_model(linear.extra,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Extraversion")))
 dev.off()
 
 jpeg("linear.assert.jpg", width = 400, height = 500)
-plot_model(linear.assert,
+(passert <- plot_model(linear.assert,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Assertiveness")))
 dev.off()
 
 jpeg("linear.enthu.jpg", width = 400, height = 500)
-plot_model(linear.enthu,
+(penthu <- plot_model(linear.enthu,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Enthusiasm")))
 dev.off()
 
 jpeg("linear.neuro.jpg", width = 400, height = 500)
-plot_model(linear.neuro,
+(pneuro <- plot_model(linear.neuro,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Neuroticism")))
 dev.off()
 
 jpeg("linear.volat.jpg", width = 400, height = 500)
-plot_model(linear.volat,
+(pvolat <- plot_model(linear.volat,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Volatility")))
 dev.off()
 
 jpeg("linear.withd.jpg", width = 400, height = 500)
-plot_model(linear.withd,
+(pwithd <- plot_model(linear.withd,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Withdrawal")))
 dev.off()
 
 jpeg("linear.opena.jpg", width = 400, height = 500)
-plot_model(linear.opena,
+(popena <- plot_model(linear.opena,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Aspect")))
 dev.off()
 
 jpeg("linear.opend.jpg", width = 400, height = 500)
-plot_model(linear.opend,
+(popend <- plot_model(linear.opend,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Domain")))
 dev.off()
 
 jpeg("linear.intel.jpg", width = 400, height = 500)
-plot_model(linear.intel,
+(pintel <- plot_model(linear.intel,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Intellect")))
 dev.off()
 
 jpeg("linear.confu.jpg", width = 400, height = 500)
-plot_model(linear.confu,
+(pconfu <- plot_model(linear.confu,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Identity Confusion")))
 dev.off()
 
 jpeg("linear.coher.jpg", width = 400, height = 500)
-plot_model(linear.coher,
+(pcoher <- plot_model(linear.coher,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Identity Coherence")))
+dev.off()
+
+##export graphs that group relevant variables together
+jpeg("linear.agreeG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pagree, pcompa, ppolit, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.consciG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pconsci, pindus, porder, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.extraG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pextra, passert, penthu, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.neuroG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pneuro, pvolat, pwithd, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.openG.jpg", width = 700, height = 300)
+cowplot::plot_grid(popend, pintel, popena, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.idenG.jpg", width = 500, height = 300)
+cowplot::plot_grid(pcoher, pconfu, nrow = 1, ncol = 2)
 dev.off()
 
 # >> Quadratic models ----
@@ -6436,12 +6396,6 @@ testEstimates(linear.imp.withd, var.comp=TRUE)
 # >> Quadratic mixed model with random intercept and random slope, no random quad slope ----
 
 ### Agreeableness
-quad.imp.agree <- with(data = imp_long_p,
-                   exp = lme4:: lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE)+
-                                       (1+time|ID)))
-
-summary(pool(quad.imp.agree))
-
 quad.agree <- lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE) +
                        (1 + time | ID),
                      control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6449,12 +6403,6 @@ quad.agree <- lmer(bfas_agreeableness ~ poly(time, degree = 2, raw = TRUE) +
 summary(quad.agree)
 
 ### Assertiveness
-quad.imp.assert <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.assert))
-
 quad.assert <- lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE) +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6462,12 +6410,6 @@ quad.assert <- lmer(bfas_assertiveness ~ poly(time, degree = 2, raw = TRUE) +
 summary(quad.assert)
 
 ### Compassion
-quad.imp.compa <- with(data = imp_long_p,
-                        exp = lme4:: lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)+
-                                            (1+time|ID)))
-
-summary(pool(quad.imp.compa))
-
 quad.compa <- lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)  +
                       (1 + time | ID),
                     control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6475,12 +6417,6 @@ quad.compa <- lmer(bfas_compassion ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.compa)
 
 ### Conscientiousness
-quad.imp.consci <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.consci))
-
 quad.consci <- lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6488,12 +6424,6 @@ quad.consci <- lmer(bfas_conscientiousness ~ poly(time, degree = 2, raw = TRUE) 
 summary(quad.consci)
 
 ### Enthusiasm
-quad.imp.enthu <- with(data = imp_long_p,
-                        exp = lme4:: lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)+
-                                            (1 + time|ID)))
-
-summary(pool(quad.imp.enthu))
-
 quad.enthu <- lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)  +
                       (1 + time | ID),
                     control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6501,12 +6431,6 @@ quad.enthu <- lmer(bfas_enthusiasm ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.enthu)
 
 ### Extraversion
-quad.imp.extra <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.extra))
-
 quad.extra <- lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6514,12 +6438,6 @@ quad.extra <- lmer(bfas_extraversion ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.extra)
 
 ### Industriousness
-quad.imp.indus <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.indus))
-
 quad.indus <- lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6527,12 +6445,6 @@ quad.indus <- lmer(bfas_industriousness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.indus)
 
 ### Intellect
-quad.imp.intel <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.intel))
-
 quad.intel <- lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6540,12 +6452,6 @@ quad.intel <- lmer(bfas_intellect ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.intel)
 
 ### Neuroticism
-quad.imp.neuro <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.neuro))
-
 quad.neuro <- lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6553,12 +6459,6 @@ quad.neuro <- lmer(bfas_neuroticism ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.neuro)
 
 ### Openness Aspect
-quad.imp.opena <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.opena))
-
 quad.opena <- lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6566,12 +6466,6 @@ quad.opena <- lmer(bfas_opennessaspect ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.opena)
 
 ### Openness Domain
-quad.imp.opend <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time |ID)))
-
-summary(pool(quad.imp.opend))
-
 quad.opend <- lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6579,12 +6473,6 @@ quad.opend <- lmer(bfas_opennessdomain ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.opend)
 
 ### Oderliness
-quad.imp.order <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.order))
-
 quad.order <- lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6592,12 +6480,6 @@ quad.order <- lmer(bfas_orderliness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.order)
 
 ### Politeness
-quad.imp.polit <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.polit))
-
 quad.polit <- lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6605,12 +6487,6 @@ quad.polit <- lmer(bfas_politeness ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.polit)
 
 ### Volatility
-quad.imp.volat <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.volat))
-
 quad.volat <- lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
@@ -6618,17 +6494,12 @@ quad.volat <- lmer(bfas_volatility ~ poly(time, degree = 2, raw = TRUE)  +
 summary(quad.volat)
 
 ### Withdrawal
-quad.imp.withd <- with(data = imp_long_p,
-                       exp = lme4:: lmer(bfas_withdrawal ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.withd))
-
 quad.withd <- lmer(bfas_withdrawal ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time | ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = peerl)
 summary(quad.withd)
+
 # >> Model comparison (using original data) ----
 
 anova(linear.agree, quad.agree)
@@ -6876,31 +6747,17 @@ testEstimates(linear.imp.coher, var.comp=TRUE)
 
 
 # >> Quadratic mixed model with random intercept and random slope, no random quad slope ----
-
-quad.imp.coher <- with(data = imp_long_p,
-                       exp = lme4:: lmer(epsi_coherence ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1+time|ID)))
-
-summary(pool(quad.imp.coher))
-
 quad.coher <- lmer(epsi_coherence ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = peerl)
 summary(quad.coher)
 
-quad.imp.confu <- with(data = imp_long_p,
-                       exp = lme4:: lmer(epsi_confusion ~ poly(time, degree = 2, raw = TRUE)+
-                                           (1 + time|ID)))
-
-summary(pool(quad.imp.confu))
-
 quad.confu <- lmer(epsi_confusion ~ poly(time, degree = 2, raw = TRUE)  +
                      (1 + time| ID),
                    control = lmerControl(optimizer ="Nelder_Mead"),
                    data = peerl)
 summary(quad.confu)
-
 
 # >> Model comparison (using original data) ----
 
@@ -8957,119 +8814,153 @@ jpeg("peer.linear.agree.jpg", width = 400, height = 500)
 plot_model(linear.agree,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Agreeableness"))
 dev.off()
 
 jpeg("peer.linear.compa.jpg", width = 400, height = 500)
 plot_model(linear.compa,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Compassion"))
 dev.off()
 
 jpeg("peer.linear.polit.jpg", width = 400, height = 500)
 plot_model(linear.polit,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Politeness"))
 dev.off()
 
 jpeg("peer.linear.consci.jpg", width = 400, height = 500)
 plot_model(linear.consci,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Conscientiousness"))
 dev.off()
 
 jpeg("peer.linear.indus.jpg", width = 400, height = 500)
 plot_model(linear.indus,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Industriousness"))
 dev.off()
 
 jpeg("peer.linear.order.jpg", width = 400, height = 500)
 plot_model(linear.order,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Orderliness"))
 dev.off()
 
 jpeg("peer.linear.extra.jpg", width = 400, height = 500)
 plot_model(linear.extra,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Extraversion"))
 dev.off()
 
 jpeg("peer.linear.assert.jpg", width = 400, height = 500)
 plot_model(linear.assert,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Assertiveness"))
 dev.off()
 
 jpeg("peer.linear.enthu.jpg", width = 400, height = 500)
 plot_model(linear.enthu,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Enthusiasm"))
 dev.off()
 
 jpeg("peer.linear.neuro.jpg", width = 400, height = 500)
 plot_model(linear.neuro,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Neuroticism"))
 dev.off()
 
 jpeg("peer.linear.volat.jpg", width = 400, height = 500)
 plot_model(linear.volat,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Volatility"))
 dev.off()
 
 jpeg("peer.linear.withd.jpg", width = 400, height = 500)
 plot_model(linear.withd,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Withdrawal"))
 dev.off()
 
 jpeg("peer.linear.opena.jpg", width = 400, height = 500)
 plot_model(linear.opena,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Aspect"))
 dev.off()
 
 jpeg("peer.linear.opend.jpg", width = 400, height = 500)
 plot_model(linear.opend,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Openness Domain"))
 dev.off()
 
 jpeg("peer.linear.intel.jpg", width = 400, height = 500)
 plot_model(linear.intel,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Intellect"))
 dev.off()
 
 jpeg("peer.linear.confu.jpg", width = 400, height = 500)
 plot_model(linear.confu,
            type = "pred",
            terms = "time",
-           axis.lim = c(2,4))
+           axis.lim = c(2,4),
+           title = "",
+           axis.title = c("Time","Identity Confusion"))
 dev.off()
 
 jpeg("peer.linear.coher.jpg", width = 400, height = 500)
 plot_model(linear.coher,
            type = "pred",
            terms = "time",
-           axis.lim = c(3,5))
+           axis.lim = c(3,5),
+           title = "",
+           axis.title = c("Time","Identity Coherence"))
 dev.off()
 
 # >> Quadratic models ----
@@ -9106,7 +8997,7 @@ tab_model(quad.neuro, quad.volat, quad.withd, file = "peer.quad.neuro.doc")
 tab_model(quad.opend, quad.opena, quad.intel, file = "peer.quad.opend.doc")
 tab_model(quad.confu, quad.coher, file = "peer.quad.epsi.doc")
 
-
+#plots of significant quadratic variables
 p1 <- plot_model(quad.compa,
            type = "pred",
            terms = "time",
@@ -9119,7 +9010,10 @@ p2 <- plot_model(quad.order,
            axis.lim = c(3,5),
            axis.title = c("Time","Orderliness"),
            title = "")
+
+jpeg("sig.quad.peer.jpg", width = 700, height = 500)
 cowplot::plot_grid(p1,p2)
+dev.off()
 
 
 # >> Compare linear vs. quad ----
