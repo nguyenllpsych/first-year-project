@@ -2,8 +2,7 @@
 ## First year R script                                             ##
 ## Linh Nguyen                                                     ##
 ## Created: 02/03/2020                                             ##
-## Last updated: 11/25/2020   #cleaned up some plots               ##
-## NEXT: MCAR test                                                 ##
+## Last updated: 12/16/2020   #missingness tests                   ##
 ## NEXT: SAS for banded main diagonal:                             ##
 ## https://support.sas.com/resources/papers/proceedings/proceedings/sugi30/198-30.pdf
 ## To navigate: Edit - Folding - Collapse All                      ##
@@ -29,6 +28,7 @@ library(stringr)
 library(cowplot)
 library(forestplot)
 library(renv)
+library(finalfit)
 options(scipen = 999)
 set.seed(184)
 
@@ -238,6 +238,28 @@ ggplot(data = demo,
        mapping = aes(gender)) +
   geom_histogram(binwidth = 1) +
   theme_classic()
+
+# MISSINGNESS ========
+## compare missing and non-missing
+demo <- merge(demo,selfl)
+demo <- demo %>% 
+  mutate(gender = ifelse(gender == 3, NA, gender))
+explanatory = c("gender", "age","year","transfer")
+demo %>% 
+  missing_compare("bfas_agreeableness", explanatory)
+demo %>% 
+  missing_compare("bfas_conscientiousness", explanatory)
+demo %>% 
+  missing_compare("bfas_extraversion", explanatory)
+demo %>% 
+  missing_compare("bfas_neuroticism", explanatory)
+demo %>% 
+  missing_compare("bfas_opennessdomain", explanatory)
+demo %>% 
+  missing_compare("epsi_confusion", explanatory)
+demo %>% 
+  missing_compare("epsi_coherence", explanatory)
+rm(demo)
 
 # IMPUTATION ==========================================
 
