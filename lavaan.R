@@ -4,7 +4,7 @@
 ##                                          ##
 ##  Linh Nguyen                             ##
 ##  Created: Feb-15-2021                    ##
-##  Updated: Feb-22-2021                    ##
+##  Updated: Feb-23-2021                    ##
 ##############################################
 
 
@@ -2155,7 +2155,7 @@ semPaths(lgmWithd, what = "col", whatLabels = "est", intercepts = T)
 
 ### with aspects as parcels
 
-lgmAgree <- '
+lsmAgree <- '
 
 # factor at each time point with same loading
 agree1 =~ compaW1S        + a * politW1S + 
@@ -2200,13 +2200,13 @@ politW1P ~~ politW2P + politW3P + politW4P
 politW2P ~~ politW3P + politW4P
 politW3P ~~ politW4P
 '
-lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
-summary(lgmAgree)
+lsmAgree <- sem(lsmAgree, data = data, missing = "ML")
+summary(lsmAgree)
 
-semPaths(lgmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
+semPaths(lsmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
 ### with random parcels
-lgmAgree <- '
+lsmAgree <- '
 
 # factor at each time point with same loading
 agree1 =~ agreeW1S1        + a * agreeW1S2 + 
@@ -2243,10 +2243,10 @@ agreeW1P2 ~~ agreeW2P2 + agreeW3P2 + agreeW4P2
 agreeW2P2 ~~ agreeW3P2 + agreeW4P2
 agreeW3P2 ~~ agreeW4P2
 '
-lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
-summary(lgmAgree)
+lsmAgree <- sem(lsmAgree, data = data, missing = "ML")
+summary(lsmAgree)
 
-semPaths(lgmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
+semPaths(lsmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
 
 # >> LSM Conscientiousness ----
