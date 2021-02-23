@@ -770,28 +770,28 @@ data <- data %>%
 ### Coherence
 data <- data %>% 
   mutate(# first self parcel
-         confuW1S1 = rowMeans(select(data, w1epsi_2, w1epsi_8, w1epsi_9),na.rm = T),
-         confuW2S1 = rowMeans(select(data, w2epsi_2, w2epsi_8, w2epsi_9),na.rm = T),
-         confuW3S1 = rowMeans(select(data, w3epsi_2, w3epsi_8, w3epsi_9),na.rm = T),
-         confuW4S1 = rowMeans(select(data, w4epsi_2, w4epsi_8, w4epsi_9),na.rm = T),
+         coherW1S1 = rowMeans(select(data, w1epsi_2, w1epsi_8, w1epsi_9),na.rm = T),
+         coherW2S1 = rowMeans(select(data, w2epsi_2, w2epsi_8, w2epsi_9),na.rm = T),
+         coherW3S1 = rowMeans(select(data, w3epsi_2, w3epsi_8, w3epsi_9),na.rm = T),
+         coherW4S1 = rowMeans(select(data, w4epsi_2, w4epsi_8, w4epsi_9),na.rm = T),
          
          # second self parcel
-         confuW1S2 = rowMeans(select(data, w1epsi_4, w1epsi_5, w1epsi_6),na.rm = T),
-         confuW2S2 = rowMeans(select(data, w2epsi_4, w2epsi_5, w2epsi_6),na.rm = T),
-         confuW3S2 = rowMeans(select(data, w3epsi_4, w3epsi_5, w3epsi_6),na.rm = T),
-         confuW4S2 = rowMeans(select(data, w4epsi_4, w4epsi_5, w4epsi_6),na.rm = T),
+         coherW1S2 = rowMeans(select(data, w1epsi_4, w1epsi_5, w1epsi_6),na.rm = T),
+         coherW2S2 = rowMeans(select(data, w2epsi_4, w2epsi_5, w2epsi_6),na.rm = T),
+         coherW3S2 = rowMeans(select(data, w3epsi_4, w3epsi_5, w3epsi_6),na.rm = T),
+         coherW4S2 = rowMeans(select(data, w4epsi_4, w4epsi_5, w4epsi_6),na.rm = T),
          
          # first peer parcel
-         confuW1P1 = rowMeans(select(data, pw1epsi_4, pw1epsi_8, pw1epsi_9), na.rm = T),
-         confuW2P1 = rowMeans(select(data, pw2epsi_4, pw2epsi_8, pw2epsi_9), na.rm = T),
-         confuW3P1 = rowMeans(select(data, pw3epsi_4, pw3epsi_8, pw3epsi_9), na.rm = T),
-         confuW4P1 = rowMeans(select(data, pw4epsi_4, pw4epsi_8, pw4epsi_9), na.rm = T),
+         coherW1P1 = rowMeans(select(data, pw1epsi_4, pw1epsi_8, pw1epsi_9), na.rm = T),
+         coherW2P1 = rowMeans(select(data, pw2epsi_4, pw2epsi_8, pw2epsi_9), na.rm = T),
+         coherW3P1 = rowMeans(select(data, pw3epsi_4, pw3epsi_8, pw3epsi_9), na.rm = T),
+         coherW4P1 = rowMeans(select(data, pw4epsi_4, pw4epsi_8, pw4epsi_9), na.rm = T),
          
          # second peer parcel
-         confuW1P2 = rowMeans(select(data, pw1epsi_2, pw1epsi_5, pw1epsi_6), na.rm = T),
-         confuW2P2 = rowMeans(select(data, pw2epsi_2, pw2epsi_5, pw2epsi_6), na.rm = T),
-         confuW3P2 = rowMeans(select(data, pw3epsi_2, pw3epsi_5, pw3epsi_6), na.rm = T),
-         confuW4P2 = rowMeans(select(data, pw4epsi_2, pw4epsi_5, pw4epsi_6), na.rm = T))
+         coherW1P2 = rowMeans(select(data, pw1epsi_2, pw1epsi_5, pw1epsi_6), na.rm = T),
+         coherW2P2 = rowMeans(select(data, pw2epsi_2, pw2epsi_5, pw2epsi_6), na.rm = T),
+         coherW3P2 = rowMeans(select(data, pw3epsi_2, pw3epsi_5, pw3epsi_6), na.rm = T),
+         coherW4P2 = rowMeans(select(data, pw4epsi_2, pw4epsi_5, pw4epsi_6), na.rm = T))
 
 data[data == "NaN"] <- NA
 
