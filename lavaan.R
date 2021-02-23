@@ -2151,6 +2151,492 @@ semPaths(lgmWithd, what = "col", whatLabels = "est", intercepts = T)
 
 # > Latent stability model ====
 
+# >> LSM Agreeableness ----
+
+### with aspects as parcels
+
+lgmAgree <- '
+
+# factor at each time point with same loading
+agree1 =~ compaW1S        + a * politW1S + 
+          peer * compaW1P + aa * politW1P
+
+agree2 =~ compaW2S        + a * politW2S + 
+          peer * compaW2P + aa * politW2P
+
+agree3 =~ compaW3S        + a * politW3S + 
+          peer * compaW3P + aa * politW3P
+  
+agree4 =~ compaW4S        + a * politW4S + 
+          peer * compaW4P + aa * politW4P
+
+# structural paths between time points 
+agree4 ~ agree3
+agree3 ~ agree2
+agree2 ~ agree1
+
+# error covariance - similar aspects across waves and informants
+compaW1S ~~ compaW2S + compaW3S + compaW4S +
+            compaW1P + compaW2P + compaW3P + compaW4P
+compaW2S ~~ compaW3S + compaW4S +
+            compaW1P + compaW2P + compaW3P + compaW4P
+compaW3S ~~ compaW4S +
+            compaW1P + compaW2P + compaW3P + compaW4P
+compaW4S ~~ compaW1P + compaW2P + compaW3P + compaW4P
+
+politW1S ~~ politW2S + politW3S + politW4S +
+            politW1P + politW2P + politW3P + politW4P
+politW2S ~~ politW3S + politW4S +
+            politW1P + politW2P + politW3P + politW4P
+politW3S ~~ politW4S +
+            politW1P + politW2P + politW3P + politW4P
+politW4S ~~ politW1P + politW2P + politW3P + politW4P
+
+compaW1P ~~ compaW2P + compaW3P + compaW4P
+compaW2P ~~ compaW3P + compaW4P
+compaW3P ~~ compaW4P
+
+politW1P ~~ politW2P + politW3P + politW4P
+politW2P ~~ politW3P + politW4P
+politW3P ~~ politW4P
+'
+lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
+summary(lgmAgree)
+
+semPaths(lgmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+### with random parcels
+lgmAgree <- '
+
+# factor at each time point with same loading
+agree1 =~ agreeW1S1        + a * agreeW1S2 + 
+           peer * agreeW1P1 + aa * agreeW1P2
+
+agree2 =~ agreeW2S1        + a * agreeW2S2 + 
+           peer * agreeW2P1 + aa * agreeW2P2
+
+agree3 =~ agreeW3S1        + a * agreeW3S2 + 
+           peer * agreeW3P1 + aa * agreeW3P2
+  
+agree4 =~ agreeW4S1        + a * agreeW4S2 + 
+           peer * agreeW4P1 + aa * agreeW4P2
+
+# structural paths between time points 
+agree4 ~ agree3
+agree3 ~ agree2
+agree2 ~ agree1
+
+# error covariance - similar parcels across waves
+agreeW1S1 ~~ agreeW2S1 + agreeW3S1 + agreeW4S1
+agreeW2S1 ~~ agreeW3S1 + agreeW4S1
+agreeW3S1 ~~ agreeW4S1
+
+agreeW1S2 ~~ agreeW2S2 + agreeW3S2 + agreeW4S2
+agreeW2S2 ~~ agreeW3S2 + agreeW4S2
+agreeW3S2 ~~ agreeW4S2
+
+agreeW1P1 ~~ agreeW2P1 + agreeW3P1 + agreeW4P1
+agreeW2P1 ~~ agreeW3P1 + agreeW4P1
+agreeW3P1 ~~ agreeW4P1
+
+agreeW1P2 ~~ agreeW2P2 + agreeW3P2 + agreeW4P2
+agreeW2P2 ~~ agreeW3P2 + agreeW4P2
+agreeW3P2 ~~ agreeW4P2
+'
+lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
+summary(lgmAgree)
+
+semPaths(lgmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+
+# >> LSM Conscientiousness ----
+
+### with aspects as parcels
+lsmConsci <- '
+
+# factor at each time point with same loading
+consci1 =~ indusW1S        + a * orderW1S + 
+          peer * indusW1P + aa * orderW1P
+
+consci2 =~ indusW2S        + a * orderW2S + 
+          peer * indusW2P + aa * orderW2P
+
+consci3 =~ indusW3S        + a * orderW3S + 
+          peer * indusW3P + aa * orderW3P
+  
+consci4 =~ indusW4S        + a * orderW4S + 
+          peer * indusW4P + aa * orderW4P
+
+# structural paths between time points 
+consci4 ~ consci3
+consci3 ~ consci2
+consci2 ~ consci1
+
+# error covariance - similar aspects across waves and informants
+indusW1S ~~ indusW2S + indusW3S + indusW4S +
+            indusW1P + indusW2P + indusW3P + indusW4P
+indusW2S ~~ indusW3S + indusW4S +
+            indusW1P + indusW2P + indusW3P + indusW4P
+indusW3S ~~ indusW4S +
+            indusW1P + indusW2P + indusW3P + indusW4P
+indusW4S ~~ indusW1P + indusW2P + indusW3P + indusW4P
+
+orderW1S ~~ orderW2S + orderW3S + orderW4S +
+            orderW1P + orderW2P + orderW3P + orderW4P
+orderW2S ~~ orderW3S + orderW4S +
+            orderW1P + orderW2P + orderW3P + orderW4P
+orderW3S ~~ orderW4S +
+            orderW1P + orderW2P + orderW3P + orderW4P
+orderW4S ~~ orderW1P + orderW2P + orderW3P + orderW4P
+
+indusW1P ~~ indusW2P + indusW3P + indusW4P
+indusW2P ~~ indusW3P + indusW4P
+indusW3P ~~ indusW4P
+
+orderW1P ~~ orderW2P + orderW3P + orderW4P
+orderW2P ~~ orderW3P + orderW4P
+orderW3P ~~ orderW4P
+'
+lsmConsci <- sem(lsmConsci, data = data, missing = "ML")
+summary(lsmConsci)
+
+semPaths(lsmConsci, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+### with random parcels 
+lsmconsci <- '
+
+# factor at each time point with same loading
+consci1 =~ consciW1S1        + a * consciW1S2 + 
+           peer * consciW1P1 + aa * consciW1P2
+
+consci2 =~ consciW2S1        + a * consciW2S2 + 
+           peer * consciW2P1 + aa * consciW2P2
+
+consci3 =~ consciW3S1        + a * consciW3S2 + 
+           peer * consciW3P1 + aa * consciW3P2
+  
+consci4 =~ consciW4S1        + a * consciW4S2 + 
+           peer * consciW4P1 + aa * consciW4P2
+
+# structural paths between time points 
+consci4 ~ consci3
+consci3 ~ consci2
+consci2 ~ consci1
+
+# error covariance - similar parcels across waves
+consciW1S1 ~~ consciW2S1 + consciW3S1 + consciW4S1
+consciW2S1 ~~ consciW3S1 + consciW4S1
+consciW3S1 ~~ consciW4S1
+
+consciW1S2 ~~ consciW2S2 + consciW3S2 + consciW4S2
+consciW2S2 ~~ consciW3S2 + consciW4S2
+consciW3S2 ~~ consciW4S2
+
+consciW1P1 ~~ consciW2P1 + consciW3P1 + consciW4P1
+consciW2P1 ~~ consciW3P1 + consciW4P1
+consciW3P1 ~~ consciW4P1
+
+consciW1P2 ~~ consciW2P2 + consciW3P2 + consciW4P2
+consciW2P2 ~~ consciW3P2 + consciW4P2
+consciW3P2 ~~ consciW4P2
+'
+lsmconsci <- sem(lsmconsci, data = data, missing = "ML")
+summary(lsmconsci)
+
+semPaths(lsmconsci, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+
+# >> LSM Extraversion ----
+
+### with aspects as parcels 
+lsmExtra <- '
+
+# factor at each time point with same loading
+extra1 =~ assertW1S        + a * enthuW1S + 
+          peer * assertW1P + aa * enthuW1P
+
+extra2 =~ assertW2S        + a * enthuW2S + 
+          peer * assertW2P + aa * enthuW2P
+
+extra3 =~ assertW3S        + a * enthuW3S + 
+          peer * assertW3P + aa * enthuW3P
+  
+extra4 =~ assertW4S        + a * enthuW4S + 
+          peer * assertW4P + aa * enthuW4P
+
+# structural paths between time points 
+extra4 ~ extra3
+extra3 ~ extra2
+extra2 ~ extra1
+
+# error covariance - similar aspects across waves and informants
+assertW1S ~~ assertW2S + assertW3S + assertW4S +
+            assertW1P + assertW2P + assertW3P + assertW4P
+assertW2S ~~ assertW3S + assertW4S +
+            assertW1P + assertW2P + assertW3P + assertW4P
+assertW3S ~~ assertW4S +
+            assertW1P + assertW2P + assertW3P + assertW4P
+assertW4S ~~ assertW1P + assertW2P + assertW3P + assertW4P
+
+enthuW1S ~~ enthuW2S + enthuW3S + enthuW4S +
+            enthuW1P + enthuW2P + enthuW3P + enthuW4P
+enthuW2S ~~ enthuW3S + enthuW4S +
+            enthuW1P + enthuW2P + enthuW3P + enthuW4P
+enthuW3S ~~ enthuW4S +
+            enthuW1P + enthuW2P + enthuW3P + enthuW4P
+enthuW4S ~~ enthuW1P + enthuW2P + enthuW3P + enthuW4P
+
+assertW1P ~~ assertW2P + assertW3P + assertW4P
+assertW2P ~~ assertW3P + assertW4P
+assertW3P ~~ assertW4P
+
+enthuW1P ~~ enthuW2P + enthuW3P + enthuW4P
+enthuW2P ~~ enthuW3P + enthuW4P
+enthuW3P ~~ enthuW4P
+'
+lsmExtra <- sem(lsmExtra, data = data, missing = "ML")
+summary(lsmExtra)
+
+semPaths(lsmExtra, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+### with random parcels
+lsmExtra <- '
+
+# factor at each time point with same loading
+extra1 =~ extraW1S1        + a * extraW1S2 + 
+           peer * extraW1P1 + aa * extraW1P2
+
+extra2 =~ extraW2S1        + a * extraW2S2 + 
+           peer * extraW2P1 + aa * extraW2P2
+
+extra3 =~ extraW3S1        + a * extraW3S2 + 
+           peer * extraW3P1 + aa * extraW3P2
+  
+extra4 =~ extraW4S1        + a * extraW4S2 + 
+           peer * extraW4P1 + aa * extraW4P2
+
+# structural paths between time points 
+extra4 ~ extra3
+extra3 ~ extra2
+extra2 ~ extra1
+
+# error covariance - similar parcels across waves
+extraW1S1 ~~ extraW2S1 + extraW3S1 + extraW4S1
+extraW2S1 ~~ extraW3S1 + extraW4S1
+extraW3S1 ~~ extraW4S1
+
+extraW1S2 ~~ extraW2S2 + extraW3S2 + extraW4S2
+extraW2S2 ~~ extraW3S2 + extraW4S2
+extraW3S2 ~~ extraW4S2
+
+extraW1P1 ~~ extraW2P1 + extraW3P1 + extraW4P1
+extraW2P1 ~~ extraW3P1 + extraW4P1
+extraW3P1 ~~ extraW4P1
+
+extraW1P2 ~~ extraW2P2 + extraW3P2 + extraW4P2
+extraW2P2 ~~ extraW3P2 + extraW4P2
+extraW3P2 ~~ extraW4P2
+'
+lsmExtra <- sem(lsmExtra, data = data, missing = "ML")
+summary(lsmExtra)
+
+semPaths(lsmExtra, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+
+# >> LSM Neuroticism ----
+
+### with aspects as parcels 
+lsmNeuro <- '
+
+# factor at each time point with same loading
+neuro1 =~ volatW1S        + a * withdW1S + 
+          peer * volatW1P + aa * withdW1P
+
+neuro2 =~ volatW2S        + a * withdW2S + 
+          peer * volatW2P + aa * withdW2P
+
+neuro3 =~ volatW3S        + a * withdW3S + 
+          peer * volatW3P + aa * withdW3P
+  
+neuro4 =~ volatW4S        + a * withdW4S + 
+          peer * volatW4P + aa * withdW4P
+
+# structural paths between time points 
+neuro4 ~ neuro3
+neuro3 ~ neuro2
+neuro2 ~ neuro1
+
+# error covariance - similar aspects across waves and informants
+volatW1S ~~ volatW2S + volatW3S + volatW4S +
+            volatW1P + volatW2P + volatW3P + volatW4P
+volatW2S ~~ volatW3S + volatW4S +
+            volatW1P + volatW2P + volatW3P + volatW4P
+volatW3S ~~ volatW4S +
+            volatW1P + volatW2P + volatW3P + volatW4P
+volatW4S ~~ volatW1P + volatW2P + volatW3P + volatW4P
+
+withdW1S ~~ withdW2S + withdW3S + withdW4S +
+            withdW1P + withdW2P + withdW3P + withdW4P
+withdW2S ~~ withdW3S + withdW4S +
+            withdW1P + withdW2P + withdW3P + withdW4P
+withdW3S ~~ withdW4S +
+            withdW1P + withdW2P + withdW3P + withdW4P
+withdW4S ~~ withdW1P + withdW2P + withdW3P + withdW4P
+
+volatW1P ~~ volatW2P + volatW3P + volatW4P
+volatW2P ~~ volatW3P + volatW4P
+volatW3P ~~ volatW4P
+
+withdW1P ~~ withdW2P + withdW3P + withdW4P
+withdW2P ~~ withdW3P + withdW4P
+withdW3P ~~ withdW4P
+'
+lsmNeuro <- sem(lsmNeuro, data = data, missing = "ML")
+summary(lsmNeuro)
+
+semPaths(lsmNeuro, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+### with random parcels
+lsmNeuro <- '
+
+# factor at each time point with same loading
+neuro1 =~ neuroW1S1        + a * neuroW1S2 + 
+           peer * neuroW1P1 + aa * neuroW1P2
+
+neuro2 =~ neuroW2S1        + a * neuroW2S2 + 
+           peer * neuroW2P1 + aa * neuroW2P2
+
+neuro3 =~ neuroW3S1        + a * neuroW3S2 + 
+           peer * neuroW3P1 + aa * neuroW3P2
+  
+neuro4 =~ neuroW4S1        + a * neuroW4S2 + 
+           peer * neuroW4P1 + aa * neuroW4P2
+
+# structural paths between time points 
+neuro4 ~ neuro3
+neuro3 ~ neuro2
+neuro2 ~ neuro1
+
+# error covariance - similar parcels across waves
+neuroW1S1 ~~ neuroW2S1 + neuroW3S1 + neuroW4S1
+neuroW2S1 ~~ neuroW3S1 + neuroW4S1
+neuroW3S1 ~~ neuroW4S1
+
+neuroW1S2 ~~ neuroW2S2 + neuroW3S2 + neuroW4S2
+neuroW2S2 ~~ neuroW3S2 + neuroW4S2
+neuroW3S2 ~~ neuroW4S2
+
+neuroW1P1 ~~ neuroW2P1 + neuroW3P1 + neuroW4P1
+neuroW2P1 ~~ neuroW3P1 + neuroW4P1
+neuroW3P1 ~~ neuroW4P1
+
+neuroW1P2 ~~ neuroW2P2 + neuroW3P2 + neuroW4P2
+neuroW2P2 ~~ neuroW3P2 + neuroW4P2
+neuroW3P2 ~~ neuroW4P2
+'
+lsmNeuro <- sem(lsmNeuro, data = data, missing = "ML")
+summary(lsmNeuro)
+
+semPaths(lsmNeuro, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+
+# >> LSM Openness domain ----
+
+### with aspects as parcels
+lsmOpend <- '
+
+# factor at each time point with same loading
+opend1 =~ intelW1S        + a * openaW1S + 
+          peer * intelW1P + aa * openaW1P
+
+opend2 =~ intelW2S        + a * openaW2S + 
+          peer * intelW2P + aa * openaW2P
+
+opend3 =~ intelW3S        + a * openaW3S + 
+          peer * intelW3P + aa * openaW3P
+  
+opend4 =~ intelW4S        + a * openaW4S + 
+          peer * intelW4P + aa * openaW4P
+
+# structural paths between time points 
+opend4 ~ opend3
+opend3 ~ opend2
+opend2 ~ opend1
+
+# error covariance - similar aspects across waves and informants
+intelW1S ~~ intelW2S + intelW3S + intelW4S +
+            intelW1P + intelW2P + intelW3P + intelW4P
+intelW2S ~~ intelW3S + intelW4S +
+            intelW1P + intelW2P + intelW3P + intelW4P
+intelW3S ~~ intelW4S +
+            intelW1P + intelW2P + intelW3P + intelW4P
+intelW4S ~~ intelW1P + intelW2P + intelW3P + intelW4P
+
+openaW1S ~~ openaW2S + openaW3S + openaW4S +
+            openaW1P + openaW2P + openaW3P + openaW4P
+openaW2S ~~ openaW3S + openaW4S +
+            openaW1P + openaW2P + openaW3P + openaW4P
+openaW3S ~~ openaW4S +
+            openaW1P + openaW2P + openaW3P + openaW4P
+openaW4S ~~ openaW1P + openaW2P + openaW3P + openaW4P
+
+intelW1P ~~ intelW2P + intelW3P + intelW4P
+intelW2P ~~ intelW3P + intelW4P
+intelW3P ~~ intelW4P
+
+openaW1P ~~ openaW2P + openaW3P + openaW4P
+openaW2P ~~ openaW3P + openaW4P
+openaW3P ~~ openaW4P
+'
+lsmOpend <- sem(lsmOpend, data = data, missing = "ML")
+summary(lsmOpend)
+
+semPaths(lsmOpend, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+### with random parcels
+lsmOpend <- '
+
+# factor at each time point with same loading
+opend1 =~ opendW1S1        + a * opendW1S2 + 
+           peer * opendW1P1 + aa * opendW1P2
+
+opend2 =~ opendW2S1        + a * opendW2S2 + 
+           peer * opendW2P1 + aa * opendW2P2
+
+opend3 =~ opendW3S1        + a * opendW3S2 + 
+           peer * opendW3P1 + aa * opendW3P2
+  
+opend4 =~ opendW4S1        + a * opendW4S2 + 
+           peer * opendW4P1 + aa * opendW4P2
+
+# structural paths between time points 
+opend4 ~ opend3
+opend3 ~ opend2
+opend2 ~ opend1
+
+# error covariance - similar parcels across waves
+opendW1S1 ~~ opendW2S1 + opendW3S1 + opendW4S1
+opendW2S1 ~~ opendW3S1 + opendW4S1
+opendW3S1 ~~ opendW4S1
+
+opendW1S2 ~~ opendW2S2 + opendW3S2 + opendW4S2
+opendW2S2 ~~ opendW3S2 + opendW4S2
+opendW3S2 ~~ opendW4S2
+
+opendW1P1 ~~ opendW2P1 + opendW3P1 + opendW4P1
+opendW2P1 ~~ opendW3P1 + opendW4P1
+opendW3P1 ~~ opendW4P1
+
+opendW1P2 ~~ opendW2P2 + opendW3P2 + opendW4P2
+opendW2P2 ~~ opendW3P2 + opendW4P2
+opendW3P2 ~~ opendW4P2
+'
+lsmOpend <- sem(lsmOpend, data = data, missing = "ML")
+summary(lsmOpend)
+
+semPaths(lsmOpend, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+
 # >> LSM Assertiveness ----
 lsmAssert <- '
 
