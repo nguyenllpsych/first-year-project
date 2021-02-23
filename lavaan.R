@@ -47,6 +47,13 @@ sample(c(0,1,2,3,4,5,6,7,8,9,
 # peer domain randomization - 1,2,3,6,7,9,10,30,50,70 vs. 0,4,5,8,00,20,40,60,80,90
 sample(c(0,1,2,3,4,5,6,7,8,9,
          00,10,20,30,40,50,60,70,80,90), 10)
+# self identity randomization 
+sample(c(1,3,7,10,11,12), 3) #confusion - 7,10,11 vs. 1,3,12
+sample(c(2,4,5,6,8,9), 3) #coherence - 2,8,9 vs. 4,5,6
+# peer identity randomization 
+sample(c(1,3,7,10,11,12), 3) #confusion - 3,7,10 vs. 1,11,12
+sample(c(2,4,5,6,8,9), 3) #coherence - 4,8,9 vs. 2,5,6
+
 
 # >>> Aspects ----
 
@@ -731,6 +738,60 @@ data <- data %>%
                                      pw3bf_25, pw3bf_45, pw3bf_65, pw3bf_85, pw3bf_95), na.rm = T),
          opendW4P2 = rowMeans(select(data, pw4bf_100, pw4bf_40, pw4bf_50, pw4bf_80, pw4bf_5, 
                                      pw4bf_25, pw4bf_45, pw4bf_65, pw4bf_85, pw4bf_95), na.rm = T))
+
+# >>> Identity ----
+
+### Confusion
+data <- data %>% 
+  mutate(# first self parcel
+         confuW1S1 = rowMeans(select(data, w1epsi_7, w1epsi_10, w1epsi_11),na.rm = T),
+         confuW2S1 = rowMeans(select(data, w2epsi_7, w2epsi_10, w2epsi_11),na.rm = T),
+         confuW3S1 = rowMeans(select(data, w3epsi_7, w3epsi_10, w3epsi_11),na.rm = T),
+         confuW4S1 = rowMeans(select(data, w4epsi_7, w4epsi_10, w4epsi_11),na.rm = T),
+         
+         # second self parcel
+         confuW1S2 = rowMeans(select(data, w1epsi_1, w1epsi_3, w1epsi_12),na.rm = T),
+         confuW2S2 = rowMeans(select(data, w2epsi_1, w2epsi_3, w2epsi_12),na.rm = T),
+         confuW3S2 = rowMeans(select(data, w3epsi_1, w3epsi_3, w3epsi_12),na.rm = T),
+         confuW4S2 = rowMeans(select(data, w4epsi_1, w4epsi_3, w4epsi_12),na.rm = T),
+         
+         # first peer parcel
+         confuW1P1 = rowMeans(select(data, pw1epsi_3, pw1epsi_7, pw1epsi_10), na.rm = T),
+         confuW2P1 = rowMeans(select(data, pw2epsi_3, pw2epsi_7, pw2epsi_10), na.rm = T),
+         confuW3P1 = rowMeans(select(data, pw3epsi_3, pw3epsi_7, pw3epsi_10), na.rm = T),
+         confuW4P1 = rowMeans(select(data, pw4epsi_3, pw4epsi_7, pw4epsi_10), na.rm = T),
+         
+         # second peer parcel
+         confuW1P2 = rowMeans(select(data, pw1epsi_1, pw1epsi_11, pw1epsi_12), na.rm = T),
+         confuW2P2 = rowMeans(select(data, pw2epsi_1, pw2epsi_11, pw2epsi_12), na.rm = T),
+         confuW3P2 = rowMeans(select(data, pw3epsi_1, pw3epsi_11, pw3epsi_12), na.rm = T),
+         confuW4P2 = rowMeans(select(data, pw4epsi_1, pw4epsi_11, pw4epsi_12), na.rm = T))
+
+### Coherence
+data <- data %>% 
+  mutate(# first self parcel
+         confuW1S1 = rowMeans(select(data, w1epsi_2, w1epsi_8, w1epsi_9),na.rm = T),
+         confuW2S1 = rowMeans(select(data, w2epsi_2, w2epsi_8, w2epsi_9),na.rm = T),
+         confuW3S1 = rowMeans(select(data, w3epsi_2, w3epsi_8, w3epsi_9),na.rm = T),
+         confuW4S1 = rowMeans(select(data, w4epsi_2, w4epsi_8, w4epsi_9),na.rm = T),
+         
+         # second self parcel
+         confuW1S2 = rowMeans(select(data, w1epsi_4, w1epsi_5, w1epsi_6),na.rm = T),
+         confuW2S2 = rowMeans(select(data, w2epsi_4, w2epsi_5, w2epsi_6),na.rm = T),
+         confuW3S2 = rowMeans(select(data, w3epsi_4, w3epsi_5, w3epsi_6),na.rm = T),
+         confuW4S2 = rowMeans(select(data, w4epsi_4, w4epsi_5, w4epsi_6),na.rm = T),
+         
+         # first peer parcel
+         confuW1P1 = rowMeans(select(data, pw1epsi_4, pw1epsi_8, pw1epsi_9), na.rm = T),
+         confuW2P1 = rowMeans(select(data, pw2epsi_4, pw2epsi_8, pw2epsi_9), na.rm = T),
+         confuW3P1 = rowMeans(select(data, pw3epsi_4, pw3epsi_8, pw3epsi_9), na.rm = T),
+         confuW4P1 = rowMeans(select(data, pw4epsi_4, pw4epsi_8, pw4epsi_9), na.rm = T),
+         
+         # second peer parcel
+         confuW1P2 = rowMeans(select(data, pw1epsi_2, pw1epsi_5, pw1epsi_6), na.rm = T),
+         confuW2P2 = rowMeans(select(data, pw2epsi_2, pw2epsi_5, pw2epsi_6), na.rm = T),
+         confuW3P2 = rowMeans(select(data, pw3epsi_2, pw3epsi_5, pw3epsi_6), na.rm = T),
+         confuW4P2 = rowMeans(select(data, pw4epsi_2, pw4epsi_5, pw4epsi_6), na.rm = T))
 
 data[data == "NaN"] <- NA
 
@@ -2149,6 +2210,144 @@ summary(lgmWithd, fit.measures = T, standardized = T)
 semPaths(lgmWithd, what = "col", whatLabels = "est", intercepts = T)
 
 
+# >> LGM Confusion ----
+
+lgmConfu <- '
+
+# factor at each time point with same loading
+confu1 =~ confuW1S1        + a * confuW1S2 + 
+           peer * confuW1P1 + aa * confuW1P2
+
+confu2 =~ confuW2S1        + a * confuW2S2 + 
+           peer * confuW2P1 + aa * confuW2P2
+
+confu3 =~ confuW3S1        + a * confuW3S2 + 
+           peer * confuW3P1 + aa * confuW3P2
+  
+confu4 =~ confuW4S1        + a * confuW4S2 + 
+           peer * confuW4P1 + aa * confuW4P2
+
+# second confu factor for intercept and slope
+interc =~ 1*confu1 + 1*confu2 + 1*confu3 + 1*confu4
+slope =~ 0*confu1 + 6*confu2 + 13*confu3 + 19*confu4
+interc ~~ slope
+interc ~ 1
+slope ~ 1
+
+# fix zero intercepts
+confuW1S1 ~ 0*1
+confuW2S1 ~ 0*1
+confuW3S1 ~ 0*1
+confuW4S1 ~ 0*1
+
+# fix equal intercepts
+confuW1S2 ~ b*1
+confuW2S2 ~ b*1
+confuW3S2 ~ b*1
+confuW4S2 ~ b*1
+
+confuW1P1 ~ c*1
+confuW2P1 ~ c*1
+confuW3P1 ~ c*1
+confuW4P1 ~ c*1
+
+confuW1P2 ~ d*1
+confuW2P2 ~ d*1
+confuW3P2 ~ d*1
+confuW4P2 ~ d*1
+
+# error covariance - similar parcels across waves
+confuW1S1 ~~ confuW2S1 + confuW3S1 + confuW4S1
+confuW2S1 ~~ confuW3S1 + confuW4S1
+confuW3S1 ~~ confuW4S1
+
+confuW1S2 ~~ confuW2S2 + confuW3S2 + confuW4S2
+confuW2S2 ~~ confuW3S2 + confuW4S2
+confuW3S2 ~~ confuW4S2
+
+confuW1P1 ~~ confuW2P1 + confuW3P1 + confuW4P1
+confuW2P1 ~~ confuW3P1 + confuW4P1
+confuW3P1 ~~ confuW4P1
+
+confuW1P2 ~~ confuW2P2 + confuW3P2 + confuW4P2
+confuW2P2 ~~ confuW3P2 + confuW4P2
+confuW3P2 ~~ confuW4P2
+'
+lgmConfu <- sem(lgmConfu, data = data, missing = "ML")
+summary(lgmConfu, fit.measures = T, standardized = T)
+
+semPaths(lgmConfu, what = "col", whatLabels = "est", intercepts = T)
+
+
+# >> LGM Coherence ----
+
+lgmCoher <- '
+
+# factor at each time point with same loading
+coher1 =~ coherW1S1        + a * coherW1S2 + 
+           peer * coherW1P1 + aa * coherW1P2
+
+coher2 =~ coherW2S1        + a * coherW2S2 + 
+           peer * coherW2P1 + aa * coherW2P2
+
+coher3 =~ coherW3S1        + a * coherW3S2 + 
+           peer * coherW3P1 + aa * coherW3P2
+  
+coher4 =~ coherW4S1        + a * coherW4S2 + 
+           peer * coherW4P1 + aa * coherW4P2
+
+# second coher factor for intercept and slope
+interc =~ 1*coher1 + 1*coher2 + 1*coher3 + 1*coher4
+slope =~ 0*coher1 + 6*coher2 + 13*coher3 + 19*coher4
+interc ~~ slope
+interc ~ 1
+slope ~ 1
+
+# fix zero intercepts
+coherW1S1 ~ 0*1
+coherW2S1 ~ 0*1
+coherW3S1 ~ 0*1
+coherW4S1 ~ 0*1
+
+# fix equal intercepts
+coherW1S2 ~ b*1
+coherW2S2 ~ b*1
+coherW3S2 ~ b*1
+coherW4S2 ~ b*1
+
+coherW1P1 ~ c*1
+coherW2P1 ~ c*1
+coherW3P1 ~ c*1
+coherW4P1 ~ c*1
+
+coherW1P2 ~ d*1
+coherW2P2 ~ d*1
+coherW3P2 ~ d*1
+coherW4P2 ~ d*1
+
+# error covariance - similar parcels across waves
+coherW1S1 ~~ coherW2S1 + coherW3S1 + coherW4S1
+coherW2S1 ~~ coherW3S1 + coherW4S1
+coherW3S1 ~~ coherW4S1
+
+coherW1S2 ~~ coherW2S2 + coherW3S2 + coherW4S2
+coherW2S2 ~~ coherW3S2 + coherW4S2
+coherW3S2 ~~ coherW4S2
+
+coherW1P1 ~~ coherW2P1 + coherW3P1 + coherW4P1
+coherW2P1 ~~ coherW3P1 + coherW4P1
+coherW3P1 ~~ coherW4P1
+
+coherW1P2 ~~ coherW2P2 + coherW3P2 + coherW4P2
+coherW2P2 ~~ coherW3P2 + coherW4P2
+coherW3P2 ~~ coherW4P2
+'
+lgmCoher <- sem(lgmCoher, data = data, missing = "ML")
+summary(lgmCoher, fit.measures = T, standardized = T)
+
+semPaths(lgmCoher, what = "col", whatLabels = "est", intercepts = T)
+
+
 # > Latent stability model ====
 
 # >> LSM Agreeableness ----
@@ -3084,3 +3283,93 @@ lsmWithd <- sem(lsmWithd, data = data, missing = "ML")
 summary(lsmWithd)
 
 semPaths(lsmWithd, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+
+# >> LSM Confusion ----
+
+lsmConfu <- '
+
+# factor at each time point with same loading
+confu1 =~ confuW1S1        + a * confuW1S2 + 
+           peer * confuW1P1 + aa * confuW1P2
+
+confu2 =~ confuW2S1        + a * confuW2S2 + 
+           peer * confuW2P1 + aa * confuW2P2
+
+confu3 =~ confuW3S1        + a * confuW3S2 + 
+           peer * confuW3P1 + aa * confuW3P2
+  
+confu4 =~ confuW4S1        + a * confuW4S2 + 
+           peer * confuW4P1 + aa * confuW4P2
+
+# structural paths between time points 
+confu4 ~ confu3
+confu3 ~ confu2
+confu2 ~ confu1
+
+# error covariance - similar parcels across waves
+confuW1S1 ~~ confuW2S1 + confuW3S1 + confuW4S1
+confuW2S1 ~~ confuW3S1 + confuW4S1
+confuW3S1 ~~ confuW4S1
+
+confuW1S2 ~~ confuW2S2 + confuW3S2 + confuW4S2
+confuW2S2 ~~ confuW3S2 + confuW4S2
+confuW3S2 ~~ confuW4S2
+
+confuW1P1 ~~ confuW2P1 + confuW3P1 + confuW4P1
+confuW2P1 ~~ confuW3P1 + confuW4P1
+confuW3P1 ~~ confuW4P1
+
+confuW1P2 ~~ confuW2P2 + confuW3P2 + confuW4P2
+confuW2P2 ~~ confuW3P2 + confuW4P2
+confuW3P2 ~~ confuW4P2
+'
+lsmConfu <- sem(lsmConfu, data = data, missing = "ML")
+summary(lsmConfu)
+
+semPaths(lsmConfu, what = "col", whatLabels = "est", structural = T, layout = "spring")
+
+
+# >> LSM Coherence ----
+
+lsmCoher <- '
+
+# factor at each time point with same loading
+coher1 =~ coherW1S1        + a * coherW1S2 + 
+           peer * coherW1P1 + aa * coherW1P2
+
+coher2 =~ coherW2S1        + a * coherW2S2 + 
+           peer * coherW2P1 + aa * coherW2P2
+
+coher3 =~ coherW3S1        + a * coherW3S2 + 
+           peer * coherW3P1 + aa * coherW3P2
+  
+coher4 =~ coherW4S1        + a * coherW4S2 + 
+           peer * coherW4P1 + aa * coherW4P2
+
+# structural paths between time points 
+coher4 ~ coher3
+coher3 ~ coher2
+coher2 ~ coher1
+
+# error covariance - similar parcels across waves
+coherW1S1 ~~ coherW2S1 + coherW3S1 + coherW4S1
+coherW2S1 ~~ coherW3S1 + coherW4S1
+coherW3S1 ~~ coherW4S1
+
+coherW1S2 ~~ coherW2S2 + coherW3S2 + coherW4S2
+coherW2S2 ~~ coherW3S2 + coherW4S2
+coherW3S2 ~~ coherW4S2
+
+coherW1P1 ~~ coherW2P1 + coherW3P1 + coherW4P1
+coherW2P1 ~~ coherW3P1 + coherW4P1
+coherW3P1 ~~ coherW4P1
+
+coherW1P2 ~~ coherW2P2 + coherW3P2 + coherW4P2
+coherW2P2 ~~ coherW3P2 + coherW4P2
+coherW3P2 ~~ coherW4P2
+'
+lsmCoher <- sem(lsmCoher, data = data, missing = "ML")
+summary(lsmCoher)
+
+semPaths(lsmCoher, what = "col", whatLabels = "est", structural = T, layout = "spring")
