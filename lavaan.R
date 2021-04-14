@@ -13,6 +13,8 @@
 require(lavaan)
 require(tidyverse)
 require(semPlot)
+require(semTools)
+require(mice)
 set.seed(202102)
 
 data <- read.csv(file = "lavaanData.csv", na.strings = "-999", header = F)
@@ -34,6 +36,37 @@ colnames(data) <- c(#self reports:
                     paste0("pw3epsi_", 1:12),
                     paste0("pw4bf_", 1:100),
                     paste0("pw4epsi_", 1:12))
+
+# >> Imputations ----
+imp <- mice(data = data,
+            m = 20, maxit = 20,
+            print = FALSE,
+            seed = 20210412)
+saveRDS(imp, file = "self_imp_mids")
+
+imp <- readRDS("self_imp_mids")
+
+###create 20 separate datasets from imputation
+##selfw_1 <- complete(imp, 1)
+##selfw_2 <- complete(imp, 2)
+##selfw_3 <- complete(imp, 3)
+##selfw_4 <- complete(imp, 4)
+##selfw_5 <- complete(imp, 5)
+##selfw_6 <- complete(imp, 6)
+##selfw_7 <- complete(imp, 7)
+##selfw_8 <- complete(imp, 8)
+##selfw_9 <- complete(imp, 9)
+##selfw_10 <- complete(imp, 10)
+##selfw_11 <- complete(imp, 11)
+##selfw_12 <- complete(imp, 12)
+##selfw_13 <- complete(imp, 13)
+##selfw_14 <- complete(imp, 14)
+##selfw_15 <- complete(imp, 15)
+##selfw_16 <- complete(imp, 16)
+##selfw_17 <- complete(imp, 17)
+##selfw_18 <- complete(imp, 18)
+##selfw_19 <- complete(imp, 19)
+##selfw_20 <- complete(imp, 20)
 
 # >> Parcels ----
 
@@ -952,7 +985,39 @@ summary(lgmAgree, fit.measures = T, standardized = T)
 
 semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
 
+### parcelAllocation
+item.syntax <- c(paste0("f1 =~ w1bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)),
+                 paste0("f1 =~ pw1bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)),
+                 paste0("f2 =~ w2bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)),
+                 paste0("f2 =~ pw2bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)),
+                 paste0("f3 =~ w3bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)),
+                 paste0("f3 =~ pw3bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)),
+                 paste0("f4 =~ w4bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)),
+                 paste0("f4 =~ pw4bf_", c(2,12,22,32,42,52,62,72,82,92,
+                                        7,17,27,37,47,57,67,77,87,97)))
+mod.parcels <- '
+f1 =~ par1 + par2 + par3 + par4
+f2 =~ par5 + par6 + par7 + par8
+f3 =~ par9 + par10 + par11 + par12
+f4 =~ par13 + par14 + par15 + par16
+'
 
+parcel.names <- paste0("par", 1:16)
+
+parcelAllocation(mod.parcels, data = data, nAlloc = 100,
+                 parcel.names = parcel.names, item.syntax = item.syntax,
+                 std.lv = TRUE)
+
+dataList <- parcelAllocation(mod.parcels, data = data, nAlloc = 100,
+                             parcel.names = parcel.names,
+                             item.syntax = item.syntax)
 # >> LGM Conscientiousness ----
 
 ### with aspects as parcels
@@ -1106,7 +1171,6 @@ lgmConsci <- sem(lgmConsci, data = data, missing = "ML")
 summary(lgmConsci, fit.measures = T, standardized = T)
 
 semPaths(lgmConsci, what = "col", whatLabels = "est", intercepts = T)
-
 
 # >> LGM Extraversion ----
 
