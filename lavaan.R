@@ -4,7 +4,7 @@
 ##                                          ##
 ##  Linh Nguyen                             ##
 ##  Created: Feb-15-2021                    ##
-##  Updated: Feb-23-2021                    ##
+##  Updated: Apr-14-2021                    ##
 ##############################################
 
 
@@ -36,37 +36,6 @@ colnames(data) <- c(#self reports:
                     paste0("pw3epsi_", 1:12),
                     paste0("pw4bf_", 1:100),
                     paste0("pw4epsi_", 1:12))
-
-# >> Imputations ----
-imp <- mice(data = data,
-            m = 20, maxit = 20,
-            print = FALSE,
-            seed = 20210412)
-saveRDS(imp, file = "self_imp_mids")
-
-imp <- readRDS("self_imp_mids")
-
-###create 20 separate datasets from imputation
-##selfw_1 <- complete(imp, 1)
-##selfw_2 <- complete(imp, 2)
-##selfw_3 <- complete(imp, 3)
-##selfw_4 <- complete(imp, 4)
-##selfw_5 <- complete(imp, 5)
-##selfw_6 <- complete(imp, 6)
-##selfw_7 <- complete(imp, 7)
-##selfw_8 <- complete(imp, 8)
-##selfw_9 <- complete(imp, 9)
-##selfw_10 <- complete(imp, 10)
-##selfw_11 <- complete(imp, 11)
-##selfw_12 <- complete(imp, 12)
-##selfw_13 <- complete(imp, 13)
-##selfw_14 <- complete(imp, 14)
-##selfw_15 <- complete(imp, 15)
-##selfw_16 <- complete(imp, 16)
-##selfw_17 <- complete(imp, 17)
-##selfw_18 <- complete(imp, 18)
-##selfw_19 <- complete(imp, 19)
-##selfw_20 <- complete(imp, 20)
 
 # >> Parcels ----
 
@@ -1018,6 +987,179 @@ parcelAllocation(mod.parcels, data = data, nAlloc = 100,
 dataList <- parcelAllocation(mod.parcels, data = data, nAlloc = 100,
                              parcel.names = parcel.names,
                              item.syntax = item.syntax)
+
+### with latent method factors
+lgmAgree <- '
+# factor at each time point with same loading
+agree1 =~ agreeW1S1        + a * agreeW1S2 + 
+           peer * agreeW1P1 + aa * agreeW1P2
+
+agree2 =~ agreeW2S1        + a * agreeW2S2 + 
+           peer * agreeW2P1 + aa * agreeW2P2
+
+agree3 =~ agreeW3S1        + a * agreeW3S2 + 
+           peer * agreeW3P1 + aa * agreeW3P2
+  
+agree4 =~ agreeW4S1        + a * agreeW4S2 + 
+           peer * agreeW4P1 + aa * agreeW4P2
+
+# second order factor for intercept and slope
+interc =~ 1*agree1 + 1*agree2 + 1*agree3 + 1*agree4
+slope =~ 0*agree1 + 6*agree2 + 13*agree3 + 19*agree4
+interc ~~ slope
+interc ~ 1
+slope ~ 1
+
+# fix zero intercepts
+agreeW1S1 ~ 0*1
+agreeW2S1 ~ 0*1
+agreeW3S1 ~ 0*1
+agreeW4S1 ~ 0*1
+
+# fix equal intercepts
+agreeW1S2 ~ b*1
+agreeW2S2 ~ b*1
+agreeW3S2 ~ b*1
+agreeW4S2 ~ b*1
+
+agreeW1P1 ~ c*1
+agreeW2P1 ~ c*1
+agreeW3P1 ~ c*1
+agreeW4P1 ~ c*1
+
+agreeW1P2 ~ d*1
+agreeW2P2 ~ d*1
+agreeW3P2 ~ d*1
+agreeW4P2 ~ d*1
+
+# latent method variances
+self =~ agreeW1S1 + agreeW1S2 + 
+        agreeW2S1 + agreeW2S2 + 
+        agreeW3S1 + agreeW3S2 +
+        agreeW4S1 + agreeW4S2
+peer =~ agreeW1P1 + agreeW1P2 + 
+        agreeW2P1 + agreeW2P2 + 
+        agreeW3P1 + agreeW3P2 +
+        agreeW4P1 + agreeW4P2
+'
+lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
+summary(lgmAgree, fit.measures = T, standardized = T)
+
+semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
+
+### with random parcels and equality constraints in residual covar
+lgmAgree <- '
+
+# factor at each time point with same loading
+agree1 =~ agreeW1S1        + a * agreeW1S2 + 
+           peer * agreeW1P1 + aa * agreeW1P2
+
+agree2 =~ agreeW2S1        + a * agreeW2S2 + 
+           peer * agreeW2P1 + aa * agreeW2P2
+
+agree3 =~ agreeW3S1        + a * agreeW3S2 + 
+           peer * agreeW3P1 + aa * agreeW3P2
+  
+agree4 =~ agreeW4S1        + a * agreeW4S2 + 
+           peer * agreeW4P1 + aa * agreeW4P2
+
+# second order factor for intercept and slope
+interc =~ 1*agree1 + 1*agree2 + 1*agree3 + 1*agree4
+slope =~ 0*agree1 + 6*agree2 + 13*agree3 + 19*agree4
+interc ~~ slope
+interc ~ 1
+slope ~ 1
+
+# fix zero intercepts
+agreeW1S1 ~ 0*1
+agreeW2S1 ~ 0*1
+agreeW3S1 ~ 0*1
+agreeW4S1 ~ 0*1
+
+# fix equal intercepts
+agreeW1S2 ~ b*1
+agreeW2S2 ~ b*1
+agreeW3S2 ~ b*1
+agreeW4S2 ~ b*1
+
+agreeW1P1 ~ c*1
+agreeW2P1 ~ c*1
+agreeW3P1 ~ c*1
+agreeW4P1 ~ c*1
+
+agreeW1P2 ~ d*1
+agreeW2P2 ~ d*1
+agreeW3P2 ~ d*1
+agreeW4P2 ~ d*1
+
+# error covariance - similar parcels across waves
+agreeW1S1 ~~ covs1*agreeW2S1 + covs2*agreeW3S1 + covs3*agreeW4S1 
+agreeW2S1 ~~ covs1*agreeW3S1 + covs2*agreeW4S1
+agreeW3S1 ~~ covs1*agreeW4S1
+
+agreeW1S2 ~~ covs1*agreeW2S2 + covs2*agreeW3S2 + covs3*agreeW4S2
+agreeW2S2 ~~ covs1*agreeW3S2 + covs2*agreeW4S2
+agreeW3S2 ~~ covs1*agreeW4S2
+
+agreeW1P1 ~~ covp1*agreeW2P1 + covp2*agreeW3P1 + covp3*agreeW4P1
+agreeW2P1 ~~ covp1*agreeW3P1 + covp2*agreeW4P1
+agreeW3P1 ~~ covp1*agreeW4P1
+
+agreeW1P2 ~~ covp1*agreeW2P2 + covp2*agreeW3P2 + covp3*agreeW4P2
+agreeW2P2 ~~ covp1*agreeW3P2 + covp2*agreeW4P2
+agreeW3P2 ~~ covp1*agreeW4P2
+
+# positive constraints for variances
+agree1 ~~ var1*agree1
+agree2 ~~ var2*agree2
+agree3 ~~ var3*agree3
+agree4 ~~ var4*agree4
+interc ~~ var5*interc
+slope ~~ var6*slope
+var1 > 0
+var2 > 0
+var3 > 0
+var4 > 0
+var5 > 0
+var6 > 0
+agreeW1S1 ~~ var7*agreeW1S1
+agreeW2S1 ~~ var8*agreeW2S1
+agreeW3S1 ~~ var9*agreeW3S1
+agreeW4S1 ~~ var10*agreeW4S1
+agreeW1S2 ~~ var11*agreeW1S2
+agreeW2S2 ~~ var12*agreeW2S2
+agreeW3S2 ~~ var13*agreeW3S2
+agreeW4S2 ~~ var14*agreeW4S2
+agreeW1P1 ~~ var15*agreeW1P1
+agreeW2P1 ~~ var16*agreeW2P1
+agreeW3P1 ~~ var17*agreeW3P1
+agreeW4P1 ~~ var18*agreeW4P1
+agreeW1P2 ~~ var19*agreeW1P2
+agreeW2P2 ~~ var20*agreeW2P2
+agreeW3P2 ~~ var21*agreeW3P2
+agreeW4P2 ~~ var22*agreeW4P2
+var7 > 0
+var8 > 0
+var9 > 0
+var10 > 0
+var11 > 0
+var12 > 0
+var13 > 0
+var14 > 0
+var15 > 0
+var16 > 0
+var17 > 0
+var18 > 0
+var19 > 0
+var20 > 0
+var21 > 0
+var22 > 0
+'
+lgmAgree <- sem(lgmAgree, data = data, missing = "FIML")
+summary(lgmAgree, fit.measures = T, standardized = T)
+
+semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
+
 # >> LGM Conscientiousness ----
 
 ### with aspects as parcels
@@ -1171,6 +1313,88 @@ lgmConsci <- sem(lgmConsci, data = data, missing = "ML")
 summary(lgmConsci, fit.measures = T, standardized = T)
 
 semPaths(lgmConsci, what = "col", whatLabels = "est", intercepts = T)
+
+### with random parcels and equality constraints in residual covar
+lgmConsci <- '
+
+# factor at each time point with same loading
+consci1 =~ consciW1S1        + a * consciW1S2 + 
+           peer * consciW1P1 + aa * consciW1P2
+
+consci2 =~ consciW2S1        + a * consciW2S2 + 
+           peer * consciW2P1 + aa * consciW2P2
+
+consci3 =~ consciW3S1        + a * consciW3S2 + 
+           peer * consciW3P1 + aa * consciW3P2
+  
+consci4 =~ consciW4S1        + a * consciW4S2 + 
+           peer * consciW4P1 + aa * consciW4P2
+
+# second order factor for intercept and slope
+interc =~ 1*consci1 + 1*consci2 + 1*consci3 + 1*consci4
+slope =~ 0*consci1 + 6*consci2 + 13*consci3 + 19*consci4
+interc ~~ slope
+interc ~ 1
+slope ~ 1
+
+# fix zero intercepts
+consciW1S1 ~ 0*1
+consciW2S1 ~ 0*1
+consciW3S1 ~ 0*1
+consciW4S1 ~ 0*1
+
+# fix equal intercepts
+consciW1S2 ~ b*1
+consciW2S2 ~ b*1
+consciW3S2 ~ b*1
+consciW4S2 ~ b*1
+
+consciW1P1 ~ c*1
+consciW2P1 ~ c*1
+consciW3P1 ~ c*1
+consciW4P1 ~ c*1
+
+consciW1P2 ~ d*1
+consciW2P2 ~ d*1
+consciW3P2 ~ d*1
+consciW4P2 ~ d*1
+
+# error covariance - similar parcels across waves
+consciW1S1 ~~ consciW2S1 + consciW3S1 + consciW4S1
+consciW2S1 ~~ consciW3S1 + consciW4S1
+consciW3S1 ~~ consciW4S1
+
+consciW1S2 ~~ consciW2S2 + consciW3S2 + consciW4S2
+consciW2S2 ~~ consciW3S2 + consciW4S2
+consciW3S2 ~~ consciW4S2
+
+consciW1P1 ~~ consciW2P1 + consciW3P1 + consciW4P1
+consciW2P1 ~~ consciW3P1 + consciW4P1
+consciW3P1 ~~ consciW4P1
+
+consciW1P2 ~~ consciW2P2 + consciW3P2 + consciW4P2
+consciW2P2 ~~ consciW3P2 + consciW4P2
+consciW3P2 ~~ consciW4P2
+
+# positive constraints for variances
+consci1 ~~ var1*consci1
+consci2 ~~ var2*consci2
+consci3 ~~ var3*consci3
+consci4 ~~ var4*consci4
+interc ~~ var5*interc
+slope ~~ var6*slope
+var1 > 0
+var2 > 0
+var3 > 0
+var4 > 0
+var5 > 0
+var6 > 0
+'
+lgmConsci <- sem(lgmConsci, data = data, missing = "FIML")
+summary(lgmConsci, fit.measures = T, standardized = T)
+
+semPaths(lgmConsci, what = "col", whatLabels = "est", intercepts = T)
+
 
 # >> LGM Extraversion ----
 
@@ -1792,7 +2016,6 @@ lgmCompa <- sem(lgmCompa, data = data, missing = "ML")
 summary(lgmCompa, fit.measures = T, standardized = T)
 
 semPaths(lgmCompa, what = "col", whatLabels = "est", intercepts = T)
-
 
 # >> LGM Enthusiasm ----
 
