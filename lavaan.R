@@ -4,7 +4,7 @@
 ##                                          ##
 ##  Linh Nguyen                             ##
 ##  Created: Feb-15-2021                    ##
-##  Updated: Apr-14-2021                    ##
+##  Updated: Apr-26-2021                    ##
 ##############################################
 
 
@@ -13,8 +13,6 @@
 require(lavaan)
 require(tidyverse)
 require(semPlot)
-require(semTools)
-require(mice)
 set.seed(202102)
 
 data <- read.csv(file = "lavaanData.csv", na.strings = "-999", header = F)
@@ -1047,7 +1045,7 @@ summary(lgmAgree, fit.measures = T, standardized = T)
 
 semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
 
-### with random parcels and equality constraints in residual covar
+### with random parcels + equality and positive constraints in residual covar
 lgmAgree <- '
 
 # factor at each time point with same loading
