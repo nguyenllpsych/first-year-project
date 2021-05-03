@@ -935,16 +935,6 @@ agreeW3P1 ~~ agreeW4P1
 agreeW1P2 ~~ agreeW2P2 + agreeW3P2 + agreeW4P2
 agreeW2P2 ~~ agreeW3P2 + agreeW4P2
 agreeW3P2 ~~ agreeW4P2
-
-# error covariance - same method at one wave
-agreeW1S1 ~~ agreeW1S2
-agreeW1P1 ~~ agreeW1P2
-agreeW2S1 ~~ agreeW2S2
-agreeW2P1 ~~ agreeW2P2
-agreeW3S1 ~~ agreeW3S2
-agreeW3P1 ~~ agreeW3P2
-agreeW4S1 ~~ agreeW4S2
-agreeW4P1 ~~ agreeW4P2
 '
 lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
 summary(lgmAgree, fit.measures = T, standardized = T, ci = T)
@@ -1295,16 +1285,6 @@ consciW3P1 ~~ consciW4P1
 consciW1P2 ~~ consciW2P2 + consciW3P2 + consciW4P2
 consciW2P2 ~~ consciW3P2 + consciW4P2
 consciW3P2 ~~ consciW4P2
-
-# error covariance - same method at one wave
-consciW1S1 ~~ consciW1S2
-consciW1P1 ~~ consciW1P2
-consciW2S1 ~~ consciW2S2
-consciW2P1 ~~ consciW2P2
-consciW3S1 ~~ consciW3S2
-consciW3P1 ~~ consciW3P2
-consciW4S1 ~~ consciW4S2
-consciW4P1 ~~ consciW4P2
 '
 lgmConsci <- sem(lgmConsci, data = data, missing = "ML")
 summary(lgmConsci, fit.measures = T, standardized = T, ci = T)
@@ -1531,16 +1511,6 @@ extraW3P1 ~~ extraW4P1
 extraW1P2 ~~ extraW2P2 + extraW3P2 + extraW4P2
 extraW2P2 ~~ extraW3P2 + extraW4P2
 extraW3P2 ~~ extraW4P2
-
-# error covariance - same method at one wave
-extraW1S1 ~~ extraW1S2
-extraW1P1 ~~ extraW1P2
-extraW2S1 ~~ extraW2S2
-extraW2P1 ~~ extraW2P2
-extraW3S1 ~~ extraW3S2
-extraW3P1 ~~ extraW3P2
-extraW4S1 ~~ extraW4S2
-extraW4P1 ~~ extraW4P2
 '
 lgmExtra <- sem(lgmExtra, data = data, missing = "ML")
 summary(lgmExtra, fit.measures = T, standardized = T, ci = T)
@@ -1686,16 +1656,6 @@ neuroW3P1 ~~ neuroW4P1
 neuroW1P2 ~~ neuroW2P2 + neuroW3P2 + neuroW4P2
 neuroW2P2 ~~ neuroW3P2 + neuroW4P2
 neuroW3P2 ~~ neuroW4P2
-
-# error covariance - same method at one wave
-neuroW1S1 ~~ neuroW1S2
-neuroW1P1 ~~ neuroW1P2
-neuroW2S1 ~~ neuroW2S2
-neuroW2P1 ~~ neuroW2P2
-neuroW3S1 ~~ neuroW3S2
-neuroW3P1 ~~ neuroW3P2
-neuroW4S1 ~~ neuroW4S2
-neuroW4P1 ~~ neuroW4P2
 '
 lgmNeuro <- sem(lgmNeuro, data = data, missing = "ML")
 summary(lgmNeuro, fit.measures = T, standardized = T, ci = T)
@@ -1841,16 +1801,6 @@ opendW3P1 ~~ opendW4P1
 opendW1P2 ~~ opendW2P2 + opendW3P2 + opendW4P2
 opendW2P2 ~~ opendW3P2 + opendW4P2
 opendW3P2 ~~ opendW4P2
-
-# error covariance - same method at one wave
-opendW1S1 ~~ opendW1S2
-opendW1P1 ~~ opendW1P2
-opendW2S1 ~~ opendW2S2
-opendW2P1 ~~ opendW2P2
-opendW3S1 ~~ opendW3S2
-opendW3P1 ~~ opendW3P2
-opendW4S1 ~~ opendW4S2
-opendW4P1 ~~ opendW4P2
 '
 lgmOpend <- sem(lgmOpend, data = data, missing = "ML")
 summary(lgmOpend, fit.measures = T, standardized = T, ci = T)
@@ -1920,16 +1870,6 @@ assertW3P1 ~~ assertW4P1
 assertW1P2 ~~ assertW2P2 + assertW3P2 + assertW4P2
 assertW2P2 ~~ assertW3P2 + assertW4P2
 assertW3P2 ~~ assertW4P2
-
-# error covariance - same method at one wave
-assertW1S1 ~~ assertW1S2
-assertW1P1 ~~ assertW1P2
-assertW2S1 ~~ assertW2S2
-assertW2P1 ~~ assertW2P2
-assertW3S1 ~~ assertW3S2
-assertW3P1 ~~ assertW3P2
-assertW4S1 ~~ assertW4S2
-assertW4P1 ~~ assertW4P2
 '
 lgmAssert <- sem(lgmAssert, data = data, missing = "ML")
 summary(lgmAssert, fit.measures = T, standardized = T, ci = T)
@@ -1998,16 +1938,6 @@ compaW3P1 ~~ compaW4P1
 compaW1P2 ~~ compaW2P2 + compaW3P2 + compaW4P2
 compaW2P2 ~~ compaW3P2 + compaW4P2
 compaW3P2 ~~ compaW4P2
-
-# error covariance - same method at one wave
-compaW1S1 ~~ compaW1S2
-compaW1P1 ~~ compaW1P2
-compaW2S1 ~~ compaW2S2
-compaW2P1 ~~ compaW2P2
-compaW3S1 ~~ compaW3S2
-compaW3P1 ~~ compaW3P2
-compaW4S1 ~~ compaW4S2
-compaW4P1 ~~ compaW4P2
 '
 lgmCompa <- sem(lgmCompa, data = data, missing = "ML")
 summary(lgmCompa, fit.measures = T, standardized = T, ci = T)
@@ -2076,16 +2006,6 @@ enthuW3P1 ~~ enthuW4P1
 enthuW1P2 ~~ enthuW2P2 + enthuW3P2 + enthuW4P2
 enthuW2P2 ~~ enthuW3P2 + enthuW4P2
 enthuW3P2 ~~ enthuW4P2
-
-# error covariance - same method at one wave
-enthuW1S1 ~~ enthuW1S2
-enthuW1P1 ~~ enthuW1P2
-enthuW2S1 ~~ enthuW2S2
-enthuW2P1 ~~ enthuW2P2
-enthuW3S1 ~~ enthuW3S2
-enthuW3P1 ~~ enthuW3P2
-enthuW4S1 ~~ enthuW4S2
-enthuW4P1 ~~ enthuW4P2
 '
 lgmEnthu <- sem(lgmEnthu, data = data, missing = "ML")
 summary(lgmEnthu, fit.measures = T, standardized = T, ci = T)
@@ -2154,16 +2074,6 @@ indusW3P1 ~~ indusW4P1
 indusW1P2 ~~ indusW2P2 + indusW3P2 + indusW4P2
 indusW2P2 ~~ indusW3P2 + indusW4P2
 indusW3P2 ~~ indusW4P2
-
-# error covariance - same method at one wave
-indusW1S1 ~~ indusW1S2
-indusW1P1 ~~ indusW1P2
-indusW2S1 ~~ indusW2S2
-indusW2P1 ~~ indusW2P2
-indusW3S1 ~~ indusW3S2
-indusW3P1 ~~ indusW3P2
-indusW4S1 ~~ indusW4S2
-indusW4P1 ~~ indusW4P2
 '
 lgmIndus <- sem(lgmIndus, data = data, missing = "ML")
 summary(lgmIndus, fit.measures = T, standardized = T, ci = T)
@@ -2233,16 +2143,6 @@ intelW3P1 ~~ intelW4P1
 intelW1P2 ~~ intelW2P2 + intelW3P2 + intelW4P2
 intelW2P2 ~~ intelW3P2 + intelW4P2
 intelW3P2 ~~ intelW4P2
-
-# error covariance - same method at one wave
-intelW1S1 ~~ intelW1S2
-intelW1P1 ~~ intelW1P2
-intelW2S1 ~~ intelW2S2
-intelW2P1 ~~ intelW2P2
-intelW3S1 ~~ intelW3S2
-intelW3P1 ~~ intelW3P2
-intelW4S1 ~~ intelW4S2
-intelW4P1 ~~ intelW4P2
 '
 lgmIntel <- sem(lgmIntel, data = data, missing = "ML")
 summary(lgmIntel, fit.measures = T, standardized = T, ci = T)
@@ -2312,16 +2212,6 @@ openaW3P1 ~~ openaW4P1
 openaW1P2 ~~ openaW2P2 + openaW3P2 + openaW4P2
 openaW2P2 ~~ openaW3P2 + openaW4P2
 openaW3P2 ~~ openaW4P2
-
-# error covariance - same method at one wave
-openaW1S1 ~~ openaW1S2
-openaW1P1 ~~ openaW1P2
-openaW2S1 ~~ openaW2S2
-openaW2P1 ~~ openaW2P2
-openaW3S1 ~~ openaW3S2
-openaW3P1 ~~ openaW3P2
-openaW4S1 ~~ openaW4S2
-openaW4P1 ~~ openaW4P2
 '
 lgmOpena <- sem(lgmOpena, data = data, missing = "ML")
 summary(lgmOpena, fit.measures = T, standardized = T, ci = T)
@@ -2391,16 +2281,6 @@ orderW3P1 ~~ orderW4P1
 orderW1P2 ~~ orderW2P2 + orderW3P2 + orderW4P2
 orderW2P2 ~~ orderW3P2 + orderW4P2
 orderW3P2 ~~ orderW4P2
-
-# error covariance - same method at one wave
-orderW1S1 ~~ orderW1S2
-orderW1P1 ~~ orderW1P2
-orderW2S1 ~~ orderW2S2
-orderW2P1 ~~ orderW2P2
-orderW3S1 ~~ orderW3S2
-orderW3P1 ~~ orderW3P2
-orderW4S1 ~~ orderW4S2
-orderW4P1 ~~ orderW4P2
 '
 lgmOrder <- sem(lgmOrder, data = data, missing = "ML")
 summary(lgmOrder, fit.measures = T, standardized = T, ci = T)
@@ -2470,16 +2350,6 @@ politW3P1 ~~ politW4P1
 politW1P2 ~~ politW2P2 + politW3P2 + politW4P2
 politW2P2 ~~ politW3P2 + politW4P2
 politW3P2 ~~ politW4P2
-
-# error covariance - same method at one wave
-politW1S1 ~~ politW1S2
-politW1P1 ~~ politW1P2
-politW2S1 ~~ politW2S2
-politW2P1 ~~ politW2P2
-politW3S1 ~~ politW3S2
-politW3P1 ~~ politW3P2
-politW4S1 ~~ politW4S2
-politW4P1 ~~ politW4P2
 '
 lgmPolit <- sem(lgmPolit, data = data, missing = "ML")
 summary(lgmPolit, fit.measures = T, standardized = T, ci = T)
@@ -2549,16 +2419,6 @@ volatW3P1 ~~ volatW4P1
 volatW1P2 ~~ volatW2P2 + volatW3P2 + volatW4P2
 volatW2P2 ~~ volatW3P2 + volatW4P2
 volatW3P2 ~~ volatW4P2
-
-# error covariance - same method at one wave
-volatW1S1 ~~ volatW1S2
-volatW1P1 ~~ volatW1P2
-volatW2S1 ~~ volatW2S2
-volatW2P1 ~~ volatW2P2
-volatW3S1 ~~ volatW3S2
-volatW3P1 ~~ volatW3P2
-volatW4S1 ~~ volatW4S2
-volatW4P1 ~~ volatW4P2
 '
 lgmVolat <- sem(lgmVolat, data = data, missing = "ML")
 summary(lgmVolat, fit.measures = T, standardized = T, ci = T)
@@ -2628,16 +2488,6 @@ withdW3P1 ~~ withdW4P1
 withdW1P2 ~~ withdW2P2 + withdW3P2 + withdW4P2
 withdW2P2 ~~ withdW3P2 + withdW4P2
 withdW3P2 ~~ withdW4P2
-
-# error covariance - same method at one wave
-withdW1S1 ~~ withdW1S2
-withdW1P1 ~~ withdW1P2
-withdW2S1 ~~ withdW2S2
-withdW2P1 ~~ withdW2P2
-withdW3S1 ~~ withdW3S2
-withdW3P1 ~~ withdW3P2
-withdW4S1 ~~ withdW4S2
-withdW4P1 ~~ withdW4P2
 '
 lgmWithd <- sem(lgmWithd, data = data, missing = "ML")
 summary(lgmWithd, fit.measures = T, standardized = T, ci = T)
@@ -2707,16 +2557,6 @@ confuW3P1 ~~ confuW4P1
 confuW1P2 ~~ confuW2P2 + confuW3P2 + confuW4P2
 confuW2P2 ~~ confuW3P2 + confuW4P2
 confuW3P2 ~~ confuW4P2
-
-# error covariance - same method at one wave
-confuW1S1 ~~ confuW1S2
-confuW1P1 ~~ confuW1P2
-confuW2S1 ~~ confuW2S2
-confuW2P1 ~~ confuW2P2
-confuW3S1 ~~ confuW3S2
-confuW3P1 ~~ confuW3P2
-confuW4S1 ~~ confuW4S2
-confuW4P1 ~~ confuW4P2
 '
 lgmConfu <- sem(lgmConfu, data = data, missing = "ML")
 summary(lgmConfu, fit.measures = T, standardized = T, ci = T)
@@ -2786,16 +2626,6 @@ coherW3P1 ~~ coherW4P1
 coherW1P2 ~~ coherW2P2 + coherW3P2 + coherW4P2
 coherW2P2 ~~ coherW3P2 + coherW4P2
 coherW3P2 ~~ coherW4P2
-
-# error covariance - same method at one wave
-coherW1S1 ~~ coherW1S2
-coherW1P1 ~~ coherW1P2
-coherW2S1 ~~ coherW2S2
-coherW2P1 ~~ coherW2P2
-coherW3S1 ~~ coherW3S2
-coherW3P1 ~~ coherW3P2
-coherW4S1 ~~ coherW4S2
-coherW4P1 ~~ coherW4P2
 '
 lgmCoher <- sem(lgmCoher, data = data, missing = "ML")
 summary(lgmCoher, fit.measures = T, standardized = T, ci = T)
@@ -2896,16 +2726,6 @@ agreeW3P1 ~~ agreeW4P1
 agreeW1P2 ~~ agreeW2P2 + agreeW3P2 + agreeW4P2
 agreeW2P2 ~~ agreeW3P2 + agreeW4P2
 agreeW3P2 ~~ agreeW4P2
-
-# error covariance - same method at one wave
-agreeW1S1 ~~ agreeW1S2
-agreeW1P1 ~~ agreeW1P2
-agreeW2S1 ~~ agreeW2S2
-agreeW2P1 ~~ agreeW2P2
-agreeW3S1 ~~ agreeW3S2
-agreeW3P1 ~~ agreeW3P2
-agreeW4S1 ~~ agreeW4S2
-agreeW4P1 ~~ agreeW4P2
 '
 lsmAgree <- sem(lsmAgree, data = data, missing = "ML")
 summary(lsmAgree, fit.measures = T, standardized = T, ci = T)
@@ -3003,16 +2823,6 @@ consciW3P1 ~~ consciW4P1
 consciW1P2 ~~ consciW2P2 + consciW3P2 + consciW4P2
 consciW2P2 ~~ consciW3P2 + consciW4P2
 consciW3P2 ~~ consciW4P2
-
-# error covariance - same method at one wave
-consciW1S1 ~~ consciW1S2
-consciW1P1 ~~ consciW1P2
-consciW2S1 ~~ consciW2S2
-consciW2P1 ~~ consciW2P2
-consciW3S1 ~~ consciW3S2
-consciW3P1 ~~ consciW3P2
-consciW4S1 ~~ consciW4S2
-consciW4P1 ~~ consciW4P2
 '
 lsmconsci <- sem(lsmconsci, data = data, missing = "ML")
 summary(lsmconsci, fit.measures = T, standardized = T, ci = T)
@@ -3110,16 +2920,6 @@ extraW3P1 ~~ extraW4P1
 extraW1P2 ~~ extraW2P2 + extraW3P2 + extraW4P2
 extraW2P2 ~~ extraW3P2 + extraW4P2
 extraW3P2 ~~ extraW4P2
-
-# error covariance - same method at one wave
-extraW1S1 ~~ extraW1S2
-extraW1P1 ~~ extraW1P2
-extraW2S1 ~~ extraW2S2
-extraW2P1 ~~ extraW2P2
-extraW3S1 ~~ extraW3S2
-extraW3P1 ~~ extraW3P2
-extraW4S1 ~~ extraW4S2
-extraW4P1 ~~ extraW4P2
 '
 lsmExtra <- sem(lsmExtra, data = data, missing = "ML")
 summary(lsmExtra, fit.measures = T, standardized = T, ci = T)
@@ -3217,16 +3017,6 @@ neuroW3P1 ~~ neuroW4P1
 neuroW1P2 ~~ neuroW2P2 + neuroW3P2 + neuroW4P2
 neuroW2P2 ~~ neuroW3P2 + neuroW4P2
 neuroW3P2 ~~ neuroW4P2
-
-# error covariance - same method at one wave
-neuroW1S1 ~~ neuroW1S2
-neuroW1P1 ~~ neuroW1P2
-neuroW2S1 ~~ neuroW2S2
-neuroW2P1 ~~ neuroW2P2
-neuroW3S1 ~~ neuroW3S2
-neuroW3P1 ~~ neuroW3P2
-neuroW4S1 ~~ neuroW4S2
-neuroW4P1 ~~ neuroW4P2
 '
 lsmNeuro <- sem(lsmNeuro, data = data, missing = "ML")
 summary(lsmNeuro, fit.measures = T, standardized = T, ci = T)
@@ -3324,16 +3114,6 @@ opendW3P1 ~~ opendW4P1
 opendW1P2 ~~ opendW2P2 + opendW3P2 + opendW4P2
 opendW2P2 ~~ opendW3P2 + opendW4P2
 opendW3P2 ~~ opendW4P2
-
-# error covariance - same method at one wave
-opendW1S1 ~~ opendW1S2
-opendW1P1 ~~ opendW1P2
-opendW2S1 ~~ opendW2S2
-opendW2P1 ~~ opendW2P2
-opendW3S1 ~~ opendW3S2
-opendW3P1 ~~ opendW3P2
-opendW4S1 ~~ opendW4S2
-opendW4P1 ~~ opendW4P2
 '
 lsmOpend <- sem(lsmOpend, data = data, missing = "ML")
 summary(lsmOpend, fit.measures = T, standardized = T, ci = T)
@@ -3378,16 +3158,6 @@ assertW3P1 ~~ assertW4P1
 assertW1P2 ~~ assertW2P2 + assertW3P2 + assertW4P2
 assertW2P2 ~~ assertW3P2 + assertW4P2
 assertW3P2 ~~ assertW4P2
-
-# error covariance - same method at one wave
-assertW1S1 ~~ assertW1S2
-assertW1P1 ~~ assertW1P2
-assertW2S1 ~~ assertW2S2
-assertW2P1 ~~ assertW2P2
-assertW3S1 ~~ assertW3S2
-assertW3P1 ~~ assertW3P2
-assertW4S1 ~~ assertW4S2
-assertW4P1 ~~ assertW4P2
 '
 lsmAssert <- sem(lsmAssert, data = data, missing = "ML")
 summary(lsmAssert, fit.measures = T, standardized = T, ci = T)
@@ -3433,16 +3203,6 @@ compaW3P1 ~~ compaW4P1
 compaW1P2 ~~ compaW2P2 + compaW3P2 + compaW4P2
 compaW2P2 ~~ compaW3P2 + compaW4P2
 compaW3P2 ~~ compaW4P2
-
-# error covariance - same method at one wave
-compaW1S1 ~~ compaW1S2
-compaW1P1 ~~ compaW1P2
-compaW2S1 ~~ compaW2S2
-compaW2P1 ~~ compaW2P2
-compaW3S1 ~~ compaW3S2
-compaW3P1 ~~ compaW3P2
-compaW4S1 ~~ compaW4S2
-compaW4P1 ~~ compaW4P2
 '
 lsmCompa <- sem(lsmCompa, data = data, missing = "ML")
 summary(lsmCompa, fit.measures = T, standardized = T, ci = T)
@@ -3488,16 +3248,6 @@ enthuW3P1 ~~ enthuW4P1
 enthuW1P2 ~~ enthuW2P2 + enthuW3P2 + enthuW4P2
 enthuW2P2 ~~ enthuW3P2 + enthuW4P2
 enthuW3P2 ~~ enthuW4P2
-
-# error covariance - same method at one wave
-enthuW1S1 ~~ enthuW1S2
-enthuW1P1 ~~ enthuW1P2
-enthuW2S1 ~~ enthuW2S2
-enthuW2P1 ~~ enthuW2P2
-enthuW3S1 ~~ enthuW3S2
-enthuW3P1 ~~ enthuW3P2
-enthuW4S1 ~~ enthuW4S2
-enthuW4P1 ~~ enthuW4P2
 '
 lsmEnthu <- sem(lsmEnthu, data = data, missing = "ML")
 summary(lsmEnthu, fit.measures = T, standardized = T, ci = T)
@@ -3543,16 +3293,6 @@ indusW3P1 ~~ indusW4P1
 indusW1P2 ~~ indusW2P2 + indusW3P2 + indusW4P2
 indusW2P2 ~~ indusW3P2 + indusW4P2
 indusW3P2 ~~ indusW4P2
-
-# error covariance - same method at one wave
-indusW1S1 ~~ indusW1S2
-indusW1P1 ~~ indusW1P2
-indusW2S1 ~~ indusW2S2
-indusW2P1 ~~ indusW2P2
-indusW3S1 ~~ indusW3S2
-indusW3P1 ~~ indusW3P2
-indusW4S1 ~~ indusW4S2
-indusW4P1 ~~ indusW4P2
 '
 lsmIndus <- sem(lsmIndus, data = data, missing = "ML")
 summary(lsmIndus, fit.measures = T, standardized = T, ci = T)
@@ -3598,16 +3338,6 @@ intelW3P1 ~~ intelW4P1
 intelW1P2 ~~ intelW2P2 + intelW3P2 + intelW4P2
 intelW2P2 ~~ intelW3P2 + intelW4P2
 intelW3P2 ~~ intelW4P2
-
-# error covariance - same method at one wave
-intelW1S1 ~~ intelW1S2
-intelW1P1 ~~ intelW1P2
-intelW2S1 ~~ intelW2S2
-intelW2P1 ~~ intelW2P2
-intelW3S1 ~~ intelW3S2
-intelW3P1 ~~ intelW3P2
-intelW4S1 ~~ intelW4S2
-intelW4P1 ~~ intelW4P2
 '
 lsmIntel <- sem(lsmIntel, data = data, missing = "ML")
 summary(lsmIntel, fit.measures = T, standardized = T, ci = T)
@@ -3653,16 +3383,6 @@ openaW3P1 ~~ openaW4P1
 openaW1P2 ~~ openaW2P2 + openaW3P2 + openaW4P2
 openaW2P2 ~~ openaW3P2 + openaW4P2
 openaW3P2 ~~ openaW4P2
-
-# error covariance - same method at one wave
-openaW1S1 ~~ openaW1S2
-openaW1P1 ~~ openaW1P2
-openaW2S1 ~~ openaW2S2
-openaW2P1 ~~ openaW2P2
-openaW3S1 ~~ openaW3S2
-openaW3P1 ~~ openaW3P2
-openaW4S1 ~~ openaW4S2
-openaW4P1 ~~ openaW4P2
 '
 lsmOpena <- sem(lsmOpena, data = data, missing = "ML")
 summary(lsmOpena, fit.measures = T, standardized = T, ci = T)
@@ -3708,16 +3428,6 @@ orderW3P1 ~~ orderW4P1
 orderW1P2 ~~ orderW2P2 + orderW3P2 + orderW4P2
 orderW2P2 ~~ orderW3P2 + orderW4P2
 orderW3P2 ~~ orderW4P2
-
-# error covariance - same method at one wave
-orderW1S1 ~~ orderW1S2
-orderW1P1 ~~ orderW1P2
-orderW2S1 ~~ orderW2S2
-orderW2P1 ~~ orderW2P2
-orderW3S1 ~~ orderW3S2
-orderW3P1 ~~ orderW3P2
-orderW4S1 ~~ orderW4S2
-orderW4P1 ~~ orderW4P2
 '
 lsmOrder <- sem(lsmOrder, data = data, missing = "ML")
 summary(lsmOrder, fit.measures = T, standardized = T, ci = T)
@@ -3763,16 +3473,6 @@ politW3P1 ~~ politW4P1
 politW1P2 ~~ politW2P2 + politW3P2 + politW4P2
 politW2P2 ~~ politW3P2 + politW4P2
 politW3P2 ~~ politW4P2
-
-# error covariance - same method at one wave
-politW1S1 ~~ politW1S2
-politW1P1 ~~ politW1P2
-politW2S1 ~~ politW2S2
-politW2P1 ~~ politW2P2
-politW3S1 ~~ politW3S2
-politW3P1 ~~ politW3P2
-politW4S1 ~~ politW4S2
-politW4P1 ~~ politW4P2
 '
 lsmPolit <- sem(lsmPolit, data = data, missing = "ML")
 summary(lsmPolit, fit.measures = T, standardized = T, ci = T)
@@ -3818,16 +3518,6 @@ volatW3P1 ~~ volatW4P1
 volatW1P2 ~~ volatW2P2 + volatW3P2 + volatW4P2
 volatW2P2 ~~ volatW3P2 + volatW4P2
 volatW3P2 ~~ volatW4P2
-
-# error covariance - same method at one wave
-volatW1S1 ~~ volatW1S2
-volatW1P1 ~~ volatW1P2
-volatW2S1 ~~ volatW2S2
-volatW2P1 ~~ volatW2P2
-volatW3S1 ~~ volatW3S2
-volatW3P1 ~~ volatW3P2
-volatW4S1 ~~ volatW4S2
-volatW4P1 ~~ volatW4P2
 '
 lsmVolat <- sem(lsmVolat, data = data, missing = "ML")
 summary(lsmVolat, fit.measures = T, standardized = T, ci = T)
@@ -3873,16 +3563,6 @@ withdW3P1 ~~ withdW4P1
 withdW1P2 ~~ withdW2P2 + withdW3P2 + withdW4P2
 withdW2P2 ~~ withdW3P2 + withdW4P2
 withdW3P2 ~~ withdW4P2
-
-# error covariance - same method at one wave
-withdW1S1 ~~ withdW1S2
-withdW1P1 ~~ withdW1P2
-withdW2S1 ~~ withdW2S2
-withdW2P1 ~~ withdW2P2
-withdW3S1 ~~ withdW3S2
-withdW3P1 ~~ withdW3P2
-withdW4S1 ~~ withdW4S2
-withdW4P1 ~~ withdW4P2
 '
 lsmWithd <- sem(lsmWithd, data = data, missing = "ML")
 summary(lsmWithd, fit.measures = T, standardized = T, ci = T)
@@ -3928,16 +3608,6 @@ confuW3P1 ~~ confuW4P1
 confuW1P2 ~~ confuW2P2 + confuW3P2 + confuW4P2
 confuW2P2 ~~ confuW3P2 + confuW4P2
 confuW3P2 ~~ confuW4P2
-
-# error covariance - same method at one wave
-confuW1S1 ~~ confuW1S2
-confuW1P1 ~~ confuW1P2
-confuW2S1 ~~ confuW2S2
-confuW2P1 ~~ confuW2P2
-confuW3S1 ~~ confuW3S2
-confuW3P1 ~~ confuW3P2
-confuW4S1 ~~ confuW4S2
-confuW4P1 ~~ confuW4P2
 '
 lsmConfu <- sem(lsmConfu, data = data, missing = "ML")
 summary(lsmConfu, fit.measures = T, standardized = T, ci = T)
@@ -3983,16 +3653,6 @@ coherW3P1 ~~ coherW4P1
 coherW1P2 ~~ coherW2P2 + coherW3P2 + coherW4P2
 coherW2P2 ~~ coherW3P2 + coherW4P2
 coherW3P2 ~~ coherW4P2
-
-# error covariance - same method at one wave
-coherW1S1 ~~ coherW1S2
-coherW1P1 ~~ coherW1P2
-coherW2S1 ~~ coherW2S2
-coherW2P1 ~~ coherW2P2
-coherW3S1 ~~ coherW3S2
-coherW3P1 ~~ coherW3P2
-coherW4S1 ~~ coherW4S2
-coherW4P1 ~~ coherW4P2
 '
 lsmCoher <- sem(lsmCoher, data = data, missing = "ML")
 summary(lsmCoher, fit.measures = T, standardized = T, ci = T)
