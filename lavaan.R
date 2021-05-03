@@ -2,7 +2,6 @@
 ##  First Year Project: Personality Change  ##
 ##  Latent models: self + peer              ##
 ##                                          ##
-##  Linh Nguyen                             ##
 ##  Created: Feb-15-2021                    ##
 ##  Updated: Apr-26-2021                    ##
 ##############################################
@@ -871,7 +870,7 @@ politW2P ~~ politW3P + politW4P
 politW3P ~~ politW4P
 '
 lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
-summary(lgmAgree, fit.measures = T, standardized = T)
+summary(lgmAgree, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
 
@@ -948,7 +947,7 @@ agreeW4S1 ~~ agreeW4S2
 agreeW4P1 ~~ agreeW4P2
 '
 lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
-summary(lgmAgree, fit.measures = T, standardized = T)
+summary(lgmAgree, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1041,7 +1040,7 @@ peer =~ agreeW1P1 + agreeW1P2 +
         agreeW4P1 + agreeW4P2
 '
 lgmAgree <- sem(lgmAgree, data = data, missing = "ML")
-summary(lgmAgree, fit.measures = T, standardized = T)
+summary(lgmAgree, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1154,7 +1153,7 @@ var21 > 0
 var22 > 0
 '
 lgmAgree <- sem(lgmAgree, data = data, missing = "FIML")
-summary(lgmAgree, fit.measures = T, standardized = T)
+summary(lgmAgree, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmAgree, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1231,7 +1230,7 @@ orderW2P ~~ orderW3P + orderW4P
 orderW3P ~~ orderW4P
 '
 lgmConsci <- sem(lgmConsci, data = data, missing = "ML")
-summary(lgmConsci, fit.measures = T, standardized = T)
+summary(lgmConsci, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmConsci, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1308,7 +1307,7 @@ consciW4S1 ~~ consciW4S2
 consciW4P1 ~~ consciW4P2
 '
 lgmConsci <- sem(lgmConsci, data = data, missing = "ML")
-summary(lgmConsci, fit.measures = T, standardized = T)
+summary(lgmConsci, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmConsci, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1389,7 +1388,7 @@ var5 > 0
 var6 > 0
 '
 lgmConsci <- sem(lgmConsci, data = data, missing = "FIML")
-summary(lgmConsci, fit.measures = T, standardized = T)
+summary(lgmConsci, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmConsci, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1467,7 +1466,7 @@ enthuW2P ~~ enthuW3P + enthuW4P
 enthuW3P ~~ enthuW4P
 '
 lgmExtra <- sem(lgmExtra, data = data, missing = "ML")
-summary(lgmExtra, fit.measures = T, standardized = T)
+summary(lgmExtra, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmExtra, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1544,7 +1543,7 @@ extraW4S1 ~~ extraW4S2
 extraW4P1 ~~ extraW4P2
 '
 lgmExtra <- sem(lgmExtra, data = data, missing = "ML")
-summary(lgmExtra, fit.measures = T, standardized = T)
+summary(lgmExtra, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmExtra, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1622,7 +1621,7 @@ withdW2P ~~ withdW3P + withdW4P
 withdW3P ~~ withdW4P
 '
 lgmNeuro <- sem(lgmNeuro, data = data, missing = "ML")
-summary(lgmNeuro, fit.measures = T, standardized = T)
+summary(lgmNeuro, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmNeuro, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1699,7 +1698,7 @@ neuroW4S1 ~~ neuroW4S2
 neuroW4P1 ~~ neuroW4P2
 '
 lgmNeuro <- sem(lgmNeuro, data = data, missing = "ML")
-summary(lgmNeuro, fit.measures = T, standardized = T)
+summary(lgmNeuro, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmNeuro, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1777,7 +1776,7 @@ openaW2P ~~ openaW3P + openaW4P
 openaW3P ~~ openaW4P
 '
 lgmOpend <- sem(lgmOpend, data = data, missing = "ML")
-summary(lgmOpend, fit.measures = T, standardized = T)
+summary(lgmOpend, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmOpend, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1854,7 +1853,7 @@ opendW4S1 ~~ opendW4S2
 opendW4P1 ~~ opendW4P2
 '
 lgmOpend <- sem(lgmOpend, data = data, missing = "ML")
-summary(lgmOpend, fit.measures = T, standardized = T)
+summary(lgmOpend, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmOpend, what = "col", whatLabels = "est", intercepts = T)
 
@@ -1933,7 +1932,7 @@ assertW4S1 ~~ assertW4S2
 assertW4P1 ~~ assertW4P2
 '
 lgmAssert <- sem(lgmAssert, data = data, missing = "ML")
-summary(lgmAssert, fit.measures = T, standardized = T)
+summary(lgmAssert, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmAssert, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2011,7 +2010,7 @@ compaW4S1 ~~ compaW4S2
 compaW4P1 ~~ compaW4P2
 '
 lgmCompa <- sem(lgmCompa, data = data, missing = "ML")
-summary(lgmCompa, fit.measures = T, standardized = T)
+summary(lgmCompa, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmCompa, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2089,7 +2088,7 @@ enthuW4S1 ~~ enthuW4S2
 enthuW4P1 ~~ enthuW4P2
 '
 lgmEnthu <- sem(lgmEnthu, data = data, missing = "ML")
-summary(lgmEnthu, fit.measures = T, standardized = T)
+summary(lgmEnthu, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmEnthu, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2167,7 +2166,7 @@ indusW4S1 ~~ indusW4S2
 indusW4P1 ~~ indusW4P2
 '
 lgmIndus <- sem(lgmIndus, data = data, missing = "ML")
-summary(lgmIndus, fit.measures = T, standardized = T)
+summary(lgmIndus, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmIndus, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2246,7 +2245,7 @@ intelW4S1 ~~ intelW4S2
 intelW4P1 ~~ intelW4P2
 '
 lgmIntel <- sem(lgmIntel, data = data, missing = "ML")
-summary(lgmIntel, fit.measures = T, standardized = T)
+summary(lgmIntel, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmIntel, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2325,7 +2324,7 @@ openaW4S1 ~~ openaW4S2
 openaW4P1 ~~ openaW4P2
 '
 lgmOpena <- sem(lgmOpena, data = data, missing = "ML")
-summary(lgmOpena, fit.measures = T, standardized = T)
+summary(lgmOpena, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmOpena, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2404,7 +2403,7 @@ orderW4S1 ~~ orderW4S2
 orderW4P1 ~~ orderW4P2
 '
 lgmOrder <- sem(lgmOrder, data = data, missing = "ML")
-summary(lgmOrder, fit.measures = T, standardized = T)
+summary(lgmOrder, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmOrder, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2483,7 +2482,7 @@ politW4S1 ~~ politW4S2
 politW4P1 ~~ politW4P2
 '
 lgmPolit <- sem(lgmPolit, data = data, missing = "ML")
-summary(lgmPolit, fit.measures = T, standardized = T)
+summary(lgmPolit, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmPolit, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2562,7 +2561,7 @@ volatW4S1 ~~ volatW4S2
 volatW4P1 ~~ volatW4P2
 '
 lgmVolat <- sem(lgmVolat, data = data, missing = "ML")
-summary(lgmVolat, fit.measures = T, standardized = T)
+summary(lgmVolat, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmVolat, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2641,7 +2640,7 @@ withdW4S1 ~~ withdW4S2
 withdW4P1 ~~ withdW4P2
 '
 lgmWithd <- sem(lgmWithd, data = data, missing = "ML")
-summary(lgmWithd, fit.measures = T, standardized = T)
+summary(lgmWithd, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmWithd, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2720,7 +2719,7 @@ confuW4S1 ~~ confuW4S2
 confuW4P1 ~~ confuW4P2
 '
 lgmConfu <- sem(lgmConfu, data = data, missing = "ML")
-summary(lgmConfu, fit.measures = T, standardized = T)
+summary(lgmConfu, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmConfu, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2799,7 +2798,7 @@ coherW4S1 ~~ coherW4S2
 coherW4P1 ~~ coherW4P2
 '
 lgmCoher <- sem(lgmCoher, data = data, missing = "ML")
-summary(lgmCoher, fit.measures = T, standardized = T)
+summary(lgmCoher, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lgmCoher, what = "col", whatLabels = "est", intercepts = T)
 
@@ -2856,7 +2855,7 @@ politW2P ~~ politW3P + politW4P
 politW3P ~~ politW4P
 '
 lsmAgree <- sem(lsmAgree, data = data, missing = "ML")
-summary(lsmAgree, fit.measures = T, standardized = T)
+summary(lsmAgree, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -2909,7 +2908,7 @@ agreeW4S1 ~~ agreeW4S2
 agreeW4P1 ~~ agreeW4P2
 '
 lsmAgree <- sem(lsmAgree, data = data, missing = "ML")
-summary(lsmAgree, fit.measures = T, standardized = T)
+summary(lsmAgree, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmAgree, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -2963,7 +2962,7 @@ orderW2P ~~ orderW3P + orderW4P
 orderW3P ~~ orderW4P
 '
 lsmConsci <- sem(lsmConsci, data = data, missing = "ML")
-summary(lsmConsci, fit.measures = T, standardized = T)
+summary(lsmConsci, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmConsci, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3016,7 +3015,7 @@ consciW4S1 ~~ consciW4S2
 consciW4P1 ~~ consciW4P2
 '
 lsmconsci <- sem(lsmconsci, data = data, missing = "ML")
-summary(lsmconsci, fit.measures = T, standardized = T)
+summary(lsmconsci, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmconsci, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3070,7 +3069,7 @@ enthuW2P ~~ enthuW3P + enthuW4P
 enthuW3P ~~ enthuW4P
 '
 lsmExtra <- sem(lsmExtra, data = data, missing = "ML")
-summary(lsmExtra, fit.measures = T, standardized = T)
+summary(lsmExtra, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmExtra, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3123,7 +3122,7 @@ extraW4S1 ~~ extraW4S2
 extraW4P1 ~~ extraW4P2
 '
 lsmExtra <- sem(lsmExtra, data = data, missing = "ML")
-summary(lsmExtra, fit.measures = T, standardized = T)
+summary(lsmExtra, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmExtra, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3177,7 +3176,7 @@ withdW2P ~~ withdW3P + withdW4P
 withdW3P ~~ withdW4P
 '
 lsmNeuro <- sem(lsmNeuro, data = data, missing = "ML")
-summary(lsmNeuro, fit.measures = T, standardized = T)
+summary(lsmNeuro, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmNeuro, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3230,7 +3229,7 @@ neuroW4S1 ~~ neuroW4S2
 neuroW4P1 ~~ neuroW4P2
 '
 lsmNeuro <- sem(lsmNeuro, data = data, missing = "ML")
-summary(lsmNeuro, fit.measures = T, standardized = T)
+summary(lsmNeuro, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmNeuro, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3284,7 +3283,7 @@ openaW2P ~~ openaW3P + openaW4P
 openaW3P ~~ openaW4P
 '
 lsmOpend <- sem(lsmOpend, data = data, missing = "ML")
-summary(lsmOpend, fit.measures = T, standardized = T)
+summary(lsmOpend, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmOpend, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3337,7 +3336,7 @@ opendW4S1 ~~ opendW4S2
 opendW4P1 ~~ opendW4P2
 '
 lsmOpend <- sem(lsmOpend, data = data, missing = "ML")
-summary(lsmOpend, fit.measures = T, standardized = T)
+summary(lsmOpend, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmOpend, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3391,7 +3390,7 @@ assertW4S1 ~~ assertW4S2
 assertW4P1 ~~ assertW4P2
 '
 lsmAssert <- sem(lsmAssert, data = data, missing = "ML")
-summary(lsmAssert, fit.measures = T, standardized = T)
+summary(lsmAssert, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmAssert, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3446,7 +3445,7 @@ compaW4S1 ~~ compaW4S2
 compaW4P1 ~~ compaW4P2
 '
 lsmCompa <- sem(lsmCompa, data = data, missing = "ML")
-summary(lsmCompa, fit.measures = T, standardized = T)
+summary(lsmCompa, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmCompa, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3501,7 +3500,7 @@ enthuW4S1 ~~ enthuW4S2
 enthuW4P1 ~~ enthuW4P2
 '
 lsmEnthu <- sem(lsmEnthu, data = data, missing = "ML")
-summary(lsmEnthu, fit.measures = T, standardized = T)
+summary(lsmEnthu, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmEnthu, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3556,7 +3555,7 @@ indusW4S1 ~~ indusW4S2
 indusW4P1 ~~ indusW4P2
 '
 lsmIndus <- sem(lsmIndus, data = data, missing = "ML")
-summary(lsmIndus, fit.measures = T, standardized = T)
+summary(lsmIndus, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmIndus, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3611,7 +3610,7 @@ intelW4S1 ~~ intelW4S2
 intelW4P1 ~~ intelW4P2
 '
 lsmIntel <- sem(lsmIntel, data = data, missing = "ML")
-summary(lsmIntel, fit.measures = T, standardized = T)
+summary(lsmIntel, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmIntel, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3666,7 +3665,7 @@ openaW4S1 ~~ openaW4S2
 openaW4P1 ~~ openaW4P2
 '
 lsmOpena <- sem(lsmOpena, data = data, missing = "ML")
-summary(lsmOpena, fit.measures = T, standardized = T)
+summary(lsmOpena, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmOpena, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3721,7 +3720,7 @@ orderW4S1 ~~ orderW4S2
 orderW4P1 ~~ orderW4P2
 '
 lsmOrder <- sem(lsmOrder, data = data, missing = "ML")
-summary(lsmOrder, fit.measures = T, standardized = T)
+summary(lsmOrder, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmOrder, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3776,7 +3775,7 @@ politW4S1 ~~ politW4S2
 politW4P1 ~~ politW4P2
 '
 lsmPolit <- sem(lsmPolit, data = data, missing = "ML")
-summary(lsmPolit, fit.measures = T, standardized = T)
+summary(lsmPolit, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmPolit, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3831,7 +3830,7 @@ volatW4S1 ~~ volatW4S2
 volatW4P1 ~~ volatW4P2
 '
 lsmVolat <- sem(lsmVolat, data = data, missing = "ML")
-summary(lsmVolat, fit.measures = T, standardized = T)
+summary(lsmVolat, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmVolat, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3886,7 +3885,7 @@ withdW4S1 ~~ withdW4S2
 withdW4P1 ~~ withdW4P2
 '
 lsmWithd <- sem(lsmWithd, data = data, missing = "ML")
-summary(lsmWithd, fit.measures = T, standardized = T)
+summary(lsmWithd, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmWithd, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3941,7 +3940,7 @@ confuW4S1 ~~ confuW4S2
 confuW4P1 ~~ confuW4P2
 '
 lsmConfu <- sem(lsmConfu, data = data, missing = "ML")
-summary(lsmConfu, fit.measures = T, standardized = T)
+summary(lsmConfu, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmConfu, what = "col", whatLabels = "est", structural = T, layout = "spring")
 
@@ -3996,6 +3995,6 @@ coherW4S1 ~~ coherW4S2
 coherW4P1 ~~ coherW4P2
 '
 lsmCoher <- sem(lsmCoher, data = data, missing = "ML")
-summary(lsmCoher, fit.measures = T, standardized = T)
+summary(lsmCoher, fit.measures = T, standardized = T, ci = T)
 
 semPaths(lsmCoher, what = "col", whatLabels = "est", structural = T, layout = "spring")
