@@ -1,15 +1,12 @@
 #####################################################################
-## First year R script                                             ##
+## Multi-informant personality change in college                   ##
 ## Linh Nguyen                                                     ##
-## Created: 02/03/2020                                             ##
-## Last updated: 12/16/2020   #missingness tests                   ##
-## NEXT: SAS for banded main diagonal:                             ##
-## https://support.sas.com/resources/papers/proceedings/proceedings/sugi30/198-30.pdf
+## nguy4006@umn.edu                                                ##
+## https://github.com/nguyenllpsych/first-year-project             ##
 ## To navigate: Edit - Folding - Collapse All                      ##
 #####################################################################
 
 # METADATA  ==========================================
-renv::restore() 
 library(lme4)
 library(lmerTest)
 library(reshape2)
@@ -27,7 +24,6 @@ library(apaTables)
 library(stringr)
 library(cowplot)
 library(forestplot)
-library(renv)
 library(finalfit)
 options(scipen = 999)
 set.seed(184)
@@ -44,13 +40,13 @@ set_theme(
 # CLEANING ====
 # > Data files----
 peerw1 <- read_spss("peerw1.sav") %>% 
-  dplyr::select(ID, PeerID, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
+  dplyr::select(ID, PeerID, relatp, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
 peerw2 <- read_spss("peerw2.sav") %>% 
-  dplyr::select(ID, PeerID, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
+  dplyr::select(ID, PeerID, relatp, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
 peerw3 <- read_spss("peerw3.sav") %>% 
-  dplyr::select(ID, PeerID, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
+  dplyr::select(ID, PeerID, relatp, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
 peerw4 <- read_spss("peerw4.sav") %>% 
-  dplyr::select(ID, PeerID, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
+  dplyr::select(ID, PeerID, relatp, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
 selfw1 <- read_spss("selfw1.sav") %>% 
   dplyr::select(ID, bfas_agreeableness:bfas_withdrawal, epsi_confusion, epsi_coherence)
 selfw2 <- read_spss("selfw2.sav") %>% 
@@ -62,7 +58,6 @@ selfw4 <- read_spss("selfw4.sav") %>%
 
 demo <- read_spss("selfw1.sav") %>% 
   dplyr::select(ID:race, race_f)
-
 
 # > Merge different waves into 1 file----
 # sorting by ID
@@ -94,7 +89,7 @@ self <- self[,c(1,19,2:18)]
 peer <- rbind(peerw1,peerw2)
 peer <- rbind(peer,peerw3)
 peer <- rbind(peer,peerw4)
-peer <- peer[,c(1,2,20,3:19)]
+peer <- peer[,c(1:3,21,4:20)]
 
 #change time variable to months
 self$time <- as.numeric(self$time)
@@ -117,11 +112,11 @@ names <- colnames(selfw1)[2:18]
 names(selfw)[2:69] <- paste0(names, "_w", c(rep(1:4, each = 17)))
 rm("names")
 
-peerw <- melt(peer, id = c("ID","PeerID","time")) 
-peerw <- dcast(peerw, ID + PeerID ~ time + variable,
+peerw <- melt(peer, id = c("ID","PeerID","time","relatp")) 
+peerw <- dcast(peerw, ID + PeerID + relatp ~ time + variable,
                value.var = "value")
-names <- colnames(peerw1)[3:19]
-names(peerw)[3:70] <- paste0(names, "_w", c(rep(1:4, each = 17)))
+names <- colnames(peerw1)[4:20]
+names(peerw)[4:71] <- paste0(names, "_w", c(rep(1:4, each = 17)))
 rm("names")
 
 # > Filter out peers with at least 2 waves----
@@ -148,7 +143,7 @@ rm("fullpeer")
 ##rm(split_peerw, peerws, group_sizes, randomID, sampled_obs, get_rows)
 
 
-randomID <- readRDS("randomID.R")
+randomID <- readRDS("00-randomID.R")
 peer <- peer %>% 
   filter(PeerID %in% randomID)
 peerw <- peerw %>% 
@@ -189,7 +184,7 @@ selfl$time[selfl$time == 4] <- 19
 
 # >> peer dataset----
 peerl <- gather(data = peerw, key = "trait", value = "score",
-                -ID, - PeerID)
+                -ID, - PeerID, -relatp)
 
 peerl_sep <- peerl %>% 
   filter (trait != "bfas_withdrawal_w1" &
@@ -218,7 +213,21 @@ peerl$time[peerl$time == 2] <- 6
 peerl$time[peerl$time == 3] <- 13
 peerl$time[peerl$time == 4] <- 19
 
+# > add rela variable from relatp ----
+# 0 = family, 1 = friends and roommates 
+peerw <- peerw %>%
+  mutate(rela = case_when(
+    relatp == 1 ~ 0,
+    relatp == 2 | relatp == 3 ~ 1,
+    TRUE ~ NA_real_
+  ))
 
+peerl <- peerl %>%
+  mutate(rela = case_when(
+    relatp == 1 ~ 0,
+    relatp == 2 | relatp == 3 ~ 1,
+    TRUE ~ NA_real_
+  ))
 
 # > Remove misc objects----
 rm(list = c("self", "selfl_sep","selfl_sep2", "selfw1","selfw2","selfw3","selfw4",
@@ -237,6 +246,13 @@ ggplot(data = demo,
 ggplot(data = demo,
        mapping = aes(gender)) +
   geom_histogram(binwidth = 1) +
+  theme_classic()
+
+ggplot(data = peerw, 
+       aes(factor(rela, levels = c(0,1), labels = c("Family", "Friends")))) +
+  geom_bar() +
+  geom_text(stat='count', aes(label=..count..), vjust = -1) +
+  labs(x = NULL) +
   theme_classic()
 
 # MISSINGNESS ========
@@ -2604,11 +2620,6 @@ anova(linearint.confu, linear.confu)
 
 # > SELF 4a: Ipsative change personality ----
 
-# >> merge back the computed D2, D'2, D''2 to selfw dataset -----
-dp <- dp %>% 
-  dplyr::select(ID, domain_dp_12:aspect_dp_all, domain_dpp_12:aspect_dpp_all)
-selfw <- merge(selfw, dp)
-
 # >> compute D2, D'2, D''2 in simulated data ----
 
 sim.domain <- read.csv("domainsim.csv")
@@ -4436,30 +4447,41 @@ data <- data %>%
     1,
     0))
 
-return (data.frame(name = c("domain_d2_12", "domain_d2_23", "domain_d2_34",
-                            "domain_dp_12", "domain_dp_23", "domain_dp_34",
-                            "domain_dpp_12", "domain_dpp_23", "domain_dpp_34", 
-                            "domain_d2_all", "domain_dp_all", "domain_dpp_all",
-                            "aspect_d2_12", "aspect_d2_23", "aspect_d2_34",
-                            "aspect_dp_12", "aspect_dp_23", "aspect_dp_34",
-                            "aspect_dpp_12", "aspect_dpp_23", "aspect_dpp_34", 
-                            "aspect_d2_all", "aspect_dp_all", "aspect_dpp_all"),
-                   value = c(mean(data$domain_d2_12c, na.rm = TRUE), mean(data$domain_d2_23c, na.rm = TRUE),
-                             mean(data$domain_d2_34c, na.rm = TRUE), mean(data$domain_dp_12c, na.rm = TRUE),
-                             mean(data$domain_dp_23c, na.rm = TRUE), mean(data$domain_dp_34c, na.rm = TRUE),
-                             mean(data$domain_dpp_12c, na.rm = TRUE), mean(data$domain_dpp_23c, na.rm = TRUE),
-                             mean(data$domain_dpp_34c, na.rm = TRUE), mean(data$domain_d2_allc, na.rm = TRUE),
-                             mean(data$domain_dp_allc, na.rm = TRUE), mean(data$domain_dpp_allc, na.rm = TRUE),
-                             mean(data$aspect_d2_12c, na.rm = TRUE), mean(data$aspect_d2_23c, na.rm = TRUE),
-                             mean(data$aspect_d2_34c, na.rm = TRUE), mean(data$aspect_dp_12c, na.rm = TRUE),
-                             mean(data$aspect_dp_23c, na.rm = TRUE), mean(data$aspect_dp_34c, na.rm = TRUE),
-                             mean(data$aspect_dpp_12c, na.rm = TRUE), mean(data$aspect_dpp_23c, na.rm = TRUE),
-                             mean(data$aspect_dpp_34c, na.rm = TRUE), mean(data$aspect_d2_allc, na.rm = TRUE),
-                             mean(data$aspect_dp_allc, na.rm = TRUE), mean(data$aspect_dpp_allc, na.rm = TRUE))))
+return(list(
+  percentage = 
+    data.frame(name = c("domain_d2_12", "domain_d2_23", "domain_d2_34",
+                        "domain_dp_12", "domain_dp_23", "domain_dp_34",
+                        "domain_dpp_12", "domain_dpp_23", "domain_dpp_34", 
+                        "domain_d2_all", "domain_dp_all", "domain_dpp_all",
+                        "aspect_d2_12", "aspect_d2_23", "aspect_d2_34",
+                        "aspect_dp_12", "aspect_dp_23", "aspect_dp_34",
+                        "aspect_dpp_12", "aspect_dpp_23", "aspect_dpp_34", 
+                        "aspect_d2_all", "aspect_dp_all", "aspect_dpp_all"),
+               value = c(mean(data$domain_d2_12c, na.rm = TRUE), mean(data$domain_d2_23c, na.rm = TRUE),
+                         mean(data$domain_d2_34c, na.rm = TRUE), mean(data$domain_dp_12c, na.rm = TRUE),
+                         mean(data$domain_dp_23c, na.rm = TRUE), mean(data$domain_dp_34c, na.rm = TRUE),
+                         mean(data$domain_dpp_12c, na.rm = TRUE), mean(data$domain_dpp_23c, na.rm = TRUE),
+                         mean(data$domain_dpp_34c, na.rm = TRUE), mean(data$domain_d2_allc, na.rm = TRUE),
+                         mean(data$domain_dp_allc, na.rm = TRUE), mean(data$domain_dpp_allc, na.rm = TRUE),
+                         mean(data$aspect_d2_12c, na.rm = TRUE), mean(data$aspect_d2_23c, na.rm = TRUE),
+                         mean(data$aspect_d2_34c, na.rm = TRUE), mean(data$aspect_dp_12c, na.rm = TRUE),
+                         mean(data$aspect_dp_23c, na.rm = TRUE), mean(data$aspect_dp_34c, na.rm = TRUE),
+                         mean(data$aspect_dpp_12c, na.rm = TRUE), mean(data$aspect_dpp_23c, na.rm = TRUE),
+                         mean(data$aspect_dpp_34c, na.rm = TRUE), mean(data$aspect_d2_allc, na.rm = TRUE),
+                         mean(data$aspect_dp_allc, na.rm = TRUE), mean(data$aspect_dpp_allc, na.rm = TRUE))),
+  id = data %>% dplyr::select(ID, 
+                              domain_d2_12c, domain_d2_23c, domain_d2_34c, 
+                              domain_dp_12c, domain_dp_23c, domain_dp_34c,
+                              domain_dpp_12c, domain_dpp_23c, domain_dpp_34c,
+                              domain_d2_allc, domain_dp_allc, domain_dpp_allc,
+                              aspect_d2_12c, aspect_d2_23c, aspect_d2_34c, 
+                              aspect_dp_12c, aspect_dp_23c, aspect_dp_34c,
+                              aspect_dpp_12c, aspect_dpp_23c, aspect_dpp_34c,
+                              aspect_d2_allc, aspect_dp_allc, aspect_dpp_allc)))
 }
 
 # >> ipsative personality ----
-ipsative_personality(selfw)
+ipsative_self <- ipsative_personality(selfw)
 
 # >> imputations----
 
@@ -4813,39 +4835,39 @@ imp_ips_id %>% group_by(name) %>%
 
 # > SELF 5: Correlated change ----
 
-slope.agree <- data.frame("id" = rownames(coef(linear.agree)$ID),
+slope.agree <- data.frame("ID" = rownames(coef(linear.agree)$ID),
                           "slope.agree" = coef(linear.agree)$ID[,2])
-slope.consci <- data.frame("id" = rownames(coef(linear.consci)$ID),
+slope.consci <- data.frame("ID" = rownames(coef(linear.consci)$ID),
                           "slope.consci" = coef(linear.consci)$ID[,2])
-slope.extra <- data.frame("id" = rownames(coef(linear.extra)$ID),
+slope.extra <- data.frame("ID" = rownames(coef(linear.extra)$ID),
                            "slope.extra" = coef(linear.extra)$ID[,2])
-slope.neuro <- data.frame("id" = rownames(coef(linear.neuro)$ID),
+slope.neuro <- data.frame("ID" = rownames(coef(linear.neuro)$ID),
                           "slope.neuro" = coef(linear.neuro)$ID[,2])
-slope.opend <- data.frame("id" = rownames(coef(linear.opend)$ID),
+slope.opend <- data.frame("ID" = rownames(coef(linear.opend)$ID),
                           "slope.opend" = coef(linear.opend)$ID[,2])
-slope.assert <- data.frame("id" = rownames(coef(linear.assert)$ID),
+slope.assert <- data.frame("ID" = rownames(coef(linear.assert)$ID),
                            "slope.assert" = coef(linear.assert)$ID[,2])
-slope.compa <- data.frame("id" = rownames(coef(linear.compa)$ID),
+slope.compa <- data.frame("ID" = rownames(coef(linear.compa)$ID),
                            "slope.compa" = coef(linear.compa)$ID[,2])
-slope.enthu <- data.frame("id" = rownames(coef(linear.enthu)$ID),
+slope.enthu <- data.frame("ID" = rownames(coef(linear.enthu)$ID),
                           "slope.enthu" = coef(linear.enthu)$ID[,2])
-slope.indus <- data.frame("id" = rownames(coef(linear.indus)$ID),
+slope.indus <- data.frame("ID" = rownames(coef(linear.indus)$ID),
                           "slope.indus" = coef(linear.indus)$ID[,2])
-slope.intel <- data.frame("id" = rownames(coef(linear.intel)$ID),
+slope.intel <- data.frame("ID" = rownames(coef(linear.intel)$ID),
                           "slope.intel" = coef(linear.intel)$ID[,2])
-slope.opena <- data.frame("id" = rownames(coef(linear.opena)$ID),
+slope.opena <- data.frame("ID" = rownames(coef(linear.opena)$ID),
                           "slope.opena" = coef(linear.opena)$ID[,2])
-slope.order <- data.frame("id" = rownames(coef(linear.order)$ID),
+slope.order <- data.frame("ID" = rownames(coef(linear.order)$ID),
                           "slope.order" = coef(linear.order)$ID[,2])
-slope.polit <- data.frame("id" = rownames(coef(linear.polit)$ID),
+slope.polit <- data.frame("ID" = rownames(coef(linear.polit)$ID),
                           "slope.polit" = coef(linear.polit)$ID[,2])
-slope.volat <- data.frame("id" = rownames(coef(linear.volat)$ID),
+slope.volat <- data.frame("ID" = rownames(coef(linear.volat)$ID),
                           "slope.volat" = coef(linear.volat)$ID[,2])
-slope.withd <- data.frame("id" = rownames(coef(linear.withd)$ID),
+slope.withd <- data.frame("ID" = rownames(coef(linear.withd)$ID),
                           "slope.withd" = coef(linear.withd)$ID[,2])
-slope.confu <- data.frame("id" = rownames(coef(linear.confu)$ID),
+slope.confu <- data.frame("ID" = rownames(coef(linear.confu)$ID),
                           "slope.confu" = coef(linear.confu)$ID[,2])
-slope.coher <- data.frame("id" = rownames(coef(linear.coher)$ID),
+slope.coher <- data.frame("ID" = rownames(coef(linear.coher)$ID),
                           "slope.coher" = coef(linear.coher)$ID[,2])
 
 slope <- merge(slope.agree, slope.consci) %>% 
@@ -6151,6 +6173,8 @@ ggsave("linear.confu.png")
 
 
 # > Ipsative change ----
+
+# overall percentage of change
 var <- rep(c("Domain","Aspect","Identity"), each = 12)
 type <- rep(rep(c("D2", "D2p","D2pp"), each = 4), times = 3)
 time <- rep(c("Time 1 to 2", "Time 2 to 3", "Time 3 to 4", "Overall"), times = 9)
@@ -6195,6 +6219,109 @@ ggplot(dpp, aes(fill=time, y=percent, x=var)) +
   theme_classic() +
   ggtitle("Standardized scores: Shape")
 ggsave("stadard.png")
+
+# example individual with only change in elevation - ID = 1111
+ipsative_self$id %>% filter(domain_d2_allc == 1 & domain_dp_allc == 0 & domain_dpp_allc == 0) %>%
+  pull(ID) %>%
+  sample(1)
+
+bfas_w1 <-
+  selfw %>%
+  filter(ID == "1111") %>%
+  dplyr::select(bfas_agreeableness_w1, bfas_conscientiousness_w1,
+                bfas_extraversion_w1, bfas_neuroticism_w1,
+                bfas_opennessdomain_w1) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 1")
+bfas_w4 <-
+  selfw %>%
+  filter(ID == "1111") %>%
+  dplyr::select(bfas_agreeableness_w4, bfas_conscientiousness_w4,
+                bfas_extraversion_w4, bfas_neuroticism_w4,
+                bfas_opennessdomain_w4) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 4")
+
+ggplot(data = rbind(bfas_w1, bfas_w4), aes(x = traits, y = V1, group = time, 
+                                           lty = time, color = time)) +
+  geom_line() +
+  labs(title = "Example profile with only elevation change",
+       y = "BFAS score") +
+  theme_classic()
+ggsave("bfas_d2.png")
+  
+
+# example individual with only change in elevation and scatter - ID = 1110
+ipsative_self$id %>% filter(domain_d2_allc == 1 & domain_dp_allc == 1 & domain_dpp_allc == 0) %>%
+  pull(ID) %>%
+  sample(1)
+
+bfas_w1 <-
+  selfw %>%
+  filter(ID == "1110") %>%
+  dplyr::select(bfas_agreeableness_w1, bfas_conscientiousness_w1,
+                bfas_extraversion_w1, bfas_neuroticism_w1,
+                bfas_opennessdomain_w1) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 1")
+bfas_w4 <-
+  selfw %>%
+  filter(ID == "1110") %>%
+  dplyr::select(bfas_agreeableness_w4, bfas_conscientiousness_w4,
+                bfas_extraversion_w4, bfas_neuroticism_w4,
+                bfas_opennessdomain_w4) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 4")
+
+ggplot(data = rbind(bfas_w1, bfas_w4), aes(x = traits, y = V1, group = time, 
+                                           lty = time, color = time)) +
+  geom_line() +
+  labs(title = "Example profile with elevation and scatter changes",
+       y = "BFAS score") +
+  theme_classic()
+ggsave("bfas_dp.png")
+
+# example individual with change all elevation, scatter, and shape - ID = 1049
+ipsative_self$id %>% filter(domain_d2_allc == 1 & domain_dp_allc == 1 & domain_dpp_allc == 1) %>%
+  pull(ID) %>%
+  sample(1)
+
+bfas_w1 <-
+  selfw %>%
+  filter(ID == "1049") %>%
+  dplyr::select(bfas_agreeableness_w1, bfas_conscientiousness_w1,
+                bfas_extraversion_w1, bfas_neuroticism_w1,
+                bfas_opennessdomain_w1) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 1")
+bfas_w4 <-
+  selfw %>%
+  filter(ID == "1049") %>%
+  dplyr::select(bfas_agreeableness_w4, bfas_conscientiousness_w4,
+                bfas_extraversion_w4, bfas_neuroticism_w4,
+                bfas_opennessdomain_w4) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 4")
+
+ggplot(data = rbind(bfas_w1, bfas_w4), aes(x = traits, y = V1, group = time, 
+                                           lty = time, color = time)) +
+  geom_line() +
+  labs(title = "Example profile with elevation, scatter, and shape changes",
+       y = "BFAS score") +
+  theme_classic()
+ggsave("bfas_dpp.png")
 
 # >> MI ipsative ----
 imp_ips_pers <-imp_ips_pers %>% group_by(name) %>% 
@@ -8734,40 +8861,40 @@ imp_ips_id %>% group_by(name) %>%
   as.data.frame()
 
 # > PEER 5: Correlated change ----
-# >> In peer only ----
-slope.agree_p <- data.frame("id" = rownames(coef(linear.agree)$ID),
+# >> In all peers ----
+slope.agree_p <- data.frame("ID" = rownames(coef(linear.agree)$ID),
                           "slope.agree_p" = coef(linear.agree)$ID[,2])
-slope.consci_p <- data.frame("id" = rownames(coef(linear.consci)$ID),
+slope.consci_p <- data.frame("ID" = rownames(coef(linear.consci)$ID),
                           "slope.consci_p" = coef(linear.consci)$ID[,2])
-slope.extra_p <- data.frame("id" = rownames(coef(linear.extra)$ID),
+slope.extra_p <- data.frame("ID" = rownames(coef(linear.extra)$ID),
                            "slope.extra_p" = coef(linear.extra)$ID[,2])
-slope.neuro_p <- data.frame("id" = rownames(coef(linear.neuro)$ID),
+slope.neuro_p <- data.frame("ID" = rownames(coef(linear.neuro)$ID),
                           "slope.neuro_p" = coef(linear.neuro)$ID[,2])
-slope.opend_p <- data.frame("id" = rownames(coef(linear.opend)$ID),
+slope.opend_p <- data.frame("ID" = rownames(coef(linear.opend)$ID),
                           "slope.opend_p" = coef(linear.opend)$ID[,2])
-slope.assert_p <- data.frame("id" = rownames(coef(linear.assert)$ID),
+slope.assert_p <- data.frame("ID" = rownames(coef(linear.assert)$ID),
                            "slope.assert_p" = coef(linear.assert)$ID[,2])
-slope.compa_p <- data.frame("id" = rownames(coef(linear.compa)$ID),
+slope.compa_p <- data.frame("ID" = rownames(coef(linear.compa)$ID),
                            "slope.compa_p" = coef(linear.compa)$ID[,2])
-slope.enthu_p <- data.frame("id" = rownames(coef(linear.enthu)$ID),
+slope.enthu_p <- data.frame("ID" = rownames(coef(linear.enthu)$ID),
                           "slope.enthu_p" = coef(linear.enthu)$ID[,2])
-slope.indus_p <- data.frame("id" = rownames(coef(linear.indus)$ID),
+slope.indus_p <- data.frame("ID" = rownames(coef(linear.indus)$ID),
                           "slope.indus_p" = coef(linear.indus)$ID[,2])
-slope.intel_p <- data.frame("id" = rownames(coef(linear.intel)$ID),
+slope.intel_p <- data.frame("ID" = rownames(coef(linear.intel)$ID),
                           "slope.intel_p" = coef(linear.intel)$ID[,2])
-slope.opena_p <- data.frame("id" = rownames(coef(linear.opena)$ID),
+slope.opena_p <- data.frame("ID" = rownames(coef(linear.opena)$ID),
                           "slope.opena_p" = coef(linear.opena)$ID[,2])
-slope.order_p <- data.frame("id" = rownames(coef(linear.order)$ID),
+slope.order_p <- data.frame("ID" = rownames(coef(linear.order)$ID),
                           "slope.order_p" = coef(linear.order)$ID[,2])
-slope.polit_p <- data.frame("id" = rownames(coef(linear.polit)$ID),
+slope.polit_p <- data.frame("ID" = rownames(coef(linear.polit)$ID),
                           "slope.polit_p" = coef(linear.polit)$ID[,2])
-slope.volat_p <- data.frame("id" = rownames(coef(linear.volat)$ID),
+slope.volat_p <- data.frame("ID" = rownames(coef(linear.volat)$ID),
                           "slope.volat_p" = coef(linear.volat)$ID[,2])
-slope.withd_p <- data.frame("id" = rownames(coef(linear.withd)$ID),
+slope.withd_p <- data.frame("ID" = rownames(coef(linear.withd)$ID),
                           "slope.withd_p" = coef(linear.withd)$ID[,2])
-slope.confu_p <- data.frame("id" = rownames(coef(linear.confu)$ID),
+slope.confu_p <- data.frame("ID" = rownames(coef(linear.confu)$ID),
                           "slope.confu_p" = coef(linear.confu)$ID[,2])
-slope.coher_p <- data.frame("id" = rownames(coef(linear.coher)$ID),
+slope.coher_p <- data.frame("ID" = rownames(coef(linear.coher)$ID),
                           "slope.coher_p" = coef(linear.coher)$ID[,2])
 
 slope_peer <- merge(slope.agree_p, slope.consci_p) %>% 
@@ -8787,6 +8914,9 @@ slope_peer <- merge(slope.agree_p, slope.consci_p) %>%
   merge(slope.confu_p) %>% 
   merge(slope.coher_p)
 
+# add relationship variable
+slope_peer <- merge(slope_peer, peerw[,c("ID", "rela")])
+
 # >> Between self and peer ----
 
 rm(slope.agree_p, slope.consci_p, slope.extra_p, slope.neuro_p, slope.opend_p, 
@@ -8795,6 +8925,24 @@ rm(slope.agree_p, slope.consci_p, slope.extra_p, slope.neuro_p, slope.opend_p,
    slope.confu_p, slope.coher_p)
 
 slope_total <- merge(slope, slope_peer)
+
+
+# relationship as moderator of self-peer correlated change
+cor.rela.agree  <- lm(slope.agree ~ slope.agree_p * rela, data = slope_total)
+cor.rela.consci <- lm(slope.consci ~ slope.consci_p * rela, data = slope_total)
+cor.rela.extra  <- lm(slope.extra ~ slope.extra_p * rela, data = slope_total)
+cor.rela.neuro  <- lm(slope.neuro ~ slope.neuro_p * rela, data = slope_total)
+cor.rela.opend  <- lm(slope.opend ~ slope.opend_p * rela, data = slope_total)
+cor.rela.assert <- lm(slope.assert ~ slope.assert_p * rela, data = slope_total)
+cor.rela.compa  <- lm(slope.compa ~ slope.compa_p * rela, data = slope_total)
+cor.rela.enthu  <- lm(slope.enthu ~ slope.enthu_p * rela, data = slope_total)
+cor.rela.indus  <- lm(slope.indus ~ slope.indus_p * rela, data = slope_total)
+cor.rela.intel  <- lm(slope.intel ~ slope.intel_p * rela, data = slope_total)
+cor.rela.opena  <- lm(slope.opena ~ slope.opena_p * rela, data = slope_total)
+cor.rela.order  <- lm(slope.order ~ slope.order_p * rela, data = slope_total)
+cor.rela.polit  <- lm(slope.polit ~ slope.polit_p * rela, data = slope_total)
+cor.rela.volat  <- lm(slope.volat ~ slope.volat_p * rela, data = slope_total)
+cor.rela.withd  <- lm(slope.withd ~ slope.withd_p * rela, data = slope_total)
 
 # EXPORT AND GRAPHS PEER ==========================================
 # > Mean-level change ----
@@ -10043,51 +10191,147 @@ write.csv(imp_ips_id, "MI ips identity peer.csv")
 
 # > Correlated change ----
 slope_peer %>% 
-  dplyr::select(-id) %>% 
+  dplyr::select(-ID, -rela) %>% 
   apa.cor.table(filename = 'corchange.doc')
 
 slope_total %>% 
-  dplyr::select(-id) %>% 
+  dplyr::select(-ID, -rela) %>% 
   apa.cor.table(filename = 'corchange.total.doc')
+
+# rela predicting self-peer cor
+sink("cor.rela.txt")
+print(summary(cor.rela.agree))
+print(summary(cor.rela.consci))
+print(summary(cor.rela.extra))
+print(summary(cor.rela.neuro))
+print(summary(cor.rela.opend))
+sink() 
+
+sink("cor.rela.aspect.txt")
+print(summary(cor.rela.assert))
+print(summary(cor.rela.compa))
+print(summary(cor.rela.enthu))
+print(summary(cor.rela.indus))
+print(summary(cor.rela.intel))
+print(summary(cor.rela.opena))
+print(summary(cor.rela.order))
+print(summary(cor.rela.polit))
+print(summary(cor.rela.volat))
+print(summary(cor.rela.withd))
+sink() 
+
 
 # >> bivariate correlations between self and peer ----
 selfwave1 <- selfl %>% filter(time == "0")
 peerwave1 <- peerl %>% filter(time == "0")
-names <- names(peerwave1)[4:20]
-names(peerwave1)[4:20] <- paste(names, "_p")
+names <- names(peerwave1)[5:21]
+names(peerwave1)[5:21] <- paste0(names, "_p")
 
 selfwave2 <- selfl %>% filter(time == "6")
 peerwave2 <- peerl %>% filter(time == "6")
-names <- names(peerwave2)[4:20]
-names(peerwave2)[4:20] <- paste(names, "_p")
+names <- names(peerwave2)[5:21]
+names(peerwave2)[5:21] <- paste0(names, "_p")
 
 selfwave3 <- selfl %>% filter(time == "13")
 peerwave3 <- peerl %>% filter(time == "13")
-names <- names(peerwave3)[4:20]
-names(peerwave3)[4:20] <- paste(names, "_p")
+names <- names(peerwave3)[5:21]
+names(peerwave3)[5:21] <- paste0(names, "_p")
 
 selfwave4 <- selfl %>% filter(time == "19")
 peerwave4 <- peerl %>% filter(time == "19")
-names <- names(peerwave4)[4:20]
-names(peerwave4)[4:20] <- paste(names, "_p")
+names <- names(peerwave4)[5:21]
+names(peerwave4)[5:21] <- paste0(names, "_p")
 
 rm(names)
 
 wave1 <- merge(selfwave1,peerwave1)
-wave1 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+wave1 %>% dplyr::select(-ID, -PeerID, -time, -rela, -relatp) %>% 
   apa.cor.table(file = "wave1cor.doc")
 
 wave2 <- merge(selfwave2,peerwave2)
-wave2 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+wave2 %>% dplyr::select(-ID, -PeerID, -time, -rela, -relatp) %>% 
   apa.cor.table(file = "wave2cor.doc")
 
 wave3 <- merge(selfwave3,peerwave3)
-wave3 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+wave3 %>% dplyr::select(-ID, -PeerID, -time, -rela, -relatp) %>% 
   apa.cor.table(file = "wave3cor.doc")
 
 wave4 <- merge(selfwave4,peerwave4)
-wave4 %>% dplyr::select(-ID, -PeerID, -time) %>% 
+wave4 %>% dplyr::select(-ID, -PeerID, -time, -rela, -relatp) %>% 
   apa.cor.table(file = "wave4cor.doc")
 
-rm(wave1, wave2, wave3, wave4, selfwave1, peerwave1, selfwave2,peerwave2,
-   selfwave3,peerwave3, selfwave4,peerwave4)
+rm(selfwave1, peerwave1, selfwave2, peerwave2,
+   selfwave3, peerwave3, selfwave4, peerwave4)
+
+# relationship as moderator of self-peer correlation
+sink("cor.rela.w1.txt")
+print(summary(lm(bfas_agreeableness ~ bfas_agreeableness_p * rela, data = wave1)))
+print(summary(lm(bfas_conscientiousness ~ bfas_conscientiousness_p * rela, data = wave1)))
+print(summary(lm(bfas_extraversion ~ bfas_extraversion_p * rela, data = wave1)))
+print(summary(lm(bfas_neuroticism ~ bfas_neuroticism_p * rela, data = wave1)))
+print(summary(lm(bfas_opennessdomain ~ bfas_opennessdomain_p * rela, data = wave1)))
+print(summary(lm(bfas_assertiveness ~ bfas_assertiveness_p * rela, data = wave1)))
+print(summary(lm(bfas_compassion ~ bfas_compassion_p * rela, data = wave1)))
+print(summary(lm(bfas_enthusiasm ~ bfas_enthusiasm_p * rela, data = wave1)))
+print(summary(lm(bfas_industriousness ~ bfas_industriousness_p * rela, data = wave1)))
+print(summary(lm(bfas_intellect ~ bfas_intellect_p * rela, data = wave1)))
+print(summary(lm(bfas_opennessaspect ~ bfas_opennessaspect_p * rela, data = wave1)))
+print(summary(lm(bfas_orderliness ~ bfas_orderliness_p * rela, data = wave1)))
+print(summary(lm(bfas_politeness ~ bfas_politeness_p * rela, data = wave1)))
+print(summary(lm(bfas_volatility ~ bfas_volatility_p * rela, data = wave1)))
+print(summary(lm(bfas_withdrawal ~ bfas_withdrawal_p * rela, data = wave1)))
+sink() 
+
+sink("cor.rela.w2.txt")
+print(summary(lm(bfas_agreeableness ~ bfas_agreeableness_p * rela, data = wave2)))
+print(summary(lm(bfas_conscientiousness ~ bfas_conscientiousness_p * rela, data = wave2)))
+print(summary(lm(bfas_extraversion ~ bfas_extraversion_p * rela, data = wave2)))
+print(summary(lm(bfas_neuroticism ~ bfas_neuroticism_p * rela, data = wave2)))
+print(summary(lm(bfas_opennessdomain ~ bfas_opennessdomain_p * rela, data = wave2)))
+print(summary(lm(bfas_assertiveness ~ bfas_assertiveness_p * rela, data = wave2)))
+print(summary(lm(bfas_compassion ~ bfas_compassion_p * rela, data = wave2)))
+print(summary(lm(bfas_enthusiasm ~ bfas_enthusiasm_p * rela, data = wave2)))
+print(summary(lm(bfas_industriousness ~ bfas_industriousness_p * rela, data = wave2)))
+print(summary(lm(bfas_intellect ~ bfas_intellect_p * rela, data = wave2)))
+print(summary(lm(bfas_opennessaspect ~ bfas_opennessaspect_p * rela, data = wave2)))
+print(summary(lm(bfas_orderliness ~ bfas_orderliness_p * rela, data = wave2)))
+print(summary(lm(bfas_politeness ~ bfas_politeness_p * rela, data = wave2)))
+print(summary(lm(bfas_volatility ~ bfas_volatility_p * rela, data = wave2)))
+print(summary(lm(bfas_withdrawal ~ bfas_withdrawal_p * rela, data = wave2)))
+sink() 
+
+sink("cor.rela.w3.txt")
+print(summary(lm(bfas_agreeableness ~ bfas_agreeableness_p * rela, data = wave3)))
+print(summary(lm(bfas_conscientiousness ~ bfas_conscientiousness_p * rela, data = wave3)))
+print(summary(lm(bfas_extraversion ~ bfas_extraversion_p * rela, data = wave3)))
+print(summary(lm(bfas_neuroticism ~ bfas_neuroticism_p * rela, data = wave3)))
+print(summary(lm(bfas_opennessdomain ~ bfas_opennessdomain_p * rela, data = wave3)))
+print(summary(lm(bfas_assertiveness ~ bfas_assertiveness_p * rela, data = wave3)))
+print(summary(lm(bfas_compassion ~ bfas_compassion_p * rela, data = wave3)))
+print(summary(lm(bfas_enthusiasm ~ bfas_enthusiasm_p * rela, data = wave3)))
+print(summary(lm(bfas_industriousness ~ bfas_industriousness_p * rela, data = wave3)))
+print(summary(lm(bfas_intellect ~ bfas_intellect_p * rela, data = wave3)))
+print(summary(lm(bfas_opennessaspect ~ bfas_opennessaspect_p * rela, data = wave3)))
+print(summary(lm(bfas_orderliness ~ bfas_orderliness_p * rela, data = wave3)))
+print(summary(lm(bfas_politeness ~ bfas_politeness_p * rela, data = wave3)))
+print(summary(lm(bfas_volatility ~ bfas_volatility_p * rela, data = wave3)))
+print(summary(lm(bfas_withdrawal ~ bfas_withdrawal_p * rela, data = wave3)))
+sink() 
+
+sink("cor.rela.w4.txt")
+print(summary(lm(bfas_agreeableness ~ bfas_agreeableness_p * rela, data = wave4)))
+print(summary(lm(bfas_conscientiousness ~ bfas_conscientiousness_p * rela, data = wave4)))
+print(summary(lm(bfas_extraversion ~ bfas_extraversion_p * rela, data = wave4)))
+print(summary(lm(bfas_neuroticism ~ bfas_neuroticism_p * rela, data = wave4)))
+print(summary(lm(bfas_opennessdomain ~ bfas_opennessdomain_p * rela, data = wave4)))
+print(summary(lm(bfas_assertiveness ~ bfas_assertiveness_p * rela, data = wave4)))
+print(summary(lm(bfas_compassion ~ bfas_compassion_p * rela, data = wave4)))
+print(summary(lm(bfas_enthusiasm ~ bfas_enthusiasm_p * rela, data = wave4)))
+print(summary(lm(bfas_industriousness ~ bfas_industriousness_p * rela, data = wave4)))
+print(summary(lm(bfas_intellect ~ bfas_intellect_p * rela, data = wave4)))
+print(summary(lm(bfas_opennessaspect ~ bfas_opennessaspect_p * rela, data = wave4)))
+print(summary(lm(bfas_orderliness ~ bfas_orderliness_p * rela, data = wave4)))
+print(summary(lm(bfas_politeness ~ bfas_politeness_p * rela, data = wave4)))
+print(summary(lm(bfas_volatility ~ bfas_volatility_p * rela, data = wave4)))
+print(summary(lm(bfas_withdrawal ~ bfas_withdrawal_p * rela, data = wave4)))
+sink() 
