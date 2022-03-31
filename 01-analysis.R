@@ -6220,6 +6220,40 @@ ggplot(dpp, aes(fill=time, y=percent, x=var)) +
   ggtitle("Standardized scores: Shape")
 ggsave("stadard.png")
 
+# example individual with no profile change - ID = 1039
+ipsative_self$id %>% filter(domain_d2_allc == 0 & domain_dp_allc == 0 & domain_dpp_allc == 0) %>%
+  pull(ID) %>%
+  sample(1)
+
+bfas_w1 <-
+  selfw %>%
+  filter(ID == "1039") %>%
+  dplyr::select(bfas_agreeableness_w1, bfas_conscientiousness_w1,
+                bfas_extraversion_w1, bfas_neuroticism_w1,
+                bfas_opennessdomain_w1) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 1")
+bfas_w4 <-
+  selfw %>%
+  filter(ID == "1039") %>%
+  dplyr::select(bfas_agreeableness_w4, bfas_conscientiousness_w4,
+                bfas_extraversion_w4, bfas_neuroticism_w4,
+                bfas_opennessdomain_w4) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(traits = c("A", "C", "E", "N", "O"),
+         time = "wave 4")
+
+ggplot(data = rbind(bfas_w1, bfas_w4), aes(x = traits, y = V1, group = time, 
+                                           lty = time, color = time)) +
+  geom_line() +
+  labs(title = "Example profile with no change",
+       y = "BFAS score") +
+  theme_classic()
+ggsave("bfas_none.png")
+
 # example individual with only change in elevation - ID = 1111
 ipsative_self$id %>% filter(domain_d2_allc == 1 & domain_dp_allc == 0 & domain_dpp_allc == 0) %>%
   pull(ID) %>%
