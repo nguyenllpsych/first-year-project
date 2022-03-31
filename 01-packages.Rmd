@@ -1,0 +1,54 @@
+---
+title: "Packages used for analysis"
+author: "Linh Nguyen"
+date: "3/31/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load, include = FALSE}
+# load libraries
+libraries <- c("lme4",     
+               "lmerTest", 
+               "reshape2", 
+               "plyr",     
+               "dplyr",    
+               "sjPlot",   
+               "psych",    
+               "tidyr",    
+               "mitml",
+               "MASS",
+               "sjmisc",
+               "Hmisc",
+               "haven",
+               "apaTables",
+               "stringr",
+               "cowplot",
+               "forestplot",
+               "finalfit",
+               "kableExtra")
+
+lapply(libraries, require, character.only = TRUE)
+```
+
+
+```{r, echo = FALSE}
+si <- devtools::session_info()[[2]]
+rownames(si) <- NULL
+si %>% 
+  dplyr::select(package, loadedversion, date, source) %>% 
+  
+  #red bold the called packages
+  mutate(package = cell_spec(
+    package, 
+    color = ifelse(package %in% libraries, "red", "black"),
+    bold = ifelse(package %in% libraries, TRUE, FALSE))) %>% 
+  knitr::kable(escape = F, caption = "All loaded packages. 
+                 Bolded in red are those loaded explicitly with library()",
+               longtable = TRUE) %>% 
+  kable_styling(latex_options = c("hold_position", "repeat_header"))
+```
+
