@@ -6014,140 +6014,164 @@ print(anova(linearint.coher, linear.coher))
 print(anova(linearint.confu, linear.confu))
 sink() 
 
-ggplot(data = selfl,
+sample <- sample(selfw$ID, size = 100)
+sample <- selfl %>% filter(ID %in% c(sample))
+row.names(sample) <- 1:nrow(sample)
+
+pagree <- ggplot(data = sample,
        aes(x = time, y = bfas_agreeableness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.agree.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_agreeableness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+passert <- ggplot(data = sample,
        aes(x = time, y = bfas_assertiveness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.assert.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_assertiveness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+pcompa<- ggplot(data = sample,
        aes(x = time, y = bfas_compassion, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.compa.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_compassion, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+pconsci <- ggplot(data = sample,
        aes(x = time, y = bfas_conscientiousness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.consci.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_conscientiousness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+penthu <- ggplot(data = sample,
        aes(x = time, y = bfas_enthusiasm, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.enthu.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_enthusiasm, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+pextra <- ggplot(data = sample,
        aes(x = time, y = bfas_extraversion, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.extra.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_extraversion, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+pindus <- ggplot(data = sample,
        aes(x = time, y = bfas_industriousness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.indus.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_industriousness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+pintel <- ggplot(data = sample,
        aes(x = time, y = bfas_intellect, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.intel.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_intellect, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+pneuro <- ggplot(data = sample,
        aes(x = time, y = bfas_neuroticism, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.neuro.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_neuroticism, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(2, 4)
 
-ggplot(data = selfl,
+popena <- ggplot(data = sample,
        aes(x = time, y = bfas_opennessaspect, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.opena.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_opennessaspect, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+popend <- ggplot(data = sample,
        aes(x = time, y = bfas_opennessdomain, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.opend.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_opennessdomain, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+porder <- ggplot(data = sample,
        aes(x = time, y = bfas_orderliness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.order.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_orderliness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+ppolit <- ggplot(data = sample,
        aes(x = time, y = bfas_politeness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.polit.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_politeness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = selfl,
+pvolat <- ggplot(data = sample,
        aes(x = time, y = bfas_volatility, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.volat.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_volatility, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(2, 4)
 
-ggplot(data = selfl,
+pwithd <- ggplot(data = sample,
        aes(x = time, y = bfas_withdrawal, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("linear.withd.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_withdrawal, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(2, 4)
+
+jpeg("linear.agreeG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pagree, pcompa, ppolit, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.consciG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pconsci, pindus, porder, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.extraG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pextra, passert, penthu, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.neuroG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pneuro, pvolat, pwithd, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.openG.jpg", width = 700, height = 300)
+cowplot::plot_grid(popend, pintel, popena, nrow = 1, ncol = 3)
+dev.off()
 
 ggplot(data = selfl,
        aes(x = time, y = epsi_coherence, group = ID))+
@@ -6166,11 +6190,6 @@ ggplot(data = selfl,
   stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
   theme(legend.position="none")
 ggsave("linear.confu.png")
-
-
-
-
-
 
 # > Ipsative change ----
 
@@ -10008,158 +10027,167 @@ print(anova(linearint.coher, linear.coher))
 print(anova(linearint.confu, linear.confu))
 sink() 
 
-ggplot(data = peerl,
+
+sample <- sample(peerw$ID, size = 100)
+sample <- peerl %>% filter(ID %in% c(sample))
+row.names(sample) <- 1:nrow(sample)
+
+pagree <- ggplot(data = sample,
        aes(x = time, y = bfas_agreeableness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.agree.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_agreeableness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+passert <- ggplot(data = sample,
        aes(x = time, y = bfas_assertiveness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.assert.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_assertiveness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+pcompa<- ggplot(data = sample,
        aes(x = time, y = bfas_compassion, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.compa.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_compassion, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+pconsci <- ggplot(data = sample,
        aes(x = time, y = bfas_conscientiousness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.consci.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_conscientiousness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+penthu <- ggplot(data = sample,
        aes(x = time, y = bfas_enthusiasm, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.enthu.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_enthusiasm, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+pextra <- ggplot(data = sample,
        aes(x = time, y = bfas_extraversion, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.extra.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_extraversion, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+pindus <- ggplot(data = sample,
        aes(x = time, y = bfas_industriousness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.indus.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_industriousness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+pintel <- ggplot(data = sample,
        aes(x = time, y = bfas_intellect, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.intel.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_intellect, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+pneuro <- ggplot(data = sample,
        aes(x = time, y = bfas_neuroticism, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.neuro.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_neuroticism, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(2, 4)
 
-ggplot(data = peerl,
+popena <- ggplot(data = sample,
        aes(x = time, y = bfas_opennessaspect, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.opena.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_opennessaspect, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+popend <- ggplot(data = sample,
        aes(x = time, y = bfas_opennessdomain, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.opend.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_opennessdomain, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+porder <- ggplot(data = sample,
        aes(x = time, y = bfas_orderliness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.order.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_orderliness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+ppolit <- ggplot(data = sample,
        aes(x = time, y = bfas_politeness, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.polit.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_politeness, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(3, 5)
 
-ggplot(data = peerl,
+pvolat <- ggplot(data = sample,
        aes(x = time, y = bfas_volatility, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.volat.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_volatility, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(2, 4)
 
-ggplot(data = peerl,
+pwithd <- ggplot(data = sample,
        aes(x = time, y = bfas_withdrawal, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.withd.png")
+  geom_line(linetype = "dashed") +
+  stat_smooth(aes(data = sample$bfas_withdrawal, group = 1),
+              method = "lm",
+              formula = y ~ poly(x, 2),
+              lwd = 1.5, color = "red") +
+  ylim(2, 4)
 
-ggplot(data = peerl,
-       aes(x = time, y = epsi_coherence, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.coher.png")
+jpeg("linear.agreeG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pagree, pcompa, ppolit, nrow = 1, ncol = 3)
+dev.off()
 
-ggplot(data = peerl,
-       aes(x = time, y = epsi_confusion, group = ID))+
-  geom_smooth(method = "lm", se = FALSE, color = "gray", size = 0.5) + 
-  stat_smooth(aes(group = 1), method = "lm", 
-              formula = y ~ x * I(x > 1), se = TRUE) + 
-  stat_summary(aes(group = 1), fun.y = mean, geom = "point", size = 3) + 
-  theme(legend.position="none")
-ggsave("peer.linear.confu.png")
+jpeg("linear.consciG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pconsci, pindus, porder, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.extraG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pextra, passert, penthu, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.neuroG.jpg", width = 700, height = 300)
+cowplot::plot_grid(pneuro, pvolat, pwithd, nrow = 1, ncol = 3)
+dev.off()
+
+jpeg("linear.openG.jpg", width = 700, height = 300)
+cowplot::plot_grid(popend, pintel, popena, nrow = 1, ncol = 3)
+dev.off()
+
+# > Ipsative change ----
 
 var <- rep(c("Domain","Aspect","Identity"), each = 12)
 type <- rep(rep(c("D2", "D2p","D2pp"), each = 4), times = 3)
@@ -10170,7 +10198,7 @@ percent <- c(46.2, 36.8, 44.0, 54.2, 44.1, 48.5, 40.0, 50.8,
              36.6, 33.8, 32.0, 47.5, #aspects
              33.3, 22.7, 32.8, 48.1, 30.2, 33.3, 25.9, 33.3, 
              6.7, 2.8, 3.5, 9.4) #identity
-      
+
 data <- data.frame(var, type, time, percent)
 write.csv(data, "profile.csv")
 
@@ -10205,7 +10233,7 @@ ggplot(dpp, aes(fill=time, y=percent, x=var)) +
   theme_classic() +
   ggtitle("Standardized scores: Shape")
 ggsave("stadard.png")
-# > Ipsative change ----
+
 profile.peer <- rbind(ipsative_personality(peerw),
                       ipsative_identity(peerw))
 write.csv(profile.peer, "profile.peer.csv")
