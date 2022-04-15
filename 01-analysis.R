@@ -6025,6 +6025,8 @@ pagree <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Agreeableness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 passert <- ggplot(data = sample,
@@ -6034,6 +6036,8 @@ passert <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Assertiveness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pcompa<- ggplot(data = sample,
@@ -6043,6 +6047,8 @@ pcompa<- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Compassion") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pconsci <- ggplot(data = sample,
@@ -6052,6 +6058,8 @@ pconsci <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Conscientiousness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 penthu <- ggplot(data = sample,
@@ -6061,6 +6069,8 @@ penthu <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Enthusiasm") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pextra <- ggplot(data = sample,
@@ -6070,6 +6080,8 @@ pextra <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Extraversion") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pindus <- ggplot(data = sample,
@@ -6079,6 +6091,8 @@ pindus <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Industriousness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pintel <- ggplot(data = sample,
@@ -6088,6 +6102,8 @@ pintel <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Intellect") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pneuro <- ggplot(data = sample,
@@ -6097,6 +6113,8 @@ pneuro <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Neuroticism") +
+  xlab("Time (months)") +
   ylim(2, 4)
 
 popena <- ggplot(data = sample,
@@ -6106,6 +6124,8 @@ popena <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Openness Aspect") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 popend <- ggplot(data = sample,
@@ -6115,6 +6135,8 @@ popend <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Openness Domain") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 porder <- ggplot(data = sample,
@@ -6124,6 +6146,8 @@ porder <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Orderliness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 ppolit <- ggplot(data = sample,
@@ -6133,6 +6157,8 @@ ppolit <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Politeness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pvolat <- ggplot(data = sample,
@@ -6142,6 +6168,8 @@ pvolat <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Volatility") +
+  xlab("Time (months)") +
   ylim(2, 4)
 
 pwithd <- ggplot(data = sample,
@@ -6151,6 +6179,8 @@ pwithd <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Withdrawal") +
+  xlab("Time (months)") +
   ylim(2, 4)
 
 jpeg("linear.agreeG.jpg", width = 700, height = 300)
@@ -10039,6 +10069,8 @@ pagree <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Agreeableness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 passert <- ggplot(data = sample,
@@ -10048,6 +10080,8 @@ passert <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Assertiveness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pcompa<- ggplot(data = sample,
@@ -10057,6 +10091,8 @@ pcompa<- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Compassion") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pconsci <- ggplot(data = sample,
@@ -10066,6 +10102,8 @@ pconsci <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Conscientiousness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 penthu <- ggplot(data = sample,
@@ -10075,6 +10113,8 @@ penthu <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Enthusiasm") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pextra <- ggplot(data = sample,
@@ -10084,6 +10124,8 @@ pextra <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Extraversion") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pindus <- ggplot(data = sample,
@@ -10093,6 +10135,8 @@ pindus <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Industriousness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pintel <- ggplot(data = sample,
@@ -10102,6 +10146,8 @@ pintel <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Intellect") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pneuro <- ggplot(data = sample,
@@ -10111,6 +10157,8 @@ pneuro <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Neuroticism") +
+  xlab("Time (months)") +
   ylim(2, 4)
 
 popena <- ggplot(data = sample,
@@ -10120,6 +10168,8 @@ popena <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Openness Aspect") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 popend <- ggplot(data = sample,
@@ -10129,6 +10179,8 @@ popend <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Openness Domain") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 porder <- ggplot(data = sample,
@@ -10138,6 +10190,8 @@ porder <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Orderliness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 ppolit <- ggplot(data = sample,
@@ -10147,6 +10201,8 @@ ppolit <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Politeness") +
+  xlab("Time (months)") +
   ylim(3, 5)
 
 pvolat <- ggplot(data = sample,
@@ -10156,6 +10212,8 @@ pvolat <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Volatility") +
+  xlab("Time (months)") +
   ylim(2, 4)
 
 pwithd <- ggplot(data = sample,
@@ -10165,6 +10223,8 @@ pwithd <- ggplot(data = sample,
               method = "lm",
               formula = y ~ poly(x, 2),
               lwd = 1.5, color = "red") +
+  ylab("Withdrawal") +
+  xlab("Time (months)") +
   ylim(2, 4)
 
 jpeg("linear.agreeG.jpg", width = 700, height = 300)
@@ -10186,7 +10246,6 @@ dev.off()
 jpeg("linear.openG.jpg", width = 700, height = 300)
 cowplot::plot_grid(popend, pintel, popena, nrow = 1, ncol = 3)
 dev.off()
-
 # > Ipsative change ----
 
 var <- rep(c("Domain","Aspect","Identity"), each = 12)
